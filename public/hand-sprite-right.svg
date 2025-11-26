@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Pixel-art pointing hand cursor (right-facing, horizontally flipped) -->
+  <!-- Mirror of left hand -->
+
+  <!-- Wrist/palm base -->
+  <rect x="48" y="40" width="8" height="16" fill="#E0E0E0"/>
+  <rect x="40" y="40" width="8" height="16" fill="#E0E0E0"/>
+
+  <!-- Palm -->
+  <rect x="32" y="32" width="8" height="16" fill="#E0E0E0"/>
+  <rect x="24" y="32" width="8" height="16" fill="#E0E0E0"/>
+
+  <!-- Pointing finger (index) -->
+  <rect x="16" y="24" width="8" height="8" fill="#E0E0E0"/>
+  <rect x="8" y="16" width="8" height="8" fill="#E0E0E0"/>
+  <rect x="0" y="8" width="8" height="8" fill="#E0E0E0"/>
+
+  <!-- Finger tip -->
+  <rect x="0" y="0" width="8" height="8" fill="#E0E0E0"/>
+
+  <!-- Middle finger (folded) -->
+  <rect x="16" y="32" width="8" height="8" fill="#E0E0E0"/>
+
+  <!-- Ring + pinky (folded) -->
+  <rect x="24" y="48" width="8" height="8" fill="#E0E0E0"/>
+  <rect x="32" y="48" width="8" height="8" fill="#E0E0E0"/>
+
+  <!-- Thumb -->
+  <rect x="40" y="32" width="8" height="8" fill="#E0E0E0"/>
+
+  <!-- Outline/shadow (darker pixels for depth) -->
+  <rect x="48" y="56" width="8" height="8" fill="#888888"/>
+  <rect x="32" y="56" width="16" height="8" fill="#888888"/>
+  <rect x="16" y="40" width="8" height="8" fill="#888888"/>
+  <rect x="0" y="16" width="8" height="8" fill="#888888"/>
+</svg>
