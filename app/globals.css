@@ -1,5 +1,58 @@
 @import 'tailwindcss';
 
+:root {
+  /* Base Colors (BB-OS Palette) */
+  --bg: #0b0b0b;
+  --panel: #131313;
+  --ink: #EDECEC;
+  --muted: #9A9A9A;
+  --grid: #2A2A2A;
+
+  /* Accent Colors */
+  --accent: #ff9d23;
+  --accent-hover: #FFB84D;
+  --icon: #6b6b6b;
+
+  /* Spacing Scale (4px increments) */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Animation Durations */
+  --duration-instant: 120ms;
+  --duration-fast: 300ms;
+  --duration-normal: 600ms;
+  --duration-slow: 1200ms;
+  --duration-dramatic: 1800ms;
+
+  /* Easing Functions */
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows */
+  --shadow-glow: 0 0 40px rgba(255, 157, 35, 0.5);
+  --shadow-glow-intense: 0 0 60px rgba(255, 157, 35, 0.8);
+
+  /* Fonts */
+  --font-heading: "Pixelify Sans", "VT323", monospace;
+  --font-body: "Roboto Mono", ui-monospace, monospace;
+  --font-mono: "VT323", ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-grid: var(--grid);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -13,15 +66,26 @@ body {
 }
 
 body {
-  background: #000;
-  color: #fff;
+  background: var(--bg);
+  color: var(--ink);
 }
 
-/* Pixel-perfect rendering for hand sprites */
+/* Pixel-perfect rendering */
 .pixel-art {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
 
-/* Animation keyframes will be added by HandGameAnimation component */
+/* BB-OS Glow Effect */
+.glow-orange {
+  text-shadow: var(--shadow-glow);
+}
+
+.glow-orange-box {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-orange-intense {
+  box-shadow: var(--shadow-glow-intense);
+}

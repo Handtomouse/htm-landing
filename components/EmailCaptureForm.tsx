@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import HwButton from './HwButton'
 
 export default function EmailCaptureForm() {
   const [email, setEmail] = useState('')
@@ -40,7 +41,7 @@ export default function EmailCaptureForm() {
   return (
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="email"
             value={email}
@@ -48,27 +49,51 @@ export default function EmailCaptureForm() {
             placeholder="your@email.com"
             required
             disabled={status === 'loading' || status === 'success'}
-            className="flex-1 px-4 py-3 bg-black border-2 border-bb-orange text-white font-vt323 text-xl placeholder-gray-500 focus:outline-none focus:border-white transition-colors disabled:opacity-50"
+            style={{
+              fontFamily: 'var(--font-body)',
+              background: 'var(--panel)',
+              color: 'var(--ink)',
+              borderColor: 'var(--grid)'
+            }}
+            className="
+              flex-1 px-4 py-3
+              border-2 rounded-none
+              text-base
+              placeholder:text-[var(--muted)]
+              focus:outline-none
+              focus:border-accent
+              focus:shadow-[0_0_8px_rgba(255,157,35,0.3)]
+              transition-all duration-[var(--duration-fast)]
+              disabled:opacity-50
+            "
           />
-          <button
+          <HwButton
             type="submit"
             disabled={status === 'loading' || status === 'success'}
-            className="px-6 py-3 bg-bb-orange text-black font-vt323 text-xl hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {status === 'loading' ? 'SENDING...' : status === 'success' ? 'SUBSCRIBED' : 'NOTIFY ME'}
-          </button>
+          </HwButton>
         </div>
 
         {message && (
-          <p className={`text-center font-vt323 text-lg ${
-            status === 'success' ? 'text-bb-orange' : 'text-red-500'
-          }`}>
+          <p
+            className={`text-center text-sm ${
+              status === 'success' ? 'text-accent' : 'text-red-500'
+            }`}
+            style={{ fontFamily: 'var(--font-body)' }}
+          >
             {message}
           </p>
         )}
       </form>
 
-      <p className="mt-4 text-center text-gray-500 font-vt323 text-sm">
+      <p
+        className="mt-4 text-center text-xs"
+        style={{
+          fontFamily: 'var(--font-body)',
+          color: 'var(--muted)'
+        }}
+      >
         We&apos;ll send you one email when the full site launches. No spam.
       </p>
     </div>
