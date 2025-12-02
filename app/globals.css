@@ -59,7 +59,12 @@
   margin: 0;
 }
 
-html,
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+}
+
 body {
   max-width: 100vw;
   overflow-x: hidden;
@@ -88,4 +93,456 @@ body {
 
 .glow-orange-intense {
   box-shadow: var(--shadow-glow-intense);
+}
+
+/* ========================================
+   TERMINAL TYPEWRITER LUXURY EFFECTS
+   ======================================== */
+
+/* CRT Phosphor Glow - Multi-layer text shadow for analog warmth */
+.phosphor-glow {
+  text-shadow:
+    0 0 2px #EDECEC,
+    0 0 4px #EDECEC,
+    0 0 8px rgba(237, 236, 236, 0.6),
+    0 0 12px rgba(237, 236, 236, 0.3);
+}
+
+/* Scanline Overlay - Animated horizontal lines */
+@keyframes scanlines {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+.scanline-overlay {
+  position: relative;
+}
+
+.scanline-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  animation: scanlines 0.0666s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Vignette Edge Darkening */
+.vignette {
+  position: relative;
+}
+
+.vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 80%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Cursor Halo Glow - Pulsing orange glow */
+@keyframes cursor-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.cursor-glow {
+  box-shadow:
+    0 0 8px rgba(255, 157, 35, 0.6),
+    0 0 16px rgba(255, 157, 35, 0.3);
+  animation: cursor-pulse 500ms ease-in-out infinite;
+}
+
+/* Elastic Character Landing - Bounce on reveal */
+@keyframes elastic-land {
+  0% {
+    transform: translateY(-2px) scale(1.05);
+    opacity: 0.8;
+  }
+  60% {
+    transform: translateY(0.5px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.char-land {
+  animation: elastic-land 120ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Scramble Motion Blur */
+.char-scramble {
+  filter: blur(0.5px);
+  animation: scramble-jitter 20ms linear infinite;
+}
+
+@keyframes scramble-jitter {
+  0%, 100% {
+    transform: translateX(-0.5px);
+  }
+  50% {
+    transform: translateX(0.5px);
+  }
+}
+
+/* Punctuation Pause Breath - Extended micro-zoom */
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.008);
+  }
+  70% {
+    transform: scale(1.008);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.breathe-pause {
+  animation: breathe 800ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Clear Phase Fade-Out Trail */
+@keyframes fade-out-trail {
+  0% {
+    opacity: 1;
+    text-shadow:
+      0 0 2px #EDECEC,
+      0 0 4px #EDECEC,
+      0 0 8px rgba(237, 236, 236, 0.6);
+  }
+  100% {
+    opacity: 0;
+    text-shadow: 0 0 12px rgba(237, 236, 236, 0.2);
+  }
+}
+
+.char-fade-out {
+  animation: fade-out-trail 80ms ease-out forwards;
+}
+
+/* Line Height Breathing - Slow 8s cycle */
+@keyframes breathe-line-height {
+  0%, 100% {
+    line-height: 1.618;
+  }
+  50% {
+    line-height: 1.628;
+  }
+}
+
+.line-height-breathe {
+  animation: breathe-line-height 8s ease-in-out infinite;
+}
+
+/* Underscore Placeholder Pulse */
+@keyframes placeholder-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.placeholder-pulse {
+  animation: placeholder-pulse 2s ease-in-out infinite;
+}
+
+/* Progress Indicator */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 100ms ease-out;
+  z-index: 100;
+}
+
+/* ========================================
+   PHASE 5-10: MUSEUM-QUALITY EFFECTS
+   ======================================== */
+
+/* Chromatic Aberration - RGB Split */
+.chromatic-aberration {
+  text-shadow:
+    -0.5px 0 0 rgba(255, 0, 0, 0.5),
+    0.5px 0 0 rgba(0, 255, 255, 0.5),
+    0 0 2px #EDECEC,
+    0 0 4px #EDECEC,
+    0 0 8px rgba(237, 236, 236, 0.6);
+}
+
+/* Screen Curvature - 3D Perspective Container */
+.screen-curve {
+  perspective: 1000px;
+  perspective-origin: center center;
+}
+
+.screen-curve-inner {
+  transform: rotateX(2deg) scale(1.02);
+  transform-style: preserve-3d;
+  transition: transform 600ms var(--ease-luxury);
+}
+
+/* Light Leak Overlay */
+@keyframes light-leak-rotate {
+  0% {
+    transform: rotate(0deg) scale(2);
+  }
+  100% {
+    transform: rotate(360deg) scale(2);
+  }
+}
+
+.light-leak {
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(
+    ellipse at 30% 20%,
+    rgba(255, 157, 35, 0.08),
+    transparent 50%
+  ),
+  radial-gradient(
+    ellipse at 70% 80%,
+    rgba(0, 255, 255, 0.06),
+    transparent 50%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: light-leak-rotate 60s linear infinite;
+  z-index: 3;
+}
+
+/* Film Grain Texture */
+@keyframes grain-shift {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -5%);
+  }
+  30% {
+    transform: translate(3%, -8%);
+  }
+  50% {
+    transform: translate(-2%, 4%);
+  }
+  70% {
+    transform: translate(7%, 2%);
+  }
+  90% {
+    transform: translate(-4%, -6%);
+  }
+}
+
+.film-grain {
+  position: absolute;
+  inset: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="128" height="128" filter="url(%23noise)" opacity="0.15"/></svg>');
+  background-repeat: repeat;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  animation: grain-shift 8s steps(10) infinite;
+  z-index: 4;
+}
+
+/* Bezel Shadow - 3D Recessed Screen */
+.bezel-shadow {
+  box-shadow:
+    inset 0 0 20px rgba(0, 0, 0, 0.8),
+    inset 0 0 40px rgba(0, 0, 0, 0.5),
+    inset 0 0 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Typewriter Carriage Return */
+@keyframes carriage-return {
+  0% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.carriage-return {
+  animation: carriage-return 150ms var(--ease-luxury);
+}
+
+/* Character Rotation on Reveal */
+@keyframes char-rotate {
+  0% {
+    transform: translateY(-2px) scale(1.05) rotate(var(--rotation-start));
+    opacity: 0.8;
+  }
+  60% {
+    transform: translateY(0.5px) rotate(calc(var(--rotation-start) * 0.3));
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.char-rotate {
+  animation: char-rotate 120ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Rainbow Wave Effect */
+@keyframes rainbow-wave {
+  0% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(1.2);
+  }
+  100% {
+    filter: hue-rotate(360deg) brightness(1);
+  }
+}
+
+.rainbow-wave {
+  animation: rainbow-wave 2s ease-in-out;
+}
+
+/* Reflection Overlay */
+.reflection-container {
+  position: relative;
+}
+
+.reflection-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  transform: scaleY(-1);
+  opacity: 0.08;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 60%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 60%);
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+/* GPU-Accelerated Glow */
+.gpu-glow {
+  filter: drop-shadow(0 0 2px #EDECEC)
+          drop-shadow(0 0 4px #EDECEC)
+          drop-shadow(0 0 8px rgba(237, 236, 236, 0.6));
+  will-change: transform, filter;
+}
+
+/* Theme Variations */
+:root[data-theme="amber"] {
+  --ink: #FFBF00;
+  --bg: #1a0f00;
+}
+
+:root[data-theme="green"] {
+  --ink: #33FF33;
+  --bg: #001a00;
+}
+
+:root[data-theme="blue"] {
+  --ink: #66B3FF;
+  --bg: #00000a;
+}
+
+/* WPM Counter */
+.wpm-counter {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.6;
+  z-index: 100;
+  user-select: none;
+  transition: opacity 300ms;
+}
+
+.wpm-counter:hover {
+  opacity: 1;
+}
+
+/* Shake Glitch Effect */
+@keyframes shake-glitch {
+  0%, 100% {
+    transform: translate(0, 0);
+    filter: hue-rotate(0deg);
+  }
+  10% {
+    transform: translate(-2px, 1px);
+    filter: hue-rotate(90deg);
+  }
+  20% {
+    transform: translate(2px, -1px);
+    filter: hue-rotate(-90deg);
+  }
+  30% {
+    transform: translate(-1px, 2px);
+    filter: hue-rotate(45deg);
+  }
+  40% {
+    transform: translate(1px, -2px);
+    filter: hue-rotate(-45deg);
+  }
+  50% {
+    transform: translate(-2px, -1px);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translate(2px, 1px);
+    filter: hue-rotate(-180deg);
+  }
+  70% {
+    transform: translate(-1px, -1px);
+    filter: hue-rotate(90deg);
+  }
+  80% {
+    transform: translate(1px, 1px);
+    filter: hue-rotate(-90deg);
+  }
+  90% {
+    transform: translate(-1px, 0);
+    filter: hue-rotate(45deg);
+  }
+}
+
+.glitch-shake {
+  animation: shake-glitch 300ms linear;
 }

@@ -41,7 +41,10 @@ export default function RootLayout({
         style={{
           fontFamily: 'var(--font-body)',
           background: 'var(--bg)',
-          color: 'var(--ink)'
+          color: 'var(--ink)',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
         {children}
