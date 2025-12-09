@@ -13,6 +13,16 @@
   --accent-hover: #FFB84D;
   --icon: #6b6b6b;
 
+  /* Baseline Grid System (8px base unit) */
+  --grid-unit: 8px;
+  --grid-2x: calc(var(--grid-unit) * 2);  /* 16px */
+  --grid-3x: calc(var(--grid-unit) * 3);  /* 24px */
+  --grid-4x: calc(var(--grid-unit) * 4);  /* 32px */
+  --grid-6x: calc(var(--grid-unit) * 6);  /* 48px */
+  --grid-8x: calc(var(--grid-unit) * 8);  /* 64px */
+  --grid-10x: calc(var(--grid-unit) * 10); /* 80px */
+  --grid-12x: calc(var(--grid-unit) * 12); /* 96px */
+
   /* Spacing Scale (4px increments) */
   --space-2: 8px;
   --space-3: 12px;
@@ -22,6 +32,12 @@
   --space-12: 48px;
   --space-16: 64px;
   --space-20: 80px;
+
+  /* Layout Constants */
+  --footer-height: 56px;
+  --page-padding-x: var(--grid-3x);
+  --page-padding-y: var(--grid-4x);
+  --content-max-width: 1200px;
 
   /* Animation Durations */
   --duration-instant: 120ms;
@@ -38,9 +54,16 @@
   --shadow-glow-intense: 0 0 60px rgba(255, 157, 35, 0.8);
 
   /* Fonts */
-  --font-heading: "Pixelify Sans", "VT323", monospace;
-  --font-body: "Roboto Mono", ui-monospace, monospace;
-  --font-mono: "VT323", ui-monospace, monospace;
+  --font-heading: "argent-pixel-cf", "Pixelify Sans", "VT323", monospace;
+  --font-body: "argent-pixel-cf", "Roboto Mono", ui-monospace, monospace;
+  --font-mono: "argent-pixel-cf", "VT323", ui-monospace, monospace;
+}
+
+/* Argent Pixel rendering optimization */
+body, p, span, div, input, button {
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
 }
 
 @theme inline {
@@ -135,7 +158,7 @@ body {
   );
   animation: scanlines 0.0666s linear infinite;
   pointer-events: none;
-  z-index: 10;
+  z-index: 20;
 }
 
 /* Vignette Edge Darkening */
@@ -155,7 +178,7 @@ body {
     rgba(0, 0, 0, 0.6) 100%
   );
   pointer-events: none;
-  z-index: 5;
+  z-index: 15;
 }
 
 /* Cursor Halo Glow - Pulsing orange glow */
@@ -278,6 +301,64 @@ body {
   animation: placeholder-pulse 2s ease-in-out infinite;
 }
 
+/* ========================================
+   TAGLINE SCRAMBLE DECODE EFFECT
+   ======================================== */
+
+/* Scrambling character - dim gray with slight jitter */
+.tagline-char.scrambling {
+  color: var(--muted);
+  opacity: 0.4;
+  filter: blur(0.3px);
+  animation: char-scramble-jitter 50ms linear infinite;
+}
+
+@keyframes char-scramble-jitter {
+  0%, 100% {
+    transform: translateY(-0.3px);
+  }
+  50% {
+    transform: translateY(0.3px);
+  }
+}
+
+/* Decoded character - bright white with pop effect */
+.tagline-char.decoded {
+  color: #EDECEC;
+  opacity: 1;
+  filter: blur(0);
+  text-shadow:
+    0 0 2px #EDECEC,
+    0 0 4px #EDECEC,
+    0 0 8px rgba(237, 236, 236, 0.4);
+  animation: tagline-decode-pop 180ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes tagline-decode-pop {
+  0% {
+    transform: translateY(-1px) scale(1.08);
+    opacity: 0.7;
+  }
+  60% {
+    transform: translateY(0.3px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Reduced motion: instant appearance */
+@media (prefers-reduced-motion: reduce) {
+  .tagline-char.scrambling,
+  .tagline-char.decoded {
+    animation: none !important;
+    color: #EDECEC;
+    opacity: 1;
+    filter: none;
+  }
+}
+
 /* Progress Indicator */
 .progress-bar {
   position: fixed;
@@ -287,6 +368,45 @@ body {
   background: var(--accent);
   transition: width 100ms ease-out;
   z-index: 100;
+}
+
+/* ========================================
+   FOOTER CTA BUTTONS (PILL STYLE)
+   ======================================== */
+
+.footer-cta-button:hover {
+  color: var(--ink);
+  background: rgba(255, 157, 35, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 157, 35, 0.2);
+  transform: scale(1.05);
+}
+
+.footer-cta-button:active {
+  color: var(--accent);
+  background: rgba(255, 157, 35, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(255, 157, 35, 0.3);
+  transform: scale(0.95);
+}
+
+.footer-cta-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  color: var(--ink);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .footer-cta-button {
+    transition: none !important;
+  }
+  .footer-cta-button:hover {
+    transform: none !important;
+  }
+  .footer-cta-button:active {
+    transform: none !important;
+  }
 }
 
 /* ========================================
@@ -546,3 +666,1057 @@ body {
 .glitch-shake {
   animation: shake-glitch 300ms linear;
 }
+
+/* ========================================
+   HTM LOGO STYLING
+   ======================================== */
+
+/* FIX: Organic Pong chase - Player 1 (Left) with subtle variation */
+@keyframes logo-chase-left {
+  0%, 100% {
+    transform: translateY(calc(-28vh));
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  15% {
+    transform: translateY(calc(-5vh));
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  35% {
+    transform: translateY(calc(28vh));
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  50% {
+    transform: translateY(calc(15vh));
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  65% {
+    transform: translateY(calc(-10vh));
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  85% {
+    transform: translateY(calc(-35vh));
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+}
+
+/* FIX: Organic Pong chase - Player 2 (Right) with different rhythm */
+@keyframes logo-chase-right {
+  0%, 100% {
+    transform: translateY(calc(18vh)) scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  20% {
+    transform: translateY(calc(32vh)) scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  38% {
+    transform: translateY(calc(8vh)) scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  55% {
+    transform: translateY(calc(-22vh)) scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  72% {
+    transform: translateY(calc(-34vh)) scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+  88% {
+    transform: translateY(calc(-8vh)) scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+  }
+}
+
+/* Orange Phosphor Glow - Matches terminal text aesthetic */
+.logo-container {
+  position: relative;
+  z-index: 25;
+  contain: layout;
+}
+
+.logo-container img {
+  will-change: transform, opacity, filter;
+  /* FIX: Removed cursor: pointer - no click handler exists */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  filter:
+    blur(0.8px)
+    drop-shadow(0 0 4px rgba(247, 168, 53, 0.4))
+    drop-shadow(0 0 8px rgba(247, 168, 53, 0.2))
+    drop-shadow(0 0 16px rgba(247, 168, 53, 0.1));
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+/* Right logo base transform - maintain scaleX(-1) flip */
+.logo-container:last-of-type img {
+  transform: scaleX(-1);
+}
+
+/* FIX: Randomized animation duration for natural feel while maintaining smoothness */
+/* E3: Left logo animation - Player 1 movement (3.8-4.2s randomized via calc) */
+/* DISABLED: Chase animations for stationary hands baseline */
+/*
+.logo-container:first-of-type img {
+  --logo-chase-duration: 4s;
+  animation: logo-chase-left var(--logo-chase-duration) ease-in-out infinite;
+  /* Slight randomization via animation-delay doesn't affect duration predictability */
+/*}
+*/
+
+/* E3: Right logo animation - Player 2 movement (slightly different timing for organic feel) */
+/* DISABLED: Chase animations for stationary hands baseline */
+/*
+.logo-container:last-of-type img {
+  --logo-chase-duration: 4.3s;
+  animation: logo-chase-right var(--logo-chase-duration) ease-in-out infinite;
+  animation-delay: 0.7s;
+}
+*/
+
+/* FIX: Removed hover animation-duration change (caused visual jumps mid-animation) */
+/* Hover state disabled to prevent glitchy behavior during battle */
+
+/* A1: Shot Telegraph - Layers with chase animation WITHOUT stopping movement */
+.logo-container[data-charging="true"] img {
+  scale: 1.08;
+  filter: brightness(1.4) drop-shadow(0 0 12px rgba(247, 168, 53, 0.9)) drop-shadow(0 0 20px rgba(247, 168, 53, 0.6)) !important;
+  /* FIX: Transition timing matches telegraph duration (300ms) to prevent double-pulsing */
+  transition: scale 300ms ease-out, filter 300ms ease-out;
+}
+
+/* FIX: Removed aggression mode visual indicators (caused filter conflicts with charging state) */
+/* Aggression mode logic preserved in BattleSystem.tsx - affects shooting probability, not visuals */
+
+/* Mobile-optimized paths for smaller viewports */
+@media (max-height: 700px) {
+  @keyframes logo-chase-left {
+    0% {
+      transform: translateY(calc(-20vh + 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    8% {
+      transform: translateY(calc(-23vh + 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    18% {
+      transform: translateY(calc(7vh));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    22% {
+      transform: translateY(calc(10vh));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    35% {
+      transform: translateY(calc(25vh - 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    42% {
+      transform: translateY(calc(23vh - 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    58% {
+      transform: translateY(calc(13vh));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    65% {
+      transform: translateY(calc(3vh));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    72% {
+      transform: translateY(calc(-7vh));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    85% {
+      transform: translateY(calc(-25vh + 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    92% {
+      transform: translateY(calc(-23vh + 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    100% {
+      transform: translateY(calc(-20vh + 60px));
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+  }
+
+  @keyframes logo-chase-right {
+    0% {
+      transform: translateY(calc(16vh)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    12% {
+      transform: translateY(calc(25vh - 60px)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    20% {
+      transform: translateY(calc(27vh - 60px)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    32% {
+      transform: translateY(calc(-3vh)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    38% {
+      transform: translateY(calc(-10vh)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    48% {
+      transform: translateY(calc(-25vh + 60px)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    55% {
+      transform: translateY(calc(-23vh + 60px)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    68% {
+      transform: translateY(calc(7vh)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    78% {
+      transform: translateY(calc(22vh - 50px)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    88% {
+      transform: translateY(calc(19vh - 50px)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+    100% {
+      transform: translateY(calc(16vh)) scaleX(-1);
+      filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.4)) drop-shadow(0 0 8px rgba(247, 168, 53, 0.2));
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .logo-container img {
+    opacity: 1 !important;
+    filter: none !important;
+    outline: 2px solid #FFFFFF;
+    outline-offset: 2px;
+  }
+
+  @keyframes logo-chase-left {
+    0%, 8%, 18%, 22%, 35%, 42%, 58%, 65%, 72%, 85%, 92%, 100% {
+      filter: none !important;
+    }
+  }
+
+  @keyframes logo-chase-right {
+    0%, 8%, 18%, 22%, 35%, 42%, 58%, 65%, 72%, 85%, 92%, 100% {
+      filter: none !important;
+    }
+  }
+}
+
+/* ========================================
+   BATTLE SYSTEM - PROJECTILES
+   ======================================== */
+
+/* Projectile travel animations - relative transforms */
+@keyframes projectile-travel-left-to-right {
+  0% {
+    transform: translateX(0) scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    transform: translateX(20px) scale(1) rotate(2deg);
+    opacity: 1;
+  }
+  95% {
+    transform: translateX(calc(100vw - 200px)) scale(1) rotate(-2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100vw - 180px)) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes projectile-travel-right-to-left {
+  0% {
+    transform: translateX(0) scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    transform: translateX(-20px) scale(1) rotate(-2deg);
+    opacity: 1;
+  }
+  95% {
+    transform: translateX(calc(-100vw + 200px)) scale(1) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(-100vw + 180px)) scale(0.8) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+/* Mobile-optimized projectile travel (< 640px) */
+@media (max-width: 640px) {
+  @keyframes projectile-travel-left-to-right {
+    0% {
+      transform: translateX(0) scale(0.3) rotate(0deg);
+      opacity: 0;
+    }
+    5% {
+      transform: translateX(10px) scale(1) rotate(2deg);
+      opacity: 1;
+    }
+    95% {
+      transform: translateX(calc(100vw - 80px)) scale(1) rotate(-2deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(100vw - 70px)) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes projectile-travel-right-to-left {
+    0% {
+      transform: translateX(0) scale(0.3) rotate(0deg);
+      opacity: 0;
+    }
+    5% {
+      transform: translateX(-10px) scale(1) rotate(-2deg);
+      opacity: 1;
+    }
+    95% {
+      transform: translateX(calc(-100vw + 80px)) scale(1) rotate(2deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(-100vw + 70px)) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+  }
+}
+
+/* Tablet-optimized projectile travel (641px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  @keyframes projectile-travel-left-to-right {
+    0% {
+      transform: translateX(0) scale(0.3) rotate(0deg);
+      opacity: 0;
+    }
+    5% {
+      transform: translateX(15px) scale(1) rotate(2deg);
+      opacity: 1;
+    }
+    95% {
+      transform: translateX(calc(100vw - 120px)) scale(1) rotate(-2deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(100vw - 100px)) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes projectile-travel-right-to-left {
+    0% {
+      transform: translateX(0) scale(0.3) rotate(0deg);
+      opacity: 0;
+    }
+    5% {
+      transform: translateX(-15px) scale(1) rotate(-2deg);
+      opacity: 1;
+    }
+    95% {
+      transform: translateX(calc(-100vw + 120px)) scale(1) rotate(2deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(-100vw + 100px)) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+  }
+}
+
+/* Muzzle flash effect */
+@keyframes muzzle-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-5deg);
+    filter: brightness(1.8) drop-shadow(0 0 8px rgba(247, 168, 53, 0.8));
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2) rotate(5deg);
+    filter: brightness(2.5) drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-3deg);
+    filter: brightness(1) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4));
+  }
+}
+
+/* Impact explosion effect */
+@keyframes impact-explosion {
+  0% {
+    opacity: 1;
+    transform: scale(0.5) rotate(0deg);
+    filter: blur(0) brightness(1.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) rotate(180deg);
+    filter: blur(1px) brightness(2);
+    box-shadow:
+      -2px 0 0 rgba(255, 0, 0, 0.5),
+      2px 0 0 rgba(0, 255, 255, 0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5) rotate(360deg);
+    filter: blur(4px) brightness(1);
+    box-shadow:
+      -4px 0 0 rgba(255, 0, 0, 0.3),
+      4px 0 0 rgba(0, 255, 255, 0.3);
+  }
+}
+
+/* A4: Screen shake effect with dynamic intensity */
+@keyframes screen-shake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(calc(-2px * var(--shake-intensity, 1)), calc(1px * var(--shake-intensity, 1))); }
+  20% { transform: translate(calc(2px * var(--shake-intensity, 1)), calc(-1px * var(--shake-intensity, 1))); }
+  30% { transform: translate(calc(-1px * var(--shake-intensity, 1)), calc(2px * var(--shake-intensity, 1))); }
+  40% { transform: translate(calc(1px * var(--shake-intensity, 1)), calc(-2px * var(--shake-intensity, 1))); }
+  50% { transform: translate(calc(-2px * var(--shake-intensity, 1)), calc(-1px * var(--shake-intensity, 1))); }
+  60% { transform: translate(calc(2px * var(--shake-intensity, 1)), calc(1px * var(--shake-intensity, 1))); }
+  70% { transform: translate(calc(-1px * var(--shake-intensity, 1)), calc(-1px * var(--shake-intensity, 1))); }
+  80% { transform: translate(calc(1px * var(--shake-intensity, 1)), calc(1px * var(--shake-intensity, 1))); }
+  90% { transform: translate(calc(-1px * var(--shake-intensity, 1)), 0); }
+}
+
+/* Logo recoil effect */
+@keyframes logo-recoil-left {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(-15px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes logo-recoil-right {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(15px); }
+  100% { transform: translateX(0); }
+}
+
+/* Battle system styles */
+.battle-arena {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.projectile-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.projectile {
+  position: absolute;
+  width: 28.56px;
+  height: 4.76px;
+  left: 0;
+  will-change: transform, opacity;
+  /* FIX: Prevent accidental selection */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* E3: Projectile animations with variable duration for slow-motion */
+.projectile-left {
+  --projectile-duration: 850ms;
+  animation: projectile-travel-left-to-right var(--projectile-duration) linear forwards;
+}
+
+.projectile-right {
+  --projectile-duration: 850ms;
+  animation: projectile-travel-right-to-left var(--projectile-duration) linear forwards;
+}
+
+.projectile-core {
+  position: absolute;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 4px rgba(247, 168, 53, 0.6))
+          drop-shadow(0 0 8px rgba(247, 168, 53, 0.4));
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* A3: Projectile Trail Particles - Motion blur effect */
+.projectile-trail {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #FF9D23 0%, #F7A835 50%, transparent 100%);
+  border-radius: 50%;
+  left: 10px;
+  top: -1px;
+  filter: blur(1px);
+  will-change: opacity, transform;
+}
+
+.trail-1 {
+  animation: trail-fade-1 850ms ease-out forwards;
+}
+
+.trail-2 {
+  animation: trail-fade-2 850ms ease-out forwards;
+  width: 5px;
+  height: 5px;
+}
+
+.trail-3 {
+  animation: trail-fade-3 850ms ease-out forwards;
+  width: 4px;
+  height: 4px;
+}
+
+@keyframes trail-fade-1 {
+  0% {
+    opacity: 0;
+    transform: translateX(0) scale(1);
+  }
+  15% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-15px) scale(0.5);
+  }
+}
+
+@keyframes trail-fade-2 {
+  0% {
+    opacity: 0;
+    transform: translateX(0) scale(1);
+  }
+  20% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-25px) scale(0.3);
+  }
+}
+
+@keyframes trail-fade-3 {
+  0% {
+    opacity: 0;
+    transform: translateX(0) scale(1);
+  }
+  25% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-35px) scale(0.2);
+  }
+}
+
+.muzzle-flash {
+  position: absolute;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  animation: muzzle-flash 120ms ease-out forwards;
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.impact-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12;
+}
+
+.impact-effect {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  animation: impact-explosion 250ms ease-out forwards;
+  will-change: transform, opacity, filter;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.impact-burst {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 157, 35, 1) 0%, rgba(255, 157, 35, 0) 70%);
+}
+
+.impact-particles {
+  position: absolute;
+  inset: 0;
+}
+
+.impact-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #FF9D23;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  will-change: transform;
+}
+
+/* A5: Death debris particles - scatter outward on death */
+@keyframes death-debris-scatter {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--debris-x), var(--debris-y)) scale(0.3) rotate(360deg);
+  }
+}
+
+.death-debris {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #FF9D23;
+  border-radius: 50%;
+  animation: death-debris-scatter 300ms ease-out forwards;
+  filter: blur(0.5px) drop-shadow(0 0 4px rgba(247, 168, 53, 0.6));
+  will-change: transform, opacity;
+}
+
+/* A6: Teleport effects - respawn animation */
+@keyframes teleport-ring-expand {
+  0% {
+    transform: scale(0.5) translate(-50%, -50%);
+    opacity: 1;
+    border-width: 4px;
+  }
+  100% {
+    transform: scale(2.5) translate(-50%, -50%);
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+@keyframes teleport-scanlines {
+  0% {
+    transform: translate(-50%, -50%) scaleY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scaleY(1);
+    opacity: 0;
+  }
+}
+
+@keyframes teleport-particle-inward {
+  0% {
+    opacity: 1;
+    transform: translate(var(--particle-x), var(--particle-y)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+}
+
+.teleport-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  border: 4px solid #FF9D23;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px rgba(247, 168, 53, 0.8));
+  animation: teleport-ring-expand 400ms ease-out;
+  will-change: transform, opacity;
+}
+
+.teleport-scanlines {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80px;
+  height: 80px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(247, 168, 53, 0.6) 2px,
+    rgba(247, 168, 53, 0.6) 4px
+  );
+  animation: teleport-scanlines 400ms ease-out;
+  will-change: transform, opacity;
+}
+
+.teleport-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #FF9D23;
+  border-radius: 50%;
+  filter: blur(0.5px) drop-shadow(0 0 3px rgba(247, 168, 53, 0.8));
+  animation: teleport-particle-inward 400ms ease-in forwards;
+  will-change: transform, opacity;
+}
+
+.logo-hit {
+  animation: logo-recoil-left 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo-hit.logo-right {
+  animation-name: logo-recoil-right;
+}
+
+.screen-shake-active {
+  animation: screen-shake 200ms linear;
+}
+
+/* A2: Freeze Frame - Pause all animations for hitlag effect (60ms) */
+.freeze-frame .logo-container img,
+.freeze-frame .projectile,
+.freeze-frame .muzzle-flash {
+  animation-play-state: paused !important;
+}
+
+/* E1: Screen Flash - White flash overlay on death */
+.screen-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+  z-index: 9999;
+  animation: flash-fade 150ms ease-out forwards;
+}
+
+@keyframes flash-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes impact-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Logo state animations */
+.logo-alive {
+  opacity: 1;
+  transition: opacity 0.3s, transform 0.3s, filter 0.3s;
+}
+
+/* Shot telegraph charging glow */
+.logo-container[data-charging="true"] {
+  transform: translateY(-50%) scale(1.08);
+  filter: brightness(1.3) saturate(1.2);
+  transition: transform 0.15s ease-out, filter 0.15s ease-out;
+}
+
+.logo-dying {
+  animation: logo-death 300ms ease-out forwards;
+}
+
+.logo-respawning {
+  opacity: 0;
+  animation: logo-respawn 1500ms ease-out forwards;
+}
+
+.logo-invincible {
+  opacity: 1;
+  animation: logo-pulse 500ms ease-in-out infinite;
+}
+
+@keyframes logo-death {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.5) rotate(20deg);
+  }
+}
+
+@keyframes logo-respawn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-50%) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Screen shake effect */
+.screen-shake {
+  animation: screen-shake-anim 100ms linear;
+}
+
+@keyframes screen-shake-anim {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2px, 2px);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+  75% {
+    transform: translate(-2px, -2px);
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .logo-container img {
+    animation: none !important;
+  }
+
+  .projectile,
+  .muzzle-flash,
+  .impact-effect,
+  .screen-shake-active {
+    animation: none !important;
+  }
+}
+
+/* E3: Slow-motion effect - multiplies animation durations by 3x */
+.slow-motion .logo-container img {
+  --logo-chase-duration: calc(4s * 3);
+}
+.slow-motion .logo-container:last-of-type img {
+  --logo-chase-duration: calc(4.3s * 3);
+}
+.slow-motion .projectile-left,
+.slow-motion .projectile-right {
+  --projectile-duration: calc(850ms * 3);
+}
+
+/* ========================================
+   LOGO HIT REACTION ANIMATIONS
+   ======================================== */
+
+/* Death animation - logo gets hit */
+/* Left hand death - dies in place, no translateY (stays wherever it is) */
+@keyframes logo-death-left {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+  15% {
+    transform: scale(1.15) rotate(0deg);
+    opacity: 1;
+    filter: blur(0) brightness(2.5);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  }
+  100% {
+    transform: scale(0.3) rotate(360deg);
+    opacity: 0;
+    filter: blur(4px) brightness(0.5);
+  }
+}
+
+/* Right hand death - dies in place, no translateY (stays wherever it is) */
+@keyframes logo-death-right {
+  0% {
+    transform: scaleX(-1) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+  15% {
+    transform: scaleX(-1) scale(1.15) rotate(0deg);
+    opacity: 1;
+    filter: blur(0) brightness(2.5);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  }
+  100% {
+    transform: scaleX(-1) scale(0.3) rotate(-360deg);
+    opacity: 0;
+    filter: blur(4px) brightness(0.5);
+  }
+}
+
+/* Respawn flash animation - flashes in place where logo died */
+@keyframes logo-respawn-flash {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+  }
+  50% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(247, 168, 53, 0.8));
+  }
+}
+
+/* Invincibility shield animation - flashes in place */
+@keyframes invincibility-shield {
+  0%, 100% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 8px rgba(247, 168, 53, 0.8));
+  }
+  50% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+  }
+}
+
+/* Right hand respawn flash - flashes in place where logo died with flip */
+@keyframes logo-respawn-flash-right {
+  0%, 100% {
+    opacity: 0;
+    transform: scaleX(-1) scale(0.8);
+  }
+  25% {
+    opacity: 1;
+    transform: scaleX(-1) scale(1.2);
+    filter: drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+  }
+  50% {
+    opacity: 0;
+    transform: scaleX(-1) scale(0.9);
+  }
+  75% {
+    opacity: 1;
+    transform: scaleX(-1) scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(247, 168, 53, 0.8));
+  }
+}
+
+/* Right hand invincibility shield - flashes in place with flip */
+@keyframes invincibility-shield-right {
+  0%, 100% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 8px rgba(247, 168, 53, 0.8));
+    transform: scaleX(-1);
+  }
+  50% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+    transform: scaleX(-1);
+  }
+}
+
+/* Apply animations based on data-state attribute */
+/* Left hand (first logo) - clockwise death */
+.logo-container:first-of-type[data-state="dying"] img {
+  animation: logo-death-left 150ms ease-out forwards !important;
+}
+
+/* Right hand (last logo) - counter-clockwise death */
+.logo-container:last-of-type[data-state="dying"] img {
+  animation: logo-death-right 150ms ease-out forwards !important;
+}
+
+/* Left hand respawn */
+.logo-container:first-of-type[data-state="respawning"] img {
+  animation: logo-respawn-flash 400ms ease-in-out !important;
+}
+
+/* Right hand respawn - use flip version */
+.logo-container:last-of-type[data-state="respawning"] img {
+  animation: logo-respawn-flash-right 400ms ease-in-out !important;
+}
+
+/* Left hand invincibility */
+.logo-container:first-of-type[data-state="invincible"] img {
+  animation: invincibility-shield 800ms ease-in-out !important;
+}
+
+/* Right hand invincibility - use flip version */
+.logo-container:last-of-type[data-state="invincible"] img {
+  animation: invincibility-shield-right 800ms ease-in-out !important;
+}
+
+/* A7: Victory pose animations - celebrating hand */
+@keyframes victory-pose-left {
+  0%, 100% {
+    transform: translateY(0) scale(1.2) rotate(0deg);
+    filter: brightness(1.5) drop-shadow(0 0 20px rgba(247, 168, 53, 1));
+  }
+  50% {
+    transform: translateY(-10px) scale(1.3) rotate(5deg);
+    filter: brightness(2) drop-shadow(0 0 30px rgba(247, 168, 53, 1));
+  }
+}
+
+@keyframes victory-pose-right {
+  0%, 100% {
+    transform: scaleX(-1) translateY(0) scale(1.2) rotate(0deg);
+    filter: brightness(1.5) drop-shadow(0 0 20px rgba(247, 168, 53, 1));
+  }
+  50% {
+    transform: scaleX(-1) translateY(-10px) scale(1.3) rotate(-5deg);
+    filter: brightness(2) drop-shadow(0 0 30px rgba(247, 168, 53, 1));
+  }
+}
+
+/* Apply victory animations when data-victory="true" */
+.logo-container[data-victory="true"]:first-of-type img {
+  animation: victory-pose-left 1s ease-in-out infinite !important;
+}
+
+.logo-container[data-victory="true"]:last-of-type img {
+  animation: victory-pose-right 1s ease-in-out infinite !important;
+}
+

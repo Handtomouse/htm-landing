@@ -989,7 +989,7 @@ export default function WormholeContent() {
 
       {/* Exit Warning Modal */}
       {showExitWarning && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-auto z-50" style={{
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-auto z-50" style={{
           backdropFilter: "blur(20px)",
           backgroundColor: "rgba(11, 11, 11, 0.85)"
         }}>

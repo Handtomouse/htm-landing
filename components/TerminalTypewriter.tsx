@@ -2,13 +2,17 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react'
 
-const MAIN_MESSAGE = `HandToMouse Studio is
-undergoing a scheduled
-systems update.
+const MAIN_MESSAGE = `We are currently
+undergoing a
+scheduled total
+systems upgrade
 
-We thank you for your
-patience while our new
-software is installed...`
+Thanking you for
+your patience &
+patronage during
+this time...`
+const TAGLINE_LINE1 = `Independent creative direction`
+const TAGLINE_LINE2 = `and cultural strategy from Sydney`
 const EMAIL_PROMPT = "> Enter your email: "
 const BUTTON_PROMPT = "> "
 const SCRAMBLE_CHARS = 'abcdefghijklmnopqrstuvwxyz_-./\\[]{}!<>=+*?#'
@@ -20,12 +24,28 @@ const seededRandom = (seed: number, min: number, max: number) => {
 }
 
 export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: (email: string) => void }) {
+  // Detect prefers-reduced-motion on mount
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches)
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
   // Convert message to character array for stable layout
   const messageChars = useMemo(() => MAIN_MESSAGE.split(''), [])
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showCursor, setShowCursor] = useState(true)
   const [phase, setPhase] = useState<'typing' | 'pause' | 'clearing' | 'email'>('typing')
+  const [showTagline, setShowTagline] = useState(false)
   const [email, setEmail] = useState('')
   const [scrambleChar, setScrambleChar] = useState('')
   const [scrambleCount, setScrambleCount] = useState(0)
@@ -38,6 +58,21 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
   const [turboMode, setTurboMode] = useState(false)
   const [rainbowWave, setRainbowWave] = useState(false)
   const [carriageReturn, setCarriageReturn] = useState(false)
+  // Tagline scramble-decode effect
+  const [taglineScramble, setTaglineScramble] = useState<{
+    line1: string[]
+    line2: string[]
+  }>({
+    line1: Array(TAGLINE_LINE1.length).fill(''),
+    line2: Array(TAGLINE_LINE2.length).fill('')
+  })
+  const [taglineDecoded, setTaglineDecoded] = useState<{
+    line1: boolean[]
+    line2: boolean[]
+  }>({
+    line1: Array(TAGLINE_LINE1.length).fill(false),
+    line2: Array(TAGLINE_LINE2.length).fill(false)
+  })
   const messageRef = useRef<HTMLParagraphElement>(null)
   const typingStartTime = useRef<number>(Date.now())
   const lastMousePos = useRef({ x: 0, y: 0 })
@@ -166,6 +201,68 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
     }
   }, [shakeGlitch])
 
+  // Trigger tagline blur-in when typing reaches 50% (or immediately if reduced motion)
+  useEffect(() => {
+    const progress = currentIndex / messageChars.length
+    if (prefersReducedMotion) {
+      // Show immediately if reduced motion
+      setShowTagline(true)
+    } else if (progress >= 0.5 && !showTagline && phase === 'typing') {
+      // Blur in at 50% progress
+      setShowTagline(true)
+    }
+  }, [currentIndex, messageChars.length, showTagline, phase, prefersReducedMotion])
+
+  // Tagline scramble-decode effect
+  useEffect(() => {
+    if (!showTagline || prefersReducedMotion) return
+
+    // Scramble interval: continuously randomize undecoded characters
+    const scrambleInterval = setInterval(() => {
+      setTaglineScramble(prev => ({
+        line1: prev.line1.map((_, i) =>
+          taglineDecoded.line1[i]
+            ? TAGLINE_LINE1[i]
+            : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]
+        ),
+        line2: prev.line2.map((_, i) =>
+          taglineDecoded.line2[i]
+            ? TAGLINE_LINE2[i]
+            : SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]
+        )
+      }))
+    }, 40) // 40ms = 25fps scramble refresh rate
+
+    // Decode interval: randomly decode characters
+    const decodeInterval = setInterval(() => {
+      setTaglineDecoded(prev => {
+        const newLine1 = [...prev.line1]
+        const newLine2 = [...prev.line2]
+
+        // Decode line 1 characters randomly (15% probability per character per tick)
+        newLine1.forEach((decoded, i) => {
+          if (!decoded && Math.random() < 0.15) {
+            newLine1[i] = true
+          }
+        })
+
+        // Decode line 2 characters randomly (15% probability per character per tick)
+        newLine2.forEach((decoded, i) => {
+          if (!decoded && Math.random() < 0.15) {
+            newLine2[i] = true
+          }
+        })
+
+        return { line1: newLine1, line2: newLine2 }
+      })
+    }, 60) // 60ms decode tick rate
+
+    return () => {
+      clearInterval(scrambleInterval)
+      clearInterval(decodeInterval)
+    }
+  }, [showTagline, taglineDecoded, prefersReducedMotion])
+
   // Main typing logic with scramble effect
   useEffect(() => {
     if (phase === 'typing') {
@@ -217,6 +314,12 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
         // Instant reset: just set currentIndex to 0 (characters become underscores)
         setCurrentIndex(0)
         setPhase('typing')
+        setShowTagline(false) // Hide tagline on reset
+        // Reset tagline decode state
+        setTaglineDecoded({
+          line1: Array(TAGLINE_LINE1.length).fill(false),
+          line2: Array(TAGLINE_LINE2.length).fill(false)
+        })
         // Reset typing start time for WPM calculation
         typingStartTime.current = Date.now()
       }, 2000)
@@ -244,18 +347,67 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-full scanline-overlay vignette">
+      <div
+        className="scanline-overlay vignette px-4"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 'clamp(12px, 3vw, 32px)',
+          height: '100%',
+          minHeight: 0,
+          flexWrap: 'nowrap'
+        }}
+      >
+        {/* Left Logo */}
+        <div className="logo-container flex-shrink-0">
+          <img
+            src="/HTM-LOGO-ICON-WHITE.svg"
+            alt=""
+            style={{ opacity: 0.8, width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
+          />
+        </div>
+
+        {/* Center Content */}
         {phase !== 'email' ? (
-          <p
-            ref={messageRef}
-            className="text-lg md:text-xl leading-relaxed px-4"
+          <div
             style={{
-              fontFamily: 'var(--font-body)',
-              color: '#EDECEC',
-              textAlign: 'center',
-              maxWidth: '600px'
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 'clamp(var(--grid-3x), 5vw, var(--grid-6x))',
+              maxWidth: 'min(600px, 90vw)'
             }}
           >
+            {/* Wordmark Logo */}
+            <img
+              src="/HTM-LOGOS-FULLWORDMARK.svg"
+              alt="HandToMouse Studio - Creative Direction & Cultural Strategy"
+              className="wordmark-logo"
+              style={{
+                width: 'min(180px, 27vw)',
+                height: 'auto',
+                filter: 'blur(0.8px) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4))',
+                marginBottom: 'var(--grid-4x)',
+                userSelect: 'none',
+                WebkitUserSelect: 'none'
+              }}
+            />
+
+            <p
+              ref={messageRef}
+              className="leading-relaxed"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              style={{
+                fontFamily: 'var(--font-body)',
+                color: '#EDECEC',
+                textAlign: 'center',
+                fontSize: 'clamp(14px, 2vw, 20px)'
+              }}
+            >
             {messageChars.map((char, i) => {
               // Newlines are always <br> regardless of typing state
               if (char === '\n') return <br key={i} />
@@ -331,13 +483,71 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
               )
             })}
           </p>
+
+          {/* Tagline - scramble decode effect */}
+          <div
+            className={`tagline-scramble-container ${showTagline ? 'visible' : ''}`}
+            aria-label="Company tagline"
+            style={{
+              fontFamily: 'var(--font-body)',
+              textAlign: 'center',
+              fontSize: 'clamp(10px, 1.2vw, 13px)',
+              letterSpacing: '0.02em',
+              lineHeight: 1.4,
+              maxWidth: 'min(510px, 76.5vw)',
+              opacity: showTagline ? 1 : 0,
+              transition: prefersReducedMotion ? 'none' : 'opacity 0.4s ease-out'
+            }}
+          >
+            {/* Line 1 */}
+            <div style={{ marginBottom: '4px' }}>
+              {prefersReducedMotion ? (
+                TAGLINE_LINE1
+              ) : (
+                taglineScramble.line1.map((char, i) => (
+                  <span
+                    key={`line1-${i}`}
+                    className={`tagline-char ${taglineDecoded.line1[i] ? 'decoded' : 'scrambling'}`}
+                    style={{
+                      display: 'inline-block',
+                      transition: 'all 0.2s ease-out'
+                    }}
+                  >
+                    {char === ' ' ? '\u00A0' : char}
+                  </span>
+                ))
+              )}
+            </div>
+
+            {/* Line 2 */}
+            <div>
+              {prefersReducedMotion ? (
+                TAGLINE_LINE2
+              ) : (
+                taglineScramble.line2.map((char, i) => (
+                  <span
+                    key={`line2-${i}`}
+                    className={`tagline-char ${taglineDecoded.line2[i] ? 'decoded' : 'scrambling'}`}
+                    style={{
+                      display: 'inline-block',
+                      transition: 'all 0.2s ease-out'
+                    }}
+                  >
+                    {char === ' ' ? '\u00A0' : char}
+                  </span>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
         ) : (
         // Email form
         <div
-          className="flex flex-col items-center gap-4 px-4"
+          className="flex flex-col items-center gap-4"
           style={{
             fontFamily: 'var(--font-body)',
-            color: '#EDECEC'
+            color: '#EDECEC',
+            maxWidth: '600px'
           }}
         >
           <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
@@ -388,6 +598,15 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
           </form>
         </div>
       )}
+
+        {/* Right Logo */}
+        <div className="logo-container flex-shrink-0">
+          <img
+            src="/HTM-LOGO-ICON-WHITE.svg"
+            alt=""
+            style={{ opacity: 0.8, width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
+          />
+        </div>
       </div>
     </>
   )
