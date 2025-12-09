@@ -350,18 +350,13 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
       <div
         className="scanline-overlay vignette px-4"
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'clamp(12px, 3vw, 32px)',
-          height: '100%',
-          minHeight: 0,
-          flexWrap: 'nowrap'
+          position: 'relative',
+          width: '100%',
+          height: '100%'
         }}
       >
-        {/* Left Logo */}
-        <div className="logo-container flex-shrink-0">
+        {/* Left Logo - Absolutely Positioned */}
+        <div className="logo-container logo-left">
           <img
             src="/HTM-LOGO-ICON-WHITE.svg"
             alt=""
@@ -369,6 +364,25 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
           />
         </div>
 
+        {/* Right Logo - Absolutely Positioned */}
+        <div className="logo-container logo-right">
+          <img
+            src="/HTM-LOGO-ICON-WHITE.svg"
+            alt=""
+            style={{ opacity: 0.8, width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
+          />
+        </div>
+
+        {/* Center Content Wrapper */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            width: '100%'
+          }}
+        >
         {/* Center Content */}
         {phase !== 'email' ? (
           <div
@@ -598,15 +612,8 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
           </form>
         </div>
       )}
-
-        {/* Right Logo */}
-        <div className="logo-container flex-shrink-0">
-          <img
-            src="/HTM-LOGO-ICON-WHITE.svg"
-            alt=""
-            style={{ opacity: 0.8, width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
-          />
         </div>
+        {/* End Center Content Wrapper */}
       </div>
     </>
   )

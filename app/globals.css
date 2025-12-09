@@ -729,9 +729,23 @@ body {
 
 /* Orange Phosphor Glow - Matches terminal text aesthetic */
 .logo-container {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 25;
   contain: layout;
+  width: clamp(50px, 10vw, 144px);
+  height: auto;
+}
+
+/* Left hand - fixed to left edge */
+.logo-container.logo-left {
+  left: clamp(16px, 3vw, 48px);
+}
+
+/* Right hand - fixed to right edge */
+.logo-container.logo-right {
+  right: clamp(16px, 3vw, 48px);
 }
 
 .logo-container img {
@@ -750,7 +764,7 @@ body {
 }
 
 /* Right logo base transform - maintain scaleX(-1) flip */
-.logo-container:last-of-type img {
+.logo-container.logo-right img {
   transform: scaleX(-1);
 }
 
