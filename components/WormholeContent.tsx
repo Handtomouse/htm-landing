@@ -1262,7 +1262,7 @@ export default function WormholeContent() {
       )}
 
       {/* Controls */}
-      {!isWarping && !isLoading && !showExitWarning && hasSeenWarning && viewportReady && (
+      {!isWarping && !isLoading && !showExitWarning && viewportReady && (
         <div
           className={`absolute inset-0 flex flex-col items-center justify-center z-10 ${isMobile ? 'px-4 gap-6' : 'px-8 gap-8'}`}
           style={{
@@ -1279,7 +1279,7 @@ export default function WormholeContent() {
           }}
         >
           {/* Category Selector */}
-          <div className={`flex flex-wrap justify-center max-w-full ${isMobile ? 'gap-1.5 gap-y-2' : 'gap-2 gap-y-3'}`}>
+          <div className={`flex flex-wrap justify-center max-w-full ${isMobile ? 'gap-1.5' : 'gap-2 gap-y-3'}`}>
             {(['all', 'interactive', 'games', 'weirdFun', 'music', 'educational', 'retro'] as const).map((cat) => {
               const isSelected = selectedCategory === cat;
               return (
@@ -1302,9 +1302,9 @@ export default function WormholeContent() {
                     color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.8)",
                     border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
                     borderRadius: isMobile ? "6px" : "8px",
-                    padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem",
-                    minHeight: "44px",
-                    minWidth: isMobile ? "60px" : "auto",
+                    padding: isMobile ? "0.5rem 0.625rem" : "0.625rem 0.875rem",
+                    minHeight: isMobile ? "36px" : "44px",
+                    minWidth: "auto",
                     boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                     filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none"
                   }}
