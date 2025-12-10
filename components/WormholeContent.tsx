@@ -1262,7 +1262,7 @@ export default function WormholeContent() {
       )}
 
       {/* Controls */}
-      {!isWarping && !isLoading && !showExitWarning && viewportReady && (
+      {!isWarping && !isLoading && !showExitWarning && hasSeenWarning && viewportReady && (
         <div
           className={`absolute inset-0 flex flex-col items-center justify-center z-10 ${isMobile ? 'px-4 gap-6' : 'px-8 gap-8'}`}
           style={{
