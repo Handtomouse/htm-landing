@@ -586,12 +586,14 @@ export default function WormholeContent() {
   const handleWarningAccept = () => {
     if (!acceptedRisk) return;
 
+    console.log('[WORMHOLE] Warning accepted, setting hasSeenWarning=true');
     triggerHaptic(15);
     setShowExitWarning(false);
     setAcceptedRisk(false);
     setHasSeenWarning(true);
     // Persist to localStorage so user doesn't see warning again
     localStorage.setItem("wormhole_exit_warning_seen", "true");
+    console.log('[WORMHOLE] State updated: showExitWarning=false, hasSeenWarning=true');
   };
 
   // Start warp sequence
@@ -1262,7 +1264,11 @@ export default function WormholeContent() {
       )}
 
       {/* Controls */}
-      {!isWarping && !isLoading && !showExitWarning && hasSeenWarning && viewportReady && (
+      {(() => {
+        const shouldShowControls = !isWarping && !isLoading && !showExitWarning && hasSeenWarning && viewportReady;
+        console.log('[WORMHOLE] Controls check:', { isWarping, isLoading, showExitWarning, hasSeenWarning, viewportReady, shouldShowControls });
+        return shouldShowControls;
+      })() && (
         <div
           className={`absolute inset-0 flex flex-col items-center justify-center z-10 ${isMobile ? 'px-4 gap-6' : 'px-8 gap-8'}`}
           style={{
