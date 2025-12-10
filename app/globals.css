@@ -131,6 +131,18 @@ body {
     0 0 12px rgba(237, 236, 236, 0.3);
 }
 
+/* Wordmark Glow - Same phosphor effect for SVG wordmark */
+.wordmark-glow {
+  filter:
+    blur(0.4px)
+    drop-shadow(0 0 1px #EDECEC)
+    drop-shadow(0 0 3px rgba(237, 236, 236, 0.8))
+    drop-shadow(0 0 6px rgba(237, 236, 236, 0.4))
+    drop-shadow(0 0 9px rgba(237, 236, 236, 0.2))
+    hue-rotate(0deg)
+    brightness(1);
+}
+
 /* Scanline Overlay - Animated horizontal lines */
 @keyframes scanlines {
   0% {
@@ -738,28 +750,29 @@ body {
   height: auto;
 }
 
-/* Left hand - fixed to left edge */
+/* Left hand - midway between edge and content */
 .logo-container.logo-left {
-  left: clamp(16px, 3vw, 48px);
+  left: calc((100vw - min(600px, 90vw)) / 4);
 }
 
-/* Right hand - fixed to right edge */
+/* Right hand - midway between edge and content */
 .logo-container.logo-right {
-  right: clamp(16px, 3vw, 48px);
+  right: calc((100vw - min(600px, 90vw)) / 4);
 }
 
 .logo-container img {
-  will-change: transform, opacity, filter;
+  opacity: 0.8;
+  /* REMOVED: will-change: transform, opacity, filter; - Was preventing CSS animations from executing */
   /* FIX: Removed cursor: pointer - no click handler exists */
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   filter:
-    blur(0.8px)
+    blur(0.2px)
     drop-shadow(0 0 4px rgba(247, 168, 53, 0.4))
     drop-shadow(0 0 8px rgba(247, 168, 53, 0.2))
     drop-shadow(0 0 16px rgba(247, 168, 53, 0.1));
-  transform: translate3d(0, 0, 0);
+  /* REMOVED: transform: translate3d(0, 0, 0); - Was blocking keyframe animations */
   backface-visibility: hidden;
 }
 
@@ -1454,52 +1467,9 @@ body {
   transition: opacity 0.3s, transform 0.3s, filter 0.3s;
 }
 
-/* Shot telegraph charging glow */
-.logo-container[data-charging="true"] {
-  transform: translateY(-50%) scale(1.08);
-  filter: brightness(1.3) saturate(1.2);
-  transition: transform 0.15s ease-out, filter 0.15s ease-out;
-}
+/* Shot telegraph charging glow - REMOVED (conflicts with line 808, causes unwanted movement) */
 
-.logo-dying {
-  animation: logo-death 300ms ease-out forwards;
-}
-
-.logo-respawning {
-  opacity: 0;
-  animation: logo-respawn 1500ms ease-out forwards;
-}
-
-.logo-invincible {
-  opacity: 1;
-  animation: logo-pulse 500ms ease-in-out infinite;
-}
-
-@keyframes logo-death {
-  0% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-50%) scale(0.5) rotate(20deg);
-  }
-}
-
-@keyframes logo-respawn {
-  0% {
-    opacity: 0;
-    transform: translateY(-50%) scale(0.5);
-  }
-  50% {
-    opacity: 0.5;
-    transform: translateY(-50%) scale(1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-}
+/* .logo-dying, .logo-respawning moved to battle system section (lines 1865-1885) to avoid conflicts */
 
 @keyframes logo-pulse {
   0%, 100% {
@@ -1561,65 +1531,80 @@ body {
    ======================================== */
 
 /* Death animation - logo gets hit */
-/* Left hand death - dies in place, no translateY (stays wherever it is) */
+/* Left hand death - spiral collapse (optimized for mobile) */
 @keyframes logo-death-left {
   0% {
     transform: scale(1) rotate(0deg);
     opacity: 1;
-    filter: blur(0) brightness(1);
+    filter: blur(0) brightness(1) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4));
   }
   15% {
-    transform: scale(1.15) rotate(0deg);
+    transform: scale(1.3) rotate(0deg);
     opacity: 1;
-    filter: blur(0) brightness(2.5);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    filter: blur(0) brightness(4) drop-shadow(0 0 40px rgba(247, 168, 53, 1)) drop-shadow(0 0 20px rgba(255, 255, 255, 1)) drop-shadow(0 0 60px rgba(255, 157, 35, 0.8));
+  }
+  50% {
+    transform: scale(2.5) rotate(90deg);
+    opacity: 0.6;
+    filter: blur(8px) brightness(2.5);
   }
   100% {
-    transform: scale(0.3) rotate(360deg);
+    transform: scale(0) rotate(360deg);
     opacity: 0;
-    filter: blur(4px) brightness(0.5);
+    filter: blur(12px) brightness(0.5);
   }
 }
 
-/* Right hand death - dies in place, no translateY (stays wherever it is) */
+/* Right hand death - spiral collapse with flip maintained */
 @keyframes logo-death-right {
   0% {
     transform: scaleX(-1) scale(1) rotate(0deg);
     opacity: 1;
-    filter: blur(0) brightness(1);
+    filter: blur(0) brightness(1) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4));
   }
   15% {
-    transform: scaleX(-1) scale(1.15) rotate(0deg);
+    transform: scaleX(-1) scale(1.3) rotate(0deg);
     opacity: 1;
-    filter: blur(0) brightness(2.5);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    filter: blur(0) brightness(4) drop-shadow(0 0 40px rgba(247, 168, 53, 1)) drop-shadow(0 0 20px rgba(255, 255, 255, 1)) drop-shadow(0 0 60px rgba(255, 157, 35, 0.8));
+  }
+  50% {
+    transform: scaleX(-1) scale(2.5) rotate(90deg);
+    opacity: 0.6;
+    filter: blur(8px) brightness(2.5);
   }
   100% {
-    transform: scaleX(-1) scale(0.3) rotate(-360deg);
+    transform: scaleX(-1) scale(0) rotate(360deg);
     opacity: 0;
-    filter: blur(4px) brightness(0.5);
+    filter: blur(12px) brightness(0.5);
   }
 }
 
-/* Respawn flash animation - flashes in place where logo died */
+/* Respawn animation - ring collapses inward with pulsing glow */
 @keyframes logo-respawn-flash {
-  0%, 100% {
+  0% {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(2.5);
+    filter: blur(8px) brightness(2) drop-shadow(0 0 40px rgba(247, 168, 53, 1));
   }
-  25% {
+  30% {
     opacity: 1;
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+    transform: scale(1.5);
+    filter: blur(3px) brightness(2.5) drop-shadow(0 0 28px rgba(247, 168, 53, 1)) drop-shadow(0 0 14px rgba(255, 255, 255, 0.6));
   }
   50% {
-    opacity: 0;
+    opacity: 0.7;
     transform: scale(0.9);
+    filter: blur(1px) brightness(2) drop-shadow(0 0 20px rgba(247, 168, 53, 0.8));
   }
-  75% {
+  70% {
     opacity: 1;
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 12px rgba(247, 168, 53, 0.8));
+    transform: scale(1.15);
+    filter: blur(0.5px) brightness(1.8) drop-shadow(0 0 16px rgba(247, 168, 53, 0.7));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0.8px) brightness(1) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4));
   }
 }
 
@@ -1635,25 +1620,32 @@ body {
   }
 }
 
-/* Right hand respawn flash - flashes in place where logo died with flip */
+/* Right hand respawn - ring collapse with flip maintained */
 @keyframes logo-respawn-flash-right {
-  0%, 100% {
+  0% {
     opacity: 0;
-    transform: scaleX(-1) scale(0.8);
+    transform: scaleX(-1) scale(2.5);
+    filter: blur(8px) brightness(2) drop-shadow(0 0 40px rgba(247, 168, 53, 1));
   }
-  25% {
+  30% {
     opacity: 1;
-    transform: scaleX(-1) scale(1.2);
-    filter: drop-shadow(0 0 16px rgba(247, 168, 53, 1));
+    transform: scaleX(-1) scale(1.5);
+    filter: blur(3px) brightness(2.5) drop-shadow(0 0 28px rgba(247, 168, 53, 1)) drop-shadow(0 0 14px rgba(255, 255, 255, 0.6));
   }
   50% {
-    opacity: 0;
+    opacity: 0.7;
     transform: scaleX(-1) scale(0.9);
+    filter: blur(1px) brightness(2) drop-shadow(0 0 20px rgba(247, 168, 53, 0.8));
   }
-  75% {
+  70% {
     opacity: 1;
-    transform: scaleX(-1) scale(1.1);
-    filter: drop-shadow(0 0 12px rgba(247, 168, 53, 0.8));
+    transform: scaleX(-1) scale(1.15);
+    filter: blur(0.5px) brightness(1.8) drop-shadow(0 0 16px rgba(247, 168, 53, 0.7));
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(-1) scale(1);
+    filter: blur(0.8px) brightness(1) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4));
   }
 }
 
@@ -1671,36 +1663,33 @@ body {
   }
 }
 
-/* Apply animations based on data-state attribute */
-/* Left hand (first logo) - clockwise death */
+/* DISABLED: Using JS-driven transforms instead of CSS keyframes */
+/* CSS keyframe animations were not executing - switched to requestAnimationFrame approach */
+/*
 .logo-container:first-of-type[data-state="dying"] img {
-  animation: logo-death-left 150ms ease-out forwards !important;
+  animation: logo-death-left 2000ms ease-out forwards !important;
 }
 
-/* Right hand (last logo) - counter-clockwise death */
 .logo-container:last-of-type[data-state="dying"] img {
-  animation: logo-death-right 150ms ease-out forwards !important;
+  animation: logo-death-right 2000ms ease-out forwards !important;
 }
 
-/* Left hand respawn */
 .logo-container:first-of-type[data-state="respawning"] img {
-  animation: logo-respawn-flash 400ms ease-in-out !important;
+  animation: logo-respawn-flash 2000ms ease-out forwards !important;
 }
 
-/* Right hand respawn - use flip version */
 .logo-container:last-of-type[data-state="respawning"] img {
-  animation: logo-respawn-flash-right 400ms ease-in-out !important;
+  animation: logo-respawn-flash-right 2000ms ease-out forwards !important;
 }
 
-/* Left hand invincibility */
 .logo-container:first-of-type[data-state="invincible"] img {
-  animation: invincibility-shield 800ms ease-in-out !important;
+  animation: invincibility-shield 2000ms ease-in-out !important;
 }
 
-/* Right hand invincibility - use flip version */
 .logo-container:last-of-type[data-state="invincible"] img {
-  animation: invincibility-shield-right 800ms ease-in-out !important;
+  animation: invincibility-shield-right 2000ms ease-in-out !important;
 }
+*/
 
 /* A7: Victory pose animations - celebrating hand */
 @keyframes victory-pose-left {
@@ -1734,3 +1723,245 @@ body {
   animation: victory-pose-right 1s ease-in-out infinite !important;
 }
 
+
+/* ===== LOADING INTRO ANIMATIONS ===== */
+
+/* Parent wrapper - centers its children during loading stages 1-2 */
+.loading-center-wrapper {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* All loading intro elements - start with absolute positioning for centering */
+.loading-intro {
+  transition: none;
+}
+
+/* During fade-in and center-hold: positioned at viewport center */
+.loading-intro.fade-in,
+.loading-intro.center-hold {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-bottom: 0;
+}
+
+/* Stage 1: Fade in at center */
+.loading-intro.fade-in {
+  opacity: 0;
+  animation: fade-in 500ms ease-out forwards;
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Stage 2: Hold at center */
+.loading-intro.center-hold {
+  opacity: 1;
+}
+
+/* Stage 3: Slide from center to final top position */
+.loading-intro.slide-up {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  animation: slide-to-final-position 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slide-to-final-position {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    /* Slide UP from center to near top and shrink by 50% */
+    transform: translate(-50%, -32vh) scale(0.5);
+  }
+}
+
+/* Stage 4: Stay in fixed position (no jump) */
+.loading-intro.complete {
+  opacity: 1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -32vh) scale(0.5);
+}
+
+/* Tagline fade out during slide-up */
+.tagline-fade-in,
+.tagline-center-hold {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.tagline-slide-up,
+.tagline-complete {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+/* ===== BATTLE SYSTEM ANIMATIONS ===== */
+
+/* Screen shake on hit */
+.screen-shake {
+  animation: shake 100ms ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-4px, 2px); }
+  50% { transform: translate(4px, -2px); }
+  75% { transform: translate(-2px, -4px); }
+}
+
+/* Muzzle flash fade */
+@keyframes flash-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Impact expand effect */
+@keyframes impact-expand {
+  from {
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+  }
+  to {
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+  }
+}
+
+/* Hand State: Alive (default) */
+.logo-alive {
+  opacity: 1;
+  filter: none;
+}
+
+/* Hand State: Dying (shake and wobble) */
+.logo-dying {
+  animation: death-shake 300ms ease-out;
+}
+
+@keyframes death-shake {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    opacity: 0.9;
+    transform: rotate(-8deg) scale(0.95);
+  }
+  50% {
+    opacity: 0.7;
+    transform: rotate(8deg) scale(0.85);
+  }
+  75% {
+    opacity: 0.4;
+    transform: rotate(-5deg) scale(0.7) translateY(10px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(15deg) scale(0.3) translateY(20px);
+  }
+}
+
+/* Hand State: Respawning (fade in) */
+.logo-respawning {
+  animation: respawn-fade 1500ms ease-in-out;
+}
+
+@keyframes respawn-fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-15deg) translateY(20px);
+  }
+  40% {
+    opacity: 0.7;
+    transform: scale(1.15) rotate(2deg) translateY(-5px);
+  }
+  60% {
+    opacity: 0.9;
+    transform: scale(0.95) rotate(-1deg) translateY(2px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.05) rotate(0.5deg) translateY(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+}
+
+/* Hand State: Invincible (flashing) */
+.logo-invincible {
+  animation: invincible-flash 500ms ease-in-out infinite;
+}
+
+@keyframes invincible-flash {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(237, 236, 236, 0.8));
+  }
+  50% {
+    opacity: 0.3;
+    filter: drop-shadow(0 0 4px rgba(237, 236, 236, 0.3));
+  }
+}
+
+/* Telegraph charging state - handled by line 808 (.logo-container[data-charging="true"] img) */
+/* This section kept for reference but rules removed to avoid conflicts */
+
+/* Stage 3: Hands slide in from sides */
+.slide-in-from-left {
+  animation: slide-in-left 500ms ease-out forwards;
+}
+
+.slide-in-from-right {
+  animation: slide-in-right 500ms ease-out forwards;
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    left: -100px;
+  }
+  to {
+    opacity: 1;
+    left: calc((100vw - min(600px, 90vw)) / 4);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    right: -100px;
+  }
+  to {
+    opacity: 1;
+    right: calc((100vw - min(600px, 90vw)) / 4);
+  }
+}
+
+/* Content fade in */
+.fade-in-content {
+  animation: fade-in-content 500ms ease-out forwards;
+}
+
+@keyframes fade-in-content {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
