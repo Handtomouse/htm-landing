@@ -2,18 +2,17 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react'
 
-const MAIN_MESSAGE = `Creative direction
-meets clean code
+const MAIN_MESSAGE = `We are currently
+undergoing a
+scheduled total
+systems upgrade
 
-Web design &
-development for
-startups, agencies
-& cultural orgs
-
-Based in Sydney
-Building globally`
-const TAGLINE_LINE1 = `Modern web experiences`
-const TAGLINE_LINE2 = `designed and built by hand`
+Thanking you for
+your patience &
+patronage during
+this time...`
+const TAGLINE_LINE1 = `Independent creative direction`
+const TAGLINE_LINE2 = `and cultural strategy from Sydney`
 const EMAIL_PROMPT = "> Enter your email: "
 const BUTTON_PROMPT = "> "
 const SCRAMBLE_CHARS = 'abcdefghijklmnopqrstuvwxyz_-./\\[]{}!<>=+*?#'
