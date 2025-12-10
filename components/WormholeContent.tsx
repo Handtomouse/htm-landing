@@ -66,7 +66,7 @@ export default function WormholeContent() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [konamiActive, setKonamiActive] = useState(false);
-  const [starDensity, setStarDensity] = useState(isMobile ? 50 : 75);
+  const [starDensity, setStarDensity] = useState(75);
   const [showWhiteFlash, setShowWhiteFlash] = useState(false);
   const [isHyperhyperspace, setIsHyperhyperspace] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<'interactive' | 'games' | 'weirdFun' | 'music' | 'educational' | 'retro' | 'all'>('all');
@@ -199,6 +199,12 @@ export default function WormholeContent() {
       setViewportWidth(window.innerWidth);
       setViewportHeight(window.innerHeight);
       setViewportReady(true);
+      // Update star density based on mobile detection
+      if (window.innerWidth < 640) {
+        setStarDensity(50);
+      } else {
+        setStarDensity(75);
+      }
     };
 
     // Set initial values
@@ -597,6 +603,7 @@ export default function WormholeContent() {
     playSound('warp');
 
     const destination = getRandomDestination();
+    console.log('[WORMHOLE] Selected destination:', destination);
     setCurrentDestination(destination);
     setCurrentHint(destination.hint);
     setCurrentMessage(COUNTDOWN_MESSAGES[Math.floor(Math.random() * COUNTDOWN_MESSAGES.length)]);
@@ -626,12 +633,21 @@ export default function WormholeContent() {
             await new Promise(resolve => setTimeout(resolve, 800));
 
             setIsFadingOut(true);
-            await new Promise(resolve => setTimeout(resolve, 200));
 
+            // Save journey count BEFORE navigation (prevent data loss)
             const newCount = journeyCount + 1;
             setJourneyCount(newCount);
             localStorage.setItem("wormhole_journeys", newCount.toString());
-            window.location.href = destination.url;
+
+            // Navigate immediately with error handling
+            try {
+              console.log('[WORMHOLE] Navigating to:', destination.url);
+              window.location.href = destination.url;
+            } catch (error) {
+              console.error('[WORMHOLE] Navigation failed:', error);
+              // Fallback: open in new tab
+              window.open(destination.url, '_blank', 'noopener,noreferrer');
+            }
           })();
 
           return 0;
