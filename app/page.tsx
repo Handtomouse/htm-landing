@@ -39,11 +39,10 @@ export default function Home() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: 'calc(100vh - var(--footer-height))',
+          minHeight: 'calc(100dvh - var(--footer-height))',
           width: '100%',
           overflow: 'hidden',
           position: 'relative',
-          paddingBottom: 'var(--footer-height)',
           paddingLeft: 'var(--page-padding-x)',
           paddingRight: 'var(--page-padding-x)',
           paddingTop: 'var(--page-padding-y)'

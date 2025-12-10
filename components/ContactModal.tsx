@@ -92,6 +92,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-modal-title"
       onClick={onClose}
       style={{
         position: 'fixed',
@@ -105,7 +108,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9999,
-        padding: 'var(--grid-4x)'
+        paddingTop: 'max(var(--grid-3x), env(safe-area-inset-top))',
+        paddingBottom: 'max(var(--grid-3x), env(safe-area-inset-bottom))',
+        paddingLeft: 'max(var(--grid-3x), env(safe-area-inset-left))',
+        paddingRight: 'max(var(--grid-3x), env(safe-area-inset-right))'
       }}
     >
       <div
@@ -114,10 +120,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: 'var(--grid-6x)',
-          maxWidth: '600px',
+          padding: 'clamp(var(--grid-2x), 4vw, var(--grid-6x))',
+          maxWidth: 'min(600px, 100% - 2rem)',
           width: '100%',
-          maxHeight: '90vh',
+          maxHeight: '90dvh',
           overflowY: 'auto',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
           position: 'relative'
@@ -128,24 +134,27 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: 'var(--grid-2x)',
-            right: 'var(--grid-2x)',
+            top: 'max(var(--grid-2x), env(safe-area-inset-top))',
+            right: 'max(var(--grid-2x), env(safe-area-inset-right))',
             background: 'transparent',
             border: 'none',
             color: 'var(--muted)',
             fontSize: '24px',
             cursor: 'pointer',
-            padding: 'var(--grid-unit)',
+            padding: '10px',
+            minWidth: '44px',
+            minHeight: '44px',
             lineHeight: 1,
             transition: 'color 0.2s'
           }}
-          aria-label="Close modal"
+          aria-label="Close contact form modal"
         >
           ×
         </button>
 
         {/* Title */}
         <h2
+          id="contact-modal-title"
           style={{
             fontFamily: 'var(--font-heading)',
             fontSize: 'clamp(20px, 4vw, 28px)',
@@ -174,7 +183,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         {/* Form */}
         <form onSubmit={handleSubmit}>
           {/* Name Field */}
-          <div style={{ marginBottom: 'var(--grid-3x)' }}>
+          <div style={{ marginBottom: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))' }}>
             <label
               htmlFor="contact-name"
               style={{
@@ -222,7 +231,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Email Field */}
-          <div style={{ marginBottom: 'var(--grid-3x)' }}>
+          <div style={{ marginBottom: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))' }}>
             <label
               htmlFor="contact-email"
               style={{
@@ -268,7 +277,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Subject Field */}
-          <div style={{ marginBottom: 'var(--grid-3x)' }}>
+          <div style={{ marginBottom: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))' }}>
             <label
               htmlFor="contact-subject"
               style={{
@@ -316,7 +325,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Message Field */}
-          <div style={{ marginBottom: 'var(--grid-3x)' }}>
+          <div style={{ marginBottom: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))' }}>
             <label
               htmlFor="contact-message"
               style={{
@@ -352,7 +361,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 transition: 'all 0.3s',
                 outline: 'none',
                 resize: 'vertical',
-                minHeight: '120px'
+                minHeight: 'clamp(80px, 15vh, 120px)'
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'var(--accent)'
@@ -380,6 +389,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           <button
             type="submit"
             disabled={!isFormValid || status === 'loading' || status === 'success'}
+            aria-label={status === 'loading' ? 'Sending message' : status === 'success' ? 'Message sent successfully' : 'Send contact message'}
             style={{
               width: '100%',
               fontFamily: 'var(--font-body)',
@@ -394,6 +404,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 : 'var(--accent)',
               border: 'none',
               padding: 'var(--grid-2x) var(--grid-4x)',
+              minHeight: '44px',
               cursor: !isFormValid || status === 'loading' || status === 'success' ? 'not-allowed' : 'pointer',
               transition: 'all 0.3s',
               opacity: !isFormValid || status === 'loading' || status === 'success' ? 0.6 : 1

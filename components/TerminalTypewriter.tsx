@@ -24,6 +24,12 @@ const seededRandom = (seed: number, min: number, max: number) => {
 }
 
 export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: (email: string) => void }) {
+  // Loading stage state: controls the intro animation sequence
+  const [loadingStage, setLoadingStage] = useState<'fade-in' | 'center-hold' | 'slide-up' | 'complete'>('fade-in')
+
+  // Ready to type state: true after loading complete + 500ms delay
+  const [readyToType, setReadyToType] = useState(false)
+
   // Detect prefers-reduced-motion on mount
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
@@ -38,6 +44,30 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
+
+  // Loading stage progression: fade-in → center-hold → slide-up → complete
+  useEffect(() => {
+    const timers: NodeJS.Timeout[] = []
+
+    // Stage 1: Fade in (500ms)
+    timers.push(setTimeout(() => setLoadingStage('center-hold'), 500))
+
+    // Stage 2: Hold at center (2500ms)
+    timers.push(setTimeout(() => setLoadingStage('slide-up'), 3000))
+
+    // Stage 3: Slide up (500ms animation)
+    timers.push(setTimeout(() => setLoadingStage('complete'), 3500))
+
+    return () => timers.forEach(clearTimeout)
+  }, [])
+
+  // Separate effect: Wait 500ms after loading completes before starting typing
+  useEffect(() => {
+    if (loadingStage === 'complete') {
+      const timer = setTimeout(() => setReadyToType(true), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loadingStage])
 
   // Convert message to character array for stable layout
   const messageChars = useMemo(() => MAIN_MESSAGE.split(''), [])
@@ -263,8 +293,11 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
     }
   }, [showTagline, taglineDecoded, prefersReducedMotion])
 
-  // Main typing logic with scramble effect
+  // Main typing logic with scramble effect - only start when ready
   useEffect(() => {
+    // Don't start typing until ready (loading complete + 500ms delay)
+    if (!readyToType) return
+
     if (phase === 'typing') {
       if (currentIndex < messageChars.length) {
         // Scramble phase: show 1 random character before revealing
@@ -274,18 +307,18 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
             const randomChar = SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]
             setScrambleChar(randomChar)
             setScrambleCount(prev => prev + 1)
-          }, turboMode ? 2 : 30 + Math.random() * 20) // TURBO: 2ms, Normal: 30-50ms
+          }, turboMode ? 2 : 10 + Math.random() * 8) // TURBO: 2ms, Normal: 10-18ms
 
           return () => clearTimeout(timeout)
         } else {
           // Reveal actual character immediately
           const currentChar = messageChars[currentIndex]
           // Vary typing speed based on character type for natural feel
-          const baseDelay = turboMode ? 2 : 60 + Math.random() * 40 // TURBO: 2ms, Normal: 60-100ms
+          const baseDelay = turboMode ? 2 : 10 + Math.random() * 8 // TURBO: 2ms, Normal: 10-18ms (~400-500 WPM)
           // Slight variations for different character types
-          const charDelay = currentChar === ' ' ? baseDelay * 0.7 : // Faster through spaces
-                           currentChar === '\n' ? baseDelay * 1.5 : // Pause at line breaks
-                           currentChar.match(/[.,!?]/) ? baseDelay * 1.3 : // Slight pause at punctuation
+          const charDelay = currentChar === ' ' ? baseDelay * 0.6 : // Faster through spaces
+                           currentChar === '\n' ? baseDelay * 1.0 : // No pause at line breaks
+                           currentChar.match(/[.,!?]/) ? baseDelay * 1.0 : // No pause at punctuation
                            baseDelay
           const delay = turboMode ? 2 : charDelay
 
@@ -325,7 +358,7 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
       }, 2000)
       return () => clearTimeout(pauseTimeout)
     }
-  }, [phase, currentIndex, scrambleCount, messageChars, turboMode])
+  }, [phase, currentIndex, scrambleCount, messageChars, turboMode, readyToType])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -348,39 +381,83 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
   return (
     <>
       <div
-        className="scanline-overlay vignette px-4"
+        className={`scanline-overlay vignette px-4 ${loadingStage === 'fade-in' || loadingStage === 'center-hold' ? 'loading-center-wrapper' : ''}`}
         style={{
           position: 'relative',
           width: '100%',
           height: '100%'
         }}
       >
-        {/* Left Logo - Absolutely Positioned */}
-        <div className="logo-container logo-left">
+        {/* Loading intro: Wordmark + tagline start centered, then slide to final top position */}
+        <div
+          className={`loading-intro ${loadingStage}`}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 'clamp(8px, 1.5vw, 16px)',
+            marginBottom: 'clamp(var(--grid-6x), 8vw, var(--grid-12x))'
+          }}
+        >
           <img
-            src="/HTM-LOGO-ICON-WHITE.svg"
-            alt=""
-            style={{ opacity: 0.8, width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
+            src="/HTM-LOGOS-WORDMARK.svg"
+            alt="HandToMouse Studio"
+            className="wordmark-glow"
+            style={{
+              width: 'min(336.6px, 50.49vw)',
+              height: 'auto',
+              marginBottom: '0'
+            }}
           />
+          <div
+            aria-label="Company tagline"
+            className={`tagline-${loadingStage}`}
+            style={{
+              fontFamily: 'var(--font-body)',
+              textAlign: 'center',
+              fontSize: 'clamp(10px, 1.2vw, 13px)',
+              letterSpacing: '0.02em',
+              lineHeight: 1.4,
+              maxWidth: 'min(510px, 76.5vw)',
+              color: '#EDECEC'
+            }}
+          >
+            <div style={{ marginBottom: '4px' }}>{TAGLINE_LINE1}</div>
+            <div>{TAGLINE_LINE2}</div>
+          </div>
         </div>
 
-        {/* Right Logo - Absolutely Positioned */}
-        <div className="logo-container logo-right">
-          <img
-            src="/HTM-LOGO-ICON-WHITE.svg"
-            alt=""
-            style={{ opacity: 0.8, width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
-          />
-        </div>
+        {/* Hands - only show after loading complete, slide in from sides */}
+        {loadingStage === 'complete' && (
+          <>
+            <div className="logo-container logo-left slide-in-from-left">
+              <img
+                src="/HTM-LOGO-ICON-WHITE.svg"
+                alt=""
+                style={{ width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
+              />
+            </div>
+
+            <div className="logo-container logo-right slide-in-from-right">
+              <img
+                src="/HTM-LOGO-ICON-WHITE.svg"
+                alt=""
+                style={{ width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
+              />
+            </div>
+          </>
+        )}
 
         {/* Center Content Wrapper */}
         <div
+          className={loadingStage === 'complete' ? 'fade-in-content' : ''}
           style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: '100%',
-            width: '100%'
+            width: '100%',
+            opacity: loadingStage === 'complete' ? 1 : 0
           }}
         >
         {/* Center Content */}
@@ -390,25 +467,10 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 'clamp(var(--grid-3x), 5vw, var(--grid-6x))',
+              gap: '0',
               maxWidth: 'min(600px, 90vw)'
             }}
           >
-            {/* Wordmark Logo */}
-            <img
-              src="/HTM-LOGOS-FULLWORDMARK.svg"
-              alt="HandToMouse Studio - Creative Direction & Cultural Strategy"
-              className="wordmark-logo"
-              style={{
-                width: 'min(180px, 27vw)',
-                height: 'auto',
-                filter: 'blur(0.8px) drop-shadow(0 0 4px rgba(247, 168, 53, 0.4))',
-                marginBottom: 'var(--grid-4x)',
-                userSelect: 'none',
-                WebkitUserSelect: 'none'
-              }}
-            />
-
             <p
               ref={messageRef}
               className="leading-relaxed"
@@ -419,7 +481,8 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
                 fontFamily: 'var(--font-body)',
                 color: '#EDECEC',
                 textAlign: 'center',
-                fontSize: 'clamp(14px, 2vw, 20px)'
+                fontSize: 'clamp(14px, 2vw, 20px)',
+                marginTop: 'clamp(var(--grid-6x), 8vw, var(--grid-12x))'
               }}
             >
             {messageChars.map((char, i) => {
@@ -497,62 +560,6 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
               )
             })}
           </p>
-
-          {/* Tagline - scramble decode effect */}
-          <div
-            className={`tagline-scramble-container ${showTagline ? 'visible' : ''}`}
-            aria-label="Company tagline"
-            style={{
-              fontFamily: 'var(--font-body)',
-              textAlign: 'center',
-              fontSize: 'clamp(10px, 1.2vw, 13px)',
-              letterSpacing: '0.02em',
-              lineHeight: 1.4,
-              maxWidth: 'min(510px, 76.5vw)',
-              opacity: showTagline ? 1 : 0,
-              transition: prefersReducedMotion ? 'none' : 'opacity 0.4s ease-out'
-            }}
-          >
-            {/* Line 1 */}
-            <div style={{ marginBottom: '4px' }}>
-              {prefersReducedMotion ? (
-                TAGLINE_LINE1
-              ) : (
-                taglineScramble.line1.map((char, i) => (
-                  <span
-                    key={`line1-${i}`}
-                    className={`tagline-char ${taglineDecoded.line1[i] ? 'decoded' : 'scrambling'}`}
-                    style={{
-                      display: 'inline-block',
-                      transition: 'all 0.2s ease-out'
-                    }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </span>
-                ))
-              )}
-            </div>
-
-            {/* Line 2 */}
-            <div>
-              {prefersReducedMotion ? (
-                TAGLINE_LINE2
-              ) : (
-                taglineScramble.line2.map((char, i) => (
-                  <span
-                    key={`line2-${i}`}
-                    className={`tagline-char ${taglineDecoded.line2[i] ? 'decoded' : 'scrambling'}`}
-                    style={{
-                      display: 'inline-block',
-                      transition: 'all 0.2s ease-out'
-                    }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </span>
-                ))
-              )}
-            </div>
-          </div>
         </div>
         ) : (
         // Email form

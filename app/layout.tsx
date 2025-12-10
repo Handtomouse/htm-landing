@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover', // Enable safe area insets on notched devices
 }
 
 export default function RootLayout({
@@ -57,7 +58,7 @@ export default function RootLayout({
           fontFamily: 'var(--font-body)',
           background: 'var(--bg)',
           color: 'var(--ink)',
-          minHeight: '100vh',
+          minHeight: '100dvh',
           display: 'flex',
           flexDirection: 'column'
         }}

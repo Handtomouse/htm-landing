@@ -77,7 +77,8 @@ export default function FooterCTAs({ onContactClick }: FooterCTAsProps) {
     <footer
       className="fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{
-        height: 'var(--footer-height)',
+        height: 'calc(var(--footer-height) + env(safe-area-inset-bottom))',
+        paddingBottom: 'env(safe-area-inset-bottom)',
         backgroundColor: 'var(--bg)',
         borderColor: 'var(--grid)',
         backdropFilter: 'blur(8px)'

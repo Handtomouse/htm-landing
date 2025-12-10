@@ -52,6 +52,9 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="email-modal-title"
       onClick={onClose}
       style={{
         position: 'fixed',
@@ -65,7 +68,10 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9999,
-        padding: 'var(--grid-4x)'
+        paddingTop: 'max(var(--grid-3x), env(safe-area-inset-top))',
+        paddingBottom: 'max(var(--grid-3x), env(safe-area-inset-bottom))',
+        paddingLeft: 'max(var(--grid-3x), env(safe-area-inset-left))',
+        paddingRight: 'max(var(--grid-3x), env(safe-area-inset-right))'
       }}
     >
       <div
@@ -74,9 +80,11 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: 'var(--grid-6x)',
-          maxWidth: '500px',
+          padding: 'clamp(var(--grid-2x), 4vw, var(--grid-6x))',
+          maxWidth: 'min(500px, 100% - 2rem)',
           width: '100%',
+          maxHeight: '90dvh',
+          overflowY: 'auto',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
           position: 'relative'
         }}
@@ -86,24 +94,27 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: 'var(--grid-2x)',
-            right: 'var(--grid-2x)',
+            top: 'max(var(--grid-2x), env(safe-area-inset-top))',
+            right: 'max(var(--grid-2x), env(safe-area-inset-right))',
             background: 'transparent',
             border: 'none',
             color: 'var(--muted)',
             fontSize: '24px',
             cursor: 'pointer',
-            padding: 'var(--grid-unit)',
+            padding: '10px',
+            minWidth: '44px',
+            minHeight: '44px',
             lineHeight: 1,
             transition: 'color 0.2s'
           }}
-          aria-label="Close modal"
+          aria-label="Close email signup modal"
         >
           ×
         </button>
 
         {/* Title */}
         <h2
+          id="email-modal-title"
           style={{
             fontFamily: 'var(--font-heading)',
             fontSize: 'clamp(20px, 4vw, 28px)',
@@ -163,6 +174,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
           <button
             type="submit"
             disabled={status === 'loading' || status === 'success'}
+            aria-label={status === 'loading' ? 'Sending email' : status === 'success' ? 'Successfully subscribed' : 'Subscribe to notifications'}
             style={{
               width: '100%',
               fontFamily: 'var(--font-body)',
@@ -173,6 +185,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
               background: status === 'success' ? 'rgba(76, 175, 80, 0.1)' : 'var(--accent)',
               border: 'none',
               padding: 'var(--grid-2x) var(--grid-4x)',
+              minHeight: '44px',
               cursor: status === 'loading' || status === 'success' ? 'not-allowed' : 'pointer',
               transition: 'all 0.3s',
               opacity: status === 'loading' || status === 'success' ? 0.6 : 1
