@@ -1,0 +1,9 @@
+# Allow Google to crawl only the homepage
+User-agent: *
+Allow: /$
+Disallow: /about
+Disallow: /services
+Disallow: /wormhole
+
+# Sitemap location
+Sitemap: https://handtomouse.org/sitemap.xml

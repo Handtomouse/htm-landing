@@ -5,6 +5,7 @@ import TerminalTypewriter from '@/components/TerminalTypewriter'
 import BattleSystem from '@/components/BattleSystem'
 import FooterCTAs from '@/components/FooterCTAs'
 import ContactModal from '@/components/ContactModal'
+import Script from 'next/script'
 
 export default function Home() {
   // #5: Lazy load decorative effects after initial paint
@@ -31,6 +32,68 @@ export default function Home() {
 
   return (
     <>
+      {/* SEO Structured Data - Tells Google who you are */}
+      <Script
+        id="schema-org"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            "name": "Hand To Mouse",
+            "description": "Independent creative direction and cultural strategy from Sydney. Web design and development for startups, agencies, and cultural organizations.",
+            "url": "https://handtomouse.org",
+            "founder": {
+              "@type": "Person",
+              "name": "Tom",
+              "jobTitle": "Creative Director & Web Developer"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Sydney",
+              "addressRegion": "NSW",
+              "addressCountry": "AU"
+            },
+            "areaServed": {
+              "@type": "City",
+              "name": "Sydney"
+            },
+            "priceRange": "$$",
+            "knowsAbout": ["Web Design", "Web Development", "Next.js", "React", "Creative Direction", "Cultural Strategy"],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Web Design & Development Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Web Design",
+                    "description": "Modern, responsive web design for startups and creative organizations"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Next.js Development",
+                    "description": "Fast, SEO-friendly websites built with Next.js and React"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Creative Direction",
+                    "description": "Cultural strategy and creative direction for digital experiences"
+                  }
+                }
+              ]
+            }
+          })
+        }}
+      />
+
       <main
         className="screen-curve"
         style={{

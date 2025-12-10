@@ -2,17 +2,18 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react'
 
-const MAIN_MESSAGE = `We are currently
-undergoing a
-scheduled total
-systems upgrade
+const MAIN_MESSAGE = `Creative direction
+meets clean code
 
-Thanking you for
-your patience &
-patronage during
-this time...`
-const TAGLINE_LINE1 = `Independent creative direction`
-const TAGLINE_LINE2 = `and cultural strategy from Sydney`
+Web design &
+development for
+startups, agencies
+& cultural orgs
+
+Based in Sydney
+Building globally`
+const TAGLINE_LINE1 = `Modern web experiences`
+const TAGLINE_LINE2 = `designed and built by hand`
 const EMAIL_PROMPT = "> Enter your email: "
 const BUTTON_PROMPT = "> "
 const SCRAMBLE_CHARS = 'abcdefghijklmnopqrstuvwxyz_-./\\[]{}!<>=+*?#'
@@ -401,7 +402,7 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
         >
           <img
             src="/HTM-LOGOS-WORDMARK.svg"
-            alt="HandToMouse Studio"
+            alt="Hand To Mouse - Sydney Creative Director and Web Developer"
             className="wordmark-glow"
             style={{
               width: 'min(336.6px, 50.49vw)',
@@ -433,7 +434,7 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
             <div className="logo-container logo-left slide-in-from-left">
               <img
                 src="/HTM-LOGO-ICON-WHITE.svg"
-                alt=""
+                alt="Hand To Mouse hand icon - left"
                 style={{ width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
               />
             </div>
@@ -441,7 +442,7 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
             <div className="logo-container logo-right slide-in-from-right">
               <img
                 src="/HTM-LOGO-ICON-WHITE.svg"
-                alt=""
+                alt="Hand To Mouse hand icon - right"
                 style={{ width: 'clamp(50px, 10vw, 144px)', height: 'auto' }}
               />
             </div>

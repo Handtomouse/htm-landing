@@ -66,7 +66,7 @@ export default function WormholeContent() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [konamiActive, setKonamiActive] = useState(false);
-  const [starDensity, setStarDensity] = useState(75);
+  const [starDensity, setStarDensity] = useState(isMobile ? 50 : 75);
   const [showWhiteFlash, setShowWhiteFlash] = useState(false);
   const [isHyperhyperspace, setIsHyperhyperspace] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<'interactive' | 'games' | 'weirdFun' | 'music' | 'educational' | 'retro' | 'all'>('all');
@@ -439,8 +439,8 @@ export default function WormholeContent() {
 
         newParticles.push({
           id: baseId + i,
-          x: 240,
-          y: 400,
+          x: viewportWidth / 2,
+          y: viewportHeight / 2,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
           life: 1.0,
@@ -664,8 +664,8 @@ export default function WormholeContent() {
     return isWarping ? stars.filter((_, i) => i % 2 === 0) : stars;
   }, [stars, isWarping]);
 
-  // Mobile detection for responsive styling
-  const isMobile = viewportWidth < 640;
+  // Mobile detection for responsive styling (safe for SSR)
+  const isMobile = typeof window !== 'undefined' && viewportWidth < 640;
 
   return (
     <div
@@ -674,6 +674,7 @@ export default function WormholeContent() {
         background: "#0b0b0b",
         height: '100vh',
         height: '100dvh', // Dynamic viewport height for mobile browsers
+        touchAction: 'manipulation', // Prevent iOS zoom on double-tap
         transition: 'opacity 0.2s ease',
         animation: isHyperhyperspace ? 'screen-shake-intense 0.08s infinite' :
                    (hecticSpeed ? 'screen-shake-strong 0.1s infinite' :
@@ -1153,13 +1154,25 @@ export default function WormholeContent() {
                 </div>
               </div>
 
-              <label className={`flex items-center justify-center gap-2 cursor-pointer ${isMobile ? 'py-4' : 'py-3'}`}>
+              <label
+                className={`flex items-center justify-center gap-3 cursor-pointer ${isMobile ? 'py-4' : 'py-3'}`}
+                style={{
+                  minHeight: '44px',
+                  padding: isMobile ? '0.75rem' : '0.5rem'
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={acceptedRisk}
                   onChange={(e) => setAcceptedRisk(e.target.checked)}
                   className="cursor-pointer"
-                  style={{ accentColor: "var(--accent)", width: "18px", height: "18px" }}
+                  style={{
+                    accentColor: "var(--accent)",
+                    width: "24px",
+                    height: "24px",
+                    minWidth: "24px",
+                    minHeight: "24px"
+                  }}
                 />
                 <span style={{
                   fontFamily: "monospace",
@@ -1242,7 +1255,11 @@ export default function WormholeContent() {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '100vh',
-            minHeight: '100dvh' // Dynamic viewport height for mobile (with notches)
+            minHeight: '100dvh', // Dynamic viewport height for mobile (with notches)
+            paddingTop: 'max(1.5rem, env(safe-area-inset-top))',
+            paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))',
+            paddingLeft: 'max(1rem, env(safe-area-inset-left))',
+            paddingRight: 'max(1rem, env(safe-area-inset-right))'
           }}
         >
           {/* Category Selector */}
@@ -1262,15 +1279,16 @@ export default function WormholeContent() {
                   className="transition-all hover:scale-110 active:scale-95"
                   style={{
                     fontFamily: "monospace",
-                    fontSize: isMobile ? "0.65rem" : "clamp(0.7rem, 1.8vw, 0.75rem)",
+                    fontSize: isMobile ? "0.75rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
                     letterSpacing: "0.05em",
                     textTransform: "capitalize",
                     background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                     color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.8)",
                     border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
                     borderRadius: isMobile ? "6px" : "8px",
-                    padding: isMobile ? "0.5rem 0.625rem" : "0.625rem 0.75rem",
-                    minHeight: isMobile ? "40px" : "44px",
+                    padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem",
+                    minHeight: "44px",
+                    minWidth: isMobile ? "60px" : "auto",
                     boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                     filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none"
                   }}
@@ -1301,7 +1319,7 @@ export default function WormholeContent() {
               className="hover:scale-110 active:scale-95 transition-all group"
               style={{
                 fontFamily: "monospace",
-                fontSize: isMobile ? "0.9rem" : "clamp(1rem, 2.5vw, 1.125rem)",
+                fontSize: isMobile ? "1rem" : "clamp(1rem, 2.5vw, 1.125rem)",
                 letterSpacing: "0.1em",
                 fontWeight: "700",
                 background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%)",
@@ -1336,7 +1354,7 @@ export default function WormholeContent() {
             className="transition-all"
             style={{
               fontFamily: "monospace",
-              fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
+              fontSize: "clamp(0.75rem, 1.8vw, 0.8rem)",
               color: "rgba(255, 255, 255, 0.6)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
               borderRadius: "6px",

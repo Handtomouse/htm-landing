@@ -22,10 +22,23 @@ const robotoMono = Roboto_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'HandToMouse - Coming Soon',
-  description: 'Independent creative direction and cultural strategy from Sydney. Something special is loading...',
+  title: 'Independent creative direction and cultural strategy from Sydney | Hand To Mouse',
+  description: 'Sydney-based creative director and web developer specializing in modern web design and cultural projects for startups, agencies, and cultural organizations.',
   icons: {
     icon: '/favicon.ico',
+  },
+  openGraph: {
+    title: 'Hand To Mouse | Creative Direction + Code',
+    description: 'Independent creative direction and cultural strategy from Sydney. Modern web design and development for startups, agencies, and cultural organizations.',
+    url: 'https://handtomouse.org',
+    siteName: 'Hand To Mouse',
+    locale: 'en_AU',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hand To Mouse | Creative Direction + Code',
+    description: 'Independent creative direction and cultural strategy from Sydney',
   },
 }
 
