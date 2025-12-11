@@ -1255,9 +1255,7 @@ export default function WormholeContent() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '100%',
-              maxWidth: isMobile ? '100%' : '600px',
-              padding: isMobile ? '0 1rem' : '0'
+              maxWidth: isMobile ? '90%' : '600px'
             }}
             aria-label={countdown === 3 ? `Warp initiating in ${countdown} seconds to ${currentHint}` : countdown === 0 ? `Warping to ${currentHint} now` : undefined}
           >
