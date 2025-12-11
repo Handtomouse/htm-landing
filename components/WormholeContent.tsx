@@ -1241,8 +1241,8 @@ export default function WormholeContent() {
             backgroundColor: "rgba(0, 0, 0, 0.7)",
             paddingTop: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-top))' : (isMobile ? 'calc(1rem + env(safe-area-inset-top))' : '1.5rem'),
             paddingBottom: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-bottom))' : (isMobile ? 'calc(1rem + env(safe-area-inset-bottom))' : '1.5rem'),
-            paddingLeft: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-left))' : (isMobile ? 'calc(1rem + env(safe-area-inset-left))' : '1.5rem'),
-            paddingRight: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-right))' : (isMobile ? 'calc(1rem + env(safe-area-inset-right))' : '1.5rem'),
+            paddingLeft: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-left))' : (isMobile ? '1rem' : '1.5rem'),
+            paddingRight: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-right))' : (isMobile ? '1rem' : '1.5rem'),
             maxHeight: isMobileLandscape ? '90vh' : 'none',
             overflowY: isMobileLandscape ? 'auto' : 'visible'
           }}
