@@ -120,10 +120,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: 'clamp(var(--grid-2x), 4vw, var(--grid-6x))',
-          maxWidth: 'min(600px, 100% - 2rem)',
+          padding: 'clamp(var(--grid-3x), 5vw, var(--grid-6x))',
+          maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
-          maxHeight: '90dvh',
+          maxHeight: 'clamp(500px, 85dvh, 90dvh)',
           overflowY: 'auto',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
           position: 'relative'
@@ -139,11 +139,11 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             background: 'transparent',
             border: 'none',
             color: 'var(--muted)',
-            fontSize: '24px',
+            fontSize: '32px',
             cursor: 'pointer',
-            padding: '10px',
-            minWidth: '44px',
-            minHeight: '44px',
+            padding: '12px',
+            minWidth: '48px',
+            minHeight: '48px',
             lineHeight: 1,
             transition: 'color 0.2s'
           }}
@@ -157,7 +157,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           id="contact-modal-title"
           style={{
             fontFamily: 'var(--font-heading)',
-            fontSize: 'clamp(20px, 4vw, 28px)',
+            fontSize: 'clamp(24px, 5vw, 32px)',
             color: 'var(--accent)',
             marginBottom: 'var(--grid-2x)',
             textAlign: 'center'
@@ -170,7 +170,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         <p
           style={{
             fontFamily: 'var(--font-body)',
-            fontSize: 'clamp(12px, 2vw, 14px)',
+            fontSize: 'clamp(14px, 3vw, 16px)',
             color: 'var(--muted)',
             marginBottom: 'var(--grid-4x)',
             textAlign: 'center',
@@ -189,7 +189,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: '12px',
+                fontSize: 'clamp(13px, 2.5vw, 14px)',
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -211,11 +211,11 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 width: '100%',
                 fontFamily: 'var(--font-body)',
-                fontSize: '14px',
+                fontSize: '16px',
                 background: 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: '1px solid var(--grid)',
-                padding: 'var(--grid-2x)',
+                padding: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))',
                 transition: 'all 0.3s',
                 outline: 'none'
               }}
@@ -237,7 +237,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: '12px',
+                fontSize: 'clamp(13px, 2.5vw, 14px)',
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -257,11 +257,11 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 width: '100%',
                 fontFamily: 'var(--font-body)',
-                fontSize: '14px',
+                fontSize: '16px',
                 background: 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: '1px solid var(--grid)',
-                padding: 'var(--grid-2x)',
+                padding: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))',
                 transition: 'all 0.3s',
                 outline: 'none'
               }}
@@ -283,7 +283,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: '12px',
+                fontSize: 'clamp(13px, 2.5vw, 14px)',
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -305,11 +305,11 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 width: '100%',
                 fontFamily: 'var(--font-body)',
-                fontSize: '14px',
+                fontSize: '16px',
                 background: 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: '1px solid var(--grid)',
-                padding: 'var(--grid-2x)',
+                padding: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))',
                 transition: 'all 0.3s',
                 outline: 'none'
               }}
@@ -331,7 +331,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: '12px',
+                fontSize: 'clamp(13px, 2.5vw, 14px)',
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -348,20 +348,20 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               required
               minLength={10}
               maxLength={1000}
-              rows={6}
+              rows={5}
               disabled={status === 'loading' || status === 'success'}
               style={{
                 width: '100%',
                 fontFamily: 'var(--font-body)',
-                fontSize: '14px',
+                fontSize: '16px',
                 background: 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: '1px solid var(--grid)',
-                padding: 'var(--grid-2x)',
+                padding: 'clamp(var(--grid-2x), 3vw, var(--grid-3x))',
                 transition: 'all 0.3s',
                 outline: 'none',
                 resize: 'vertical',
-                minHeight: 'clamp(80px, 15vh, 120px)'
+                minHeight: 'clamp(120px, 20vh, 180px)'
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'var(--accent)'
@@ -393,7 +393,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             style={{
               width: '100%',
               fontFamily: 'var(--font-body)',
-              fontSize: 'clamp(10px, 1.8vw, 12px)',
+              fontSize: 'clamp(14px, 3vw, 16px)',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
               color: status === 'success' ? '#4CAF50' : 'var(--ink)',
@@ -403,8 +403,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 ? 'rgba(255, 157, 35, 0.3)'
                 : 'var(--accent)',
               border: 'none',
-              padding: 'var(--grid-2x) var(--grid-4x)',
-              minHeight: '44px',
+              padding: 'var(--grid-3x) var(--grid-4x)',
+              minHeight: '48px',
               cursor: !isFormValid || status === 'loading' || status === 'success' ? 'not-allowed' : 'pointer',
               transition: 'all 0.3s',
               opacity: !isFormValid || status === 'loading' || status === 'success' ? 0.6 : 1
@@ -428,7 +428,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             <p
               style={{
                 fontFamily: 'var(--font-body)',
-                fontSize: '12px',
+                fontSize: 'clamp(14px, 2.5vw, 16px)',
                 color: status === 'success' ? '#4CAF50' : '#ff6b6b',
                 marginTop: 'var(--grid-2x)',
                 textAlign: 'center'
