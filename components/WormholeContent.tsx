@@ -1267,7 +1267,7 @@ export default function WormholeContent() {
                   justifyContent: 'center',
                   fontSize: isMobileLandscape ? "clamp(1.25rem, 4vh, 1.75rem)" : (isMobile ? "clamp(2.5rem, 10vw, 3.5rem)" : "clamp(3rem, 5vw, 4rem)"),
                   lineHeight: 1,
-                  filter: isMobile ? "drop-shadow(0 0 12px rgba(255, 157, 35, 0.4))" : "drop-shadow(0 0 20px rgba(255, 157, 35, 0.5)"),
+                  filter: isMobile ? "drop-shadow(0 0 12px rgba(255, 157, 35, 0.4))" : "drop-shadow(0 0 20px rgba(255, 157, 35, 0.5))",
                   animation: isMobile
                     ? "flip-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
                     : "flip-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
