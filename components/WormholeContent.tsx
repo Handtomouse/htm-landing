@@ -1254,14 +1254,17 @@ export default function WormholeContent() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
               width: '100%',
-              maxWidth: isMobile ? '92%' : '600px'
+              maxWidth: isMobile ? '100%' : '600px',
+              padding: isMobile ? '0 1rem' : '0'
             }}
             aria-label={countdown === 3 ? `Warp initiating in ${countdown} seconds to ${currentHint}` : countdown === 0 ? `Warping to ${currentHint} now` : undefined}
           >
             {countdown > 0 && currentDestination && (
               <div
                 style={{
+                  width: '100%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1294,6 +1297,7 @@ export default function WormholeContent() {
             <div
               key={countdown}
               style={{
+                width: '100%',
                 fontFamily: "monospace",
                 fontSize: isMobileLandscape ? "clamp(2.5rem, 8vh, 3.5rem)" : (isMobile ? "clamp(4rem, 13vw, 5.5rem)" : "8rem"),
                 fontWeight: 700,
@@ -1312,6 +1316,7 @@ export default function WormholeContent() {
               {countdown}
             </div>
             <p style={{
+              width: '100%',
               fontFamily: "monospace",
               letterSpacing: isMobile ? "0.03em" : "0.05em",
               fontSize: isMobileLandscape ? "clamp(1rem, 2.8vw, 1.125rem)" : (isMobile ? "clamp(1.125rem, 4vw, 1.25rem)" : "1.25rem"),
@@ -1326,6 +1331,7 @@ export default function WormholeContent() {
               <div
                 className="flex items-center justify-center"
                 style={{
+                  width: '100%',
                   gap: '0.75rem',
                   marginBottom: isMobileLandscape ? '0.4rem' : '1rem'
                 }}
@@ -1352,6 +1358,7 @@ export default function WormholeContent() {
               <div
                 className="flex items-center justify-center"
                 style={{
+                  width: '100%',
                   gap: '1rem',
                   marginBottom: '1.5rem'
                 }}
