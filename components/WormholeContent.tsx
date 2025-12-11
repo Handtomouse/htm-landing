@@ -1239,28 +1239,31 @@ export default function WormholeContent() {
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-50"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.7)",
-            padding: '1rem'
+            paddingTop: isMobile ? 'max(1rem, env(safe-area-inset-top))' : '1.5rem',
+            paddingBottom: isMobile ? 'max(1rem, env(safe-area-inset-bottom))' : '1.5rem',
+            paddingLeft: isMobile ? 'max(1rem, env(safe-area-inset-left))' : '1.5rem',
+            paddingRight: isMobile ? 'max(1rem, env(safe-area-inset-right))' : '1.5rem'
           }}
           role="status"
         >
           <div
-            className={isMobileLandscape ? 'px-6' : (isMobile ? 'px-4' : 'px-8')}
+            className={isMobile ? 'px-4' : 'px-6'}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              width: '100%'
+              width: '100%',
+              gap: isMobileLandscape ? '0.75rem' : (isMobile ? '1rem' : '1.5rem')
             }}
           >
             {countdown > 0 && currentDestination && (
               <div
                 style={{
-                  fontSize: isMobile ? "clamp(1.75rem, 7vw, 2.5rem)" : "4rem",
+                  fontSize: isMobile ? "clamp(1.75rem, 7vw, 2.5rem)" : "clamp(3rem, 5vw, 4rem)",
                   filter: isMobile ? "drop-shadow(0 0 20px rgba(255, 157, 35, 0.4))" : "drop-shadow(0 0 30px rgba(255, 157, 35, 0.6))",
                   animation: isMobile
                     ? "flip-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
                     : "flip-reveal 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-                  marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.625rem" : "2rem"),
                   textAlign: 'center'
                 }}
                 aria-hidden="true"
@@ -1294,9 +1297,9 @@ export default function WormholeContent() {
                   ? 'countdown-zero 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
                   : 'countdown-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
                 transformOrigin: 'center',
-                marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.75rem" : "2rem"),
                 willChange: 'transform',
-                textAlign: 'center'
+                textAlign: 'center',
+                margin: 0
               }}
             >
               {countdown}
@@ -1306,49 +1309,38 @@ export default function WormholeContent() {
               letterSpacing: isMobile ? "0.06em" : "0.05em",
               fontSize: isMobile ? "clamp(0.9375rem, 2.5vw, 1rem)" : "1.25rem",
               color: "rgba(255, 255, 255, 0.85)",
-              marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.625rem" : "2rem"),
               textAlign: 'center',
-              margin: 0,
-              marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.625rem" : "2rem")
+              margin: 0
             }}>
               {currentMessage}
             </p>
             {isMobile ? (
-              <div
-                className="flex items-center justify-center gap-2"
-                style={{
-                  marginBottom: isMobileLandscape ? "1rem" : "2rem"
-                }}
-              >
-                <div style={{ height: "1px", width: "2rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
+              <div className="flex items-center justify-center gap-3">
+                <div style={{ height: "1px", width: "clamp(1.5rem, 5vw, 2.5rem)", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
                 <p style={{
                   fontFamily: "monospace",
                   fontSize: "clamp(0.875rem, 2.2vw, 0.9375rem)",
                   letterSpacing: "0.06em",
                   fontWeight: "500",
                   color: "var(--accent)",
-                  maxWidth: "75vw",
+                  maxWidth: "65vw",
                   textAlign: "center",
                   margin: 0
                 }}>
                   {currentHint}
                 </p>
-                <div style={{ height: "1px", width: "2rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
+                <div style={{ height: "1px", width: "clamp(1.5rem, 5vw, 2.5rem)", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
               </div>
             ) : (
-              <div
-                className="flex items-center justify-center gap-4"
-                style={{
-                  marginBottom: "2rem"
-                }}
-              >
-                <div style={{ height: "1px", width: "4rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
+              <div className="flex items-center justify-center gap-4">
+                <div style={{ height: "1px", width: "clamp(3rem, 6vw, 5rem)", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
                 <p style={{
                   fontFamily: "monospace",
+                  fontSize: "clamp(0.9375rem, 1.5vw, 1.125rem)",
                   letterSpacing: "0.06em",
                   fontWeight: "600",
                   color: "var(--accent)",
-                  maxWidth: "40vw",
+                  maxWidth: "50vw",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
@@ -1357,14 +1349,14 @@ export default function WormholeContent() {
                 }}>
                   {currentHint}
                 </p>
-                <div style={{ height: "1px", width: "4rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
+                <div style={{ height: "1px", width: "clamp(3rem, 6vw, 5rem)", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
               </div>
             )}
             {canAbort && (
               <p
                 className="font-mono animate-pulse"
                 style={{
-                  fontSize: "0.8125rem",
+                  fontSize: isMobile ? "clamp(0.75rem, 2vw, 0.8125rem)" : "0.875rem",
                   color: "rgba(255, 255, 255, 0.5)",
                   letterSpacing: "0.06em",
                   textAlign: "center",
