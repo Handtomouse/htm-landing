@@ -907,6 +907,10 @@ export default function WormholeContent() {
   // Mobile detection state for responsive styling (prevents hydration errors)
   const [isMobile, setIsMobile] = useState(false);
 
+  // Landscape detection for countdown animation optimization
+  const isLandscape = viewportWidth > viewportHeight;
+  const isMobileLandscape = isMobile && isLandscape;
+
   useEffect(() => {
     // Set isMobile after mount to prevent hydration mismatch
     setIsMobile(viewportWidth < WORMHOLE_CONFIG.MOBILE_BREAKPOINT);
@@ -1233,17 +1237,31 @@ export default function WormholeContent() {
       {isWarping && (
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-50"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            padding: '1rem'
+          }}
           role="status"
         >
-          <div className={`text-center ${isMobile ? 'px-4' : 'px-8'}`}>
+          <div
+            className={isMobileLandscape ? 'px-6' : (isMobile ? 'px-4' : 'px-8')}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%'
+            }}
+          >
             {countdown > 0 && currentDestination && (
               <div
                 style={{
-                  fontSize: isMobile ? "2.5rem" : "4rem",
-                  filter: "drop-shadow(0 0 30px rgba(255, 157, 35, 0.6))",
-                  animation: "flip-reveal 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
-                  marginBottom: isMobile ? "1rem" : "2rem"
+                  fontSize: isMobile ? "clamp(1.75rem, 7vw, 2.5rem)" : "4rem",
+                  filter: isMobile ? "drop-shadow(0 0 20px rgba(255, 157, 35, 0.4))" : "drop-shadow(0 0 30px rgba(255, 157, 35, 0.6))",
+                  animation: isMobile
+                    ? "flip-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
+                    : "flip-reveal 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+                  marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.625rem" : "2rem"),
+                  textAlign: 'center'
                 }}
                 aria-hidden="true"
               >
@@ -1257,9 +1275,11 @@ export default function WormholeContent() {
               </div>
             )}
 
-            {/* Screen reader announcement - only at start and warp */}
+            {/* Screen reader announcement - all countdown steps */}
             <span className="sr-only" aria-live="polite" aria-atomic="true">
               {countdown === 3 && `Warp initiating in ${countdown} seconds to ${currentHint}`}
+              {countdown === 2 && `${countdown} seconds`}
+              {countdown === 1 && `${countdown} second`}
               {countdown === 0 && `Warping to ${currentHint} now`}
             </span>
 
@@ -1267,41 +1287,61 @@ export default function WormholeContent() {
               key={countdown}
               style={{
                 fontFamily: "system-ui",
-                fontSize: isMobile ? "5rem" : "8rem",
+                fontSize: isMobile ? "clamp(3.5rem, 12vw, 5rem)" : "8rem",
                 color: "var(--accent)",
-                filter: "drop-shadow(0 0 30px rgba(255, 157, 35, 0.6))",
-                animation: countdown === 0 ? 'countdown-zero 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)' : 'countdown-bounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                filter: isMobile ? "drop-shadow(0 0 20px rgba(255, 157, 35, 0.5))" : "drop-shadow(0 0 30px rgba(255, 157, 35, 0.6))",
+                animation: countdown === 0
+                  ? 'countdown-zero 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+                  : 'countdown-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
                 transformOrigin: 'center',
-                marginBottom: isMobile ? "1rem" : "2rem",
-                willChange: 'transform'
+                marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.75rem" : "2rem"),
+                willChange: 'transform',
+                textAlign: 'center'
               }}
             >
               {countdown}
             </div>
             <p style={{
               fontFamily: "monospace",
-              letterSpacing: "0.05em",
-              fontSize: isMobile ? "0.875rem" : "1.25rem",
-              color: "rgba(255, 255, 255, 0.9)",
-              marginBottom: isMobile ? "1rem" : "2rem"
+              letterSpacing: isMobile ? "0.06em" : "0.05em",
+              fontSize: isMobile ? "clamp(0.9375rem, 2.5vw, 1rem)" : "1.25rem",
+              color: "rgba(255, 255, 255, 0.85)",
+              marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.625rem" : "2rem"),
+              textAlign: 'center',
+              margin: 0,
+              marginBottom: isMobileLandscape ? "0.5rem" : (isMobile ? "0.625rem" : "2rem")
             }}>
               {currentMessage}
             </p>
             {isMobile ? (
-              <p style={{
-                fontFamily: "monospace",
-                fontSize: "0.75rem",
-                letterSpacing: "0.06em",
-                fontWeight: "600",
-                color: "var(--accent)",
-                maxWidth: "80vw",
-                marginBottom: "2rem",
-                textAlign: "center"
-              }}>
-                {currentHint}
-              </p>
+              <div
+                className="flex items-center justify-center gap-2"
+                style={{
+                  marginBottom: isMobileLandscape ? "1rem" : "2rem"
+                }}
+              >
+                <div style={{ height: "1px", width: "2rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
+                <p style={{
+                  fontFamily: "monospace",
+                  fontSize: "clamp(0.875rem, 2.2vw, 0.9375rem)",
+                  letterSpacing: "0.06em",
+                  fontWeight: "500",
+                  color: "var(--accent)",
+                  maxWidth: "75vw",
+                  textAlign: "center",
+                  margin: 0
+                }}>
+                  {currentHint}
+                </p>
+                <div style={{ height: "1px", width: "2rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
+              </div>
             ) : (
-              <div className="flex items-center justify-center gap-4 mb-8">
+              <div
+                className="flex items-center justify-center gap-4"
+                style={{
+                  marginBottom: "2rem"
+                }}
+              >
                 <div style={{ height: "1px", width: "4rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
                 <p style={{
                   fontFamily: "monospace",
@@ -1311,7 +1351,9 @@ export default function WormholeContent() {
                   maxWidth: "40vw",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  whiteSpace: "nowrap"
+                  whiteSpace: "nowrap",
+                  textAlign: "center",
+                  margin: 0
                 }}>
                   {currentHint}
                 </p>
@@ -1319,7 +1361,17 @@ export default function WormholeContent() {
               </div>
             )}
             {canAbort && (
-              <p className="font-mono text-xs text-white/30 animate-pulse" style={{ letterSpacing: "0.08em" }}>
+              <p
+                className="font-mono animate-pulse"
+                style={{
+                  fontSize: "0.8125rem",
+                  color: "rgba(255, 255, 255, 0.5)",
+                  letterSpacing: "0.06em",
+                  textAlign: "center",
+                  margin: 0
+                }}
+                aria-label="Press escape key on keyboard to abort warp"
+              >
                 ESC to abort
               </p>
             )}
