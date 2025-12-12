@@ -32,6 +32,68 @@ export default function Home() {
 
   return (
     <>
+      {/* SEO Structured Data - WebSite with Sitelinks Searchbox */}
+      <Script
+        id="website-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Hand To Mouse",
+            "alternateName": "HandToMouse",
+            "url": "https://handtomouse.org",
+            "description": "Independent creative direction and cultural strategy from Sydney",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://handtomouse.org/search?q={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          })
+        }}
+      />
+
+      {/* SEO Structured Data - Person (Founder) */}
+      <Script
+        id="person-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Tom Hand",
+            "jobTitle": "Creative Director & Cultural Strategist",
+            "description": "Independent creative director and cultural strategist based in Sydney, working with startups, agencies, and cultural organizations to create meaningful digital experiences.",
+            "url": "https://handtomouse.org",
+            "sameAs": [
+              "https://www.linkedin.com/in/tomhand",
+              "https://github.com/handtomouse"
+            ],
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Hand To Mouse"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Sydney",
+              "addressRegion": "NSW",
+              "addressCountry": "AU"
+            },
+            "knowsAbout": [
+              "Creative Direction",
+              "Cultural Strategy",
+              "Brand Strategy",
+              "Digital Strategy",
+              "Experience Design",
+              "Content Strategy"
+            ]
+          })
+        }}
+      />
+
       {/* SEO Structured Data - LocalBusiness + ProfessionalService */}
       <Script
         id="schema-org"
