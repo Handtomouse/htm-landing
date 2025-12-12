@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Services | Web Design & Next.js Development Sydney | Hand To Mouse',
-  description: 'Full-service web design and development in Sydney. Specializing in Next.js, React, modern web design, and creative direction for startups and cultural organizations.',
-  keywords: ['web design services sydney', 'nextjs development', 'react development sydney', 'creative direction services', 'website design sydney', 'full stack developer'],
+  title: 'Services | Creative Direction & Cultural Strategy Sydney | Hand To Mouse',
+  description: 'Independent creative direction, cultural strategy, and digital experience design for startups, agencies, and cultural organizations across Sydney and beyond.',
+  keywords: ['creative direction sydney', 'cultural strategy', 'brand strategy sydney', 'digital strategy', 'creative services sydney', 'experience design'],
   alternates: {
     canonical: 'https://handtomouse.org/services',
   },
   openGraph: {
-    title: 'Services | Web Design & Next.js Development Sydney',
-    description: 'Full-service web design and development. Next.js, React, creative direction.',
+    title: 'Services | Creative Direction & Cultural Strategy',
+    description: 'Strategic creative direction and cultural strategy from Sydney.',
     url: 'https://handtomouse.org/services',
     type: 'website',
   },
@@ -22,24 +22,24 @@ export const metadata: Metadata = {
 export default function Services() {
   const services = [
     {
-      title: 'Web Design',
-      description: 'Modern, responsive design that tells your story. I create interfaces that are beautiful, intuitive, and aligned with your brand. Every design decision is made with your users and business goals in mind.',
-      keywords: ['UI/UX Design', 'Responsive Design', 'Brand Identity', 'User Experience']
-    },
-    {
-      title: 'Next.js Development',
-      description: 'Fast, SEO-friendly websites built with Next.js and React. These modern frameworks deliver exceptional performance, smooth interactions, and excellent search engine visibility. Perfect for businesses that need speed and reliability.',
-      keywords: ['React Development', 'Next.js', 'TypeScript', 'Performance Optimization']
-    },
-    {
       title: 'Creative Direction',
-      description: 'Strategic vision that connects your brand with your audience. I help cultural organizations, creative agencies, and mission-driven brands articulate their story through thoughtful digital experiences.',
-      keywords: ['Cultural Strategy', 'Brand Strategy', 'Digital Experience', 'Storytelling']
+      description: 'Strategic creative vision that guides how your brand, project, or organization shows up in the world. I help articulate your story, define your visual and narrative language, and ensure every touchpoint reinforces your mission. From concept to execution, I provide the creative leadership that brings your vision to life.',
+      keywords: ['Strategic Vision', 'Visual Language', 'Narrative Development', 'Creative Leadership']
     },
     {
-      title: 'Full Website Build',
-      description: 'From concept to launch, I handle the entire process. Design, development, content strategy, and deployment—all delivered by one person who understands how the pieces fit together. Faster turnaround, better results.',
-      keywords: ['End-to-End Development', 'Full-Stack', 'Launch Support', 'Maintenance']
+      title: 'Cultural Strategy',
+      description: 'Strategy rooted in cultural intelligence. I help cultural organizations position their work within the broader cultural landscape, and help brands tap into cultural movements and values that align with their mission. It\'s about creating meaningful connections through cultural context.',
+      keywords: ['Cultural Intelligence', 'Positioning', 'Audience Development', 'Cultural Context']
+    },
+    {
+      title: 'Digital Experience Design',
+      description: 'End-to-end design and development of digital experiences that engage, inform, and inspire. From interactive exhibitions to brand websites, I create experiences that are both beautiful and meaningful. Strategy, design, and technical execution—all delivered cohesively.',
+      keywords: ['Experience Design', 'Interactive Design', 'User Experience', 'Technical Direction']
+    },
+    {
+      title: 'Brand & Content Strategy',
+      description: 'Strategic positioning and content frameworks that tell your story authentically. I help startups define their brand voice, cultural organizations develop content strategies, and agencies craft narratives for their clients. From positioning to execution, strategy that resonates.',
+      keywords: ['Brand Positioning', 'Content Strategy', 'Messaging', 'Storytelling']
     }
   ]
 
@@ -51,7 +51,7 @@ export default function Services() {
         </h1>
 
         <p className="text-xl mb-16 text-gray-300 max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
-          I offer full-service web design and development for startups, agencies, and cultural organizations across Sydney and beyond.
+          I offer strategic creative direction and cultural strategy for startups, agencies, and cultural organizations across Sydney and beyond.
         </p>
 
         <div className="grid gap-12 md:gap-16">
@@ -86,7 +86,7 @@ export default function Services() {
           </h2>
 
           <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
-            Whether you need a new website, a redesign, or a long-term development partner, let's talk about how I can help.
+            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help.
           </p>
 
           <a

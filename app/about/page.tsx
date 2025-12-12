@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About | Hand To Mouse - Creative Director & Web Developer Sydney',
-  description: 'Learn about Tom, a Sydney-based creative director and web developer who bridges the gap between design vision and technical execution.',
-  keywords: ['about hand to mouse', 'tom hand', 'sydney web developer', 'creative director sydney', 'design and development'],
+  title: 'About | Independent Creative Direction & Cultural Strategy | Hand To Mouse',
+  description: 'Learn about Tom Hand, a Sydney-based creative director and cultural strategist working with startups, agencies, and cultural organizations to create meaningful digital experiences.',
+  keywords: ['about hand to mouse', 'tom hand', 'creative director sydney', 'cultural strategy', 'independent creative director', 'sydney creative services'],
   alternates: {
     canonical: 'https://handtomouse.org/about',
   },
   openGraph: {
     title: 'About | Hand To Mouse',
-    description: 'Creative direction meets clean code. Sydney-based design and development.',
+    description: 'Independent creative direction and cultural strategy from Sydney.',
     url: 'https://handtomouse.org/about',
     type: 'website',
   },
@@ -28,48 +28,48 @@ export default function About() {
         </h1>
 
         <div className="space-y-6 text-lg leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
-          <h2 className="text-2xl font-semibold mt-12 mb-4">Creative Direction Meets Clean Code</h2>
+          <h2 className="text-2xl font-semibold mt-12 mb-4">Creative Direction & Cultural Strategy</h2>
 
           <p>
-            Hand To Mouse is where creative vision meets technical execution. Based in Sydney, I work with
-            startups, creative agencies, and cultural organizations to create modern web experiences that
-            are both beautiful and built to last.
+            Hand To Mouse is independent creative direction and cultural strategy from Sydney. I work with
+            startups, creative agencies, and cultural organizations to create digital experiences that are
+            meaningful, strategic, and built to resonate.
           </p>
 
           <p>
-            Most designers don't code. Most developers don't design. I do both. This means faster turnaround,
-            better communication, and websites that work exactly as intended—no lost-in-translation moments
-            between design handoff and final build.
+            I bridge the gap between vision and execution. Whether you need strategic direction for a
+            cultural project, brand positioning for a startup, or end-to-end creative leadership for
+            a digital experience—I bring both the strategic thinking and the ability to see it through.
           </p>
 
           <h2 className="text-2xl font-semibold mt-12 mb-4">The Approach</h2>
 
           <p>
-            Every project starts with understanding your goals. What problem are we solving? Who are we
-            reaching? What makes this different? From there, I craft a design that tells your story,
-            then build it with modern technology that's fast, accessible, and maintainable.
+            Every project starts with deep understanding. What story are we telling? Who needs to hear it?
+            What cultural context matters? From there, I develop strategic direction that connects your
+            mission with your audience, and create experiences that bring that strategy to life.
           </p>
 
           <p>
-            I specialize in Next.js and React—modern frameworks that create lightning-fast, SEO-friendly
-            websites. Whether you need a portfolio, a marketing site, or a full web application, I build
-            with performance and user experience at the core.
+            I specialize in cultural strategy, narrative development, and experience design. Whether you're
+            a museum launching a digital initiative, a startup defining your brand positioning, or an agency
+            needing creative direction for a client project—I work collaboratively to create work that matters.
           </p>
 
           <h2 className="text-2xl font-semibold mt-12 mb-4">Who I Work With</h2>
 
           <ul className="list-disc list-inside space-y-2 ml-4">
-            <li><strong>Startups & founders</strong> who need to move fast and launch strong</li>
-            <li><strong>Creative agencies</strong> looking for a reliable development partner</li>
-            <li><strong>Cultural organizations</strong> (museums, galleries, arts groups) who value thoughtful design</li>
-            <li><strong>Small businesses</strong> ready to upgrade their digital presence</li>
+            <li><strong>Startups & founders</strong> who need strategic creative direction and brand positioning</li>
+            <li><strong>Creative agencies</strong> seeking specialized cultural strategy and creative direction</li>
+            <li><strong>Cultural organizations</strong> (museums, galleries, festivals, arts groups) developing digital initiatives</li>
+            <li><strong>Mission-driven brands</strong> looking to connect authentically with their communities</li>
           </ul>
 
-          <h2 className="text-2xl font-semibold mt-12 mb-4">Let's Build Something</h2>
+          <h2 className="text-2xl font-semibold mt-12 mb-4">Let's Create Something Meaningful</h2>
 
           <p>
-            If you're looking for someone who can take your project from concept to launch—someone who
-            understands both the creative vision and the technical reality—let's talk.
+            If you're looking for creative direction that's strategic, culturally intelligent, and built
+            to last—someone who can guide your project from concept to reality—let's talk.
           </p>
 
           <div className="mt-12 pt-8 border-t border-gray-800">
