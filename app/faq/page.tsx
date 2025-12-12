@@ -53,6 +53,26 @@ const faqs = [
 ]
 
 export default function FAQ() {
+  // Breadcrumb Schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://handtomouse.org"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "FAQ",
+        "item": "https://handtomouse.org/faq"
+      }
+    ]
+  }
+
   // FAQ Schema for rich snippets in Google search results
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -69,6 +89,13 @@ export default function FAQ() {
 
   return (
     <>
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       <Script
         id="faq-schema"
         type="application/ld+json"

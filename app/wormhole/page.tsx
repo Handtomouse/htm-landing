@@ -1,4 +1,5 @@
 import WormholeContent from '@/components/WormholeContent'
+import Script from 'next/script'
 
 export const metadata = {
   title: 'Wormhole | Hand To Mouse',
@@ -13,5 +14,35 @@ export const metadata = {
 }
 
 export default function WormholePage() {
-  return <WormholeContent />
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://handtomouse.org"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Wormhole",
+        "item": "https://handtomouse.org/wormhole"
+      }
+    ]
+  }
+
+  return (
+    <>
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <WormholeContent />
+    </>
+  )
 }

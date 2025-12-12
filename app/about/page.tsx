@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'About | Independent Creative Direction & Cultural Strategy | Hand To Mouse',
@@ -20,8 +21,35 @@ export const metadata: Metadata = {
 }
 
 export default function About() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://handtomouse.org"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://handtomouse.org/about"
+      }
+    ]
+  }
+
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-20">
+    <>
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <main className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-8" style={{ fontFamily: 'var(--font-heading)' }}>
           About Hand To Mouse
@@ -84,5 +112,6 @@ export default function About() {
         </div>
       </div>
     </main>
+    </>
   )
 }
