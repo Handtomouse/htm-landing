@@ -1500,7 +1500,7 @@ export default function WormholeContent() {
               </div>
 
               <label
-                className={`flex items-center justify-center gap-5 cursor-pointer ${isMobile ? 'py-2' : 'py-3'}`}
+                className={`flex items-center justify-center gap-6 cursor-pointer ${isMobile ? 'py-2' : 'py-3'}`}
                 style={{
                   minHeight: '44px',
                   padding: isMobile ? '0.5rem' : '0.5rem'
