@@ -226,13 +226,6 @@ export default function WormholeContent() {
       const lastJourney = localStorage.getItem("wormhole_last_journey");
       const savedSound = localStorage.getItem("wormhole_sound");
       const savedCategories = localStorage.getItem("wormhole_categories");
-      const savedWarning = localStorage.getItem("wormhole_exit_warning_seen");
-
-      // Check warning status IMMEDIATELY to prevent flash
-      if (savedWarning === "true") {
-        setShowExitWarning(false);
-        setHasSeenWarning(true);
-      }
 
       setJourneyCount(saved ? parseInt(saved) : 0);
       setSoundEnabled(savedSound === "true");
@@ -785,12 +778,6 @@ export default function WormholeContent() {
     setShowExitWarning(false);
     setAcceptedRisk(false);
     setHasSeenWarning(true);
-    // Persist to localStorage so user doesn't see warning again
-    try {
-      localStorage.setItem("wormhole_exit_warning_seen", "true");
-    } catch (error) {
-      // Gracefully handle localStorage errors
-    }
   };
 
   // Start warp sequence
@@ -1411,7 +1398,7 @@ export default function WormholeContent() {
             backdropFilter: "blur(20px)",
             backgroundColor: "rgba(11, 11, 11, 0.85)",
             paddingTop: isMobile ? 'max(1.5rem, env(safe-area-inset-top))' : 'max(var(--grid-3x), env(safe-area-inset-top))',
-            paddingBottom: isMobile ? 'max(1.5rem, env(safe-area-inset-bottom))' : 'max(var(--grid-3x), env(safe-area-inset-bottom))',
+            paddingBottom: isMobile ? 'max(2rem, calc(env(safe-area-inset-bottom) + 1rem))' : 'max(var(--grid-3x), env(safe-area-inset-bottom))',
             paddingLeft: 'max(var(--grid-3x), env(safe-area-inset-left))',
             paddingRight: 'max(var(--grid-3x), env(safe-area-inset-right))'
           }}
@@ -1543,10 +1530,10 @@ export default function WormholeContent() {
                   className="cursor-pointer"
                   style={{
                     accentColor: "var(--accent)",
-                    width: "24px",
-                    height: "24px",
-                    minWidth: "24px",
-                    minHeight: "24px"
+                    width: isMobile ? "32px" : "24px",
+                    height: isMobile ? "32px" : "24px",
+                    minWidth: isMobile ? "32px" : "24px",
+                    minHeight: isMobile ? "32px" : "24px"
                   }}
                 />
                 <span style={{
