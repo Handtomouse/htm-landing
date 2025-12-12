@@ -131,10 +131,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: isMobile ? 'var(--grid-unit)' : 'clamp(var(--grid-2x), 2vh, var(--grid-3x))',
+          padding: isMobile ? 'var(--grid-2x)' : 'clamp(var(--grid-2x), 2vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
-          maxHeight: isMobile ? 'clamp(250px, 52dvh, 55dvh)' : 'clamp(280px, 65dvh, 70dvh)',
+          maxHeight: '85dvh',
           overflowY: 'auto',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
           position: 'relative'
@@ -168,9 +168,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           id="contact-modal-title"
           style={{
             fontFamily: 'var(--font-heading)',
-            fontSize: 'clamp(22px, 4.5vw, 28px)',
+            fontSize: 'clamp(24px, 5vw, 32px)',
             color: 'var(--accent)',
-            marginBottom: isMobile ? 'var(--grid-unit)' : 'var(--grid-2x)',
+            marginBottom: 'var(--grid-2x)',
             textAlign: 'center'
           }}
         >
@@ -195,7 +195,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         {/* Form */}
         <form onSubmit={handleSubmit}>
           {/* Name Field */}
-          <div style={{ marginBottom: isMobile ? '0.5rem' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: 'var(--grid-2x)' }}>
             <label
               htmlFor="contact-name"
               style={{
@@ -243,7 +243,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Email Field */}
-          <div style={{ marginBottom: isMobile ? '0.5rem' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: 'var(--grid-2x)' }}>
             <label
               htmlFor="contact-email"
               style={{
@@ -289,7 +289,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Subject Field */}
-          <div style={{ marginBottom: isMobile ? '0.5rem' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: 'var(--grid-2x)' }}>
             <label
               htmlFor="contact-subject"
               style={{
@@ -337,7 +337,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Message Field */}
-          <div style={{ marginBottom: isMobile ? '0.5rem' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: 'var(--grid-2x)' }}>
             <label
               htmlFor="contact-message"
               style={{
