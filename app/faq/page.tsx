@@ -3,9 +3,9 @@ import Link from 'next/link'
 import Script from 'next/script'
 
 export const metadata: Metadata = {
-  title: 'FAQ | Web Design & Development Questions | Hand To Mouse',
-  description: 'Frequently asked questions about web design, Next.js development, and working with Hand To Mouse in Sydney.',
-  keywords: ['web design faq', 'nextjs development questions', 'freelance web developer sydney', 'web design cost'],
+  title: 'FAQ | Creative Direction & Cultural Strategy Questions | Hand To Mouse',
+  description: 'Frequently asked questions about creative direction, cultural strategy, and working with Hand To Mouse in Sydney.',
+  keywords: ['creative direction faq', 'cultural strategy sydney', 'independent creative director', 'creative services cost'],
   alternates: {
     canonical: 'https://handtomouse.org/faq',
   },
@@ -20,35 +20,35 @@ export const metadata: Metadata = {
 const faqs = [
   {
     question: 'What services do you offer?',
-    answer: 'I offer full-service web design and development, specializing in Next.js and React. This includes custom website design, frontend development, creative direction, and technical consulting. I work with startups, creative agencies, and cultural organizations across Sydney and beyond.',
+    answer: 'I offer independent creative direction and cultural strategy for digital experiences, brands, and cultural projects. This includes strategic vision, narrative development, experience design, and end-to-end implementation. I work with startups, creative agencies, and cultural organizations across Sydney and beyond.',
   },
   {
-    question: 'How much does a website cost?',
-    answer: 'Project costs vary based on scope and complexity. A simple marketing site typically starts around $3,000-$5,000, while custom web applications can range from $10,000-$30,000+. I provide detailed quotes after understanding your specific needs and goals.',
+    question: 'What is creative direction?',
+    answer: 'Creative direction is the strategic vision that guides how your brand, project, or organization shows up in the world. It\'s about translating your mission and values into compelling experiences that resonate with your audience. I help articulate your story and bring it to life through digital experiences.',
   },
   {
-    question: 'How long does it take to build a website?',
-    answer: 'Timeline depends on project scope. A standard marketing website takes 2-4 weeks from kickoff to launch. More complex applications can take 6-12 weeks. I provide a detailed timeline and milestones during the proposal stage.',
+    question: 'What is cultural strategy?',
+    answer: 'Cultural strategy is about understanding and leveraging cultural context to create meaningful connections. For cultural organizations, it\'s positioning your work within the broader cultural landscape. For brands, it\'s tapping into cultural movements and values that align with your mission. It\'s strategy rooted in cultural intelligence.',
+  },
+  {
+    question: 'How much do projects cost?',
+    answer: 'Project costs vary based on scope and complexity. Strategic consulting engagements typically start around $5,000-$10,000, while comprehensive creative direction and implementation projects range from $15,000-$50,000+. I provide detailed proposals after understanding your specific needs and goals.',
   },
   {
     question: 'Do you work with clients outside Sydney?',
-    answer: 'Yes! While I\'m based in Sydney, I work with clients Australia-wide and internationally. All communication happens online, and I\'ve successfully delivered projects for remote teams across multiple time zones.',
+    answer: 'Yes! While I\'m based in Sydney, I work with clients Australia-wide and internationally. All collaboration happens remotely, and I\'ve successfully delivered projects for organizations across multiple time zones and cultural contexts.',
   },
   {
-    question: 'What makes Next.js better than WordPress or other platforms?',
-    answer: 'Next.js offers superior performance, better SEO, and modern development practices. Sites load faster, rank higher in search results, and provide a better user experience. Unlike WordPress, Next.js sites are more secure, easier to maintain, and scale better as your business grows.',
+    question: 'What types of organizations do you work with?',
+    answer: 'I work with three main types: startups needing strategic brand direction, creative agencies looking for specialized expertise, and cultural organizations (museums, galleries, arts groups, festivals) seeking cultural strategy and digital experiences.',
   },
   {
-    question: 'Do you provide ongoing maintenance and support?',
-    answer: 'Yes, I offer ongoing maintenance packages for hosting, updates, and technical support. We can discuss maintenance options during the project, or you can manage the site yourself - Next.js sites are easier to maintain than traditional platforms.',
+    question: 'Do you handle implementation or just strategy?',
+    answer: 'I do both. I can provide strategic consulting and creative direction, or take projects end-to-end including design and technical implementation. Having both strategy and execution skills means no lost-in-translation moments between vision and reality.',
   },
   {
-    question: 'Can you help with SEO and search rankings?',
-    answer: 'Absolutely. All sites I build are optimized for search engines from day one, including proper meta tags, structured data, fast loading times, and mobile optimization. I can also provide ongoing SEO consulting and content strategy.',
-  },
-  {
-    question: 'What\'s your development process?',
-    answer: 'I start with discovery and strategy, then move to design, development, and testing before launch. You\'ll see regular progress updates and have opportunities to provide feedback throughout. The process is collaborative and transparent.',
+    question: 'What\'s your process?',
+    answer: 'I start with deep discovery to understand your context, audience, and goals. Then we define strategic direction and creative vision. From there, I develop the experience design and implement it (or hand off to your team). The process is collaborative, transparent, and adapted to your needs.',
   },
 ]
 

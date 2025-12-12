@@ -23,8 +23,8 @@ const robotoMono = Roboto_Mono({
 
 export const metadata: Metadata = {
   title: 'Independent creative direction and cultural strategy from Sydney | Hand To Mouse',
-  description: 'Sydney-based creative director and web developer specializing in modern web design and cultural projects for startups, agencies, and cultural organizations.',
-  keywords: ['creative direction sydney', 'web developer sydney', 'nextjs developer', 'react developer', 'cultural strategy', 'web design sydney', 'startup web design', 'agency web development'],
+  description: 'Independent creative direction and cultural strategy from Sydney. Working with startups, agencies, and cultural organizations to create meaningful digital experiences.',
+  keywords: ['creative direction sydney', 'cultural strategy', 'creative director sydney', 'cultural projects sydney', 'digital strategy', 'independent creative director', 'cultural organizations', 'brand strategy sydney'],
   authors: [{ name: 'Tom Hand' }],
   creator: 'Hand To Mouse',
   publisher: 'Hand To Mouse',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     canonical: 'https://handtomouse.org',
   },
   openGraph: {
-    title: 'Hand To Mouse | Creative Direction + Code',
-    description: 'Independent creative direction and cultural strategy from Sydney. Modern web design and development for startups, agencies, and cultural organizations.',
+    title: 'Hand To Mouse | Independent Creative Direction & Cultural Strategy',
+    description: 'Independent creative direction and cultural strategy from Sydney. Working with startups, agencies, and cultural organizations.',
     url: 'https://handtomouse.org',
     siteName: 'Hand To Mouse',
     locale: 'en_AU',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hand To Mouse | Creative Direction + Code',
+    title: 'Hand To Mouse | Independent Creative Direction',
     description: 'Independent creative direction and cultural strategy from Sydney',
     creator: '@handtomouse',
     images: ['/HTM-LOGO-ICON-WHITE.svg'],

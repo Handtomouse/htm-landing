@@ -42,7 +42,7 @@ export default function Home() {
             "@type": ["ProfessionalService", "LocalBusiness"],
             "name": "Hand To Mouse",
             "alternateName": "HandToMouse",
-            "description": "Independent creative direction and cultural strategy from Sydney. Web design and development for startups, agencies, and cultural organizations.",
+            "description": "Independent creative direction and cultural strategy from Sydney. Working with startups, agencies, and cultural organizations to create meaningful digital experiences.",
             "url": "https://handtomouse.org",
             "telephone": "+61-PLACEHOLDER",
             "email": "hello@handtomouse.org",
@@ -51,7 +51,7 @@ export default function Home() {
             "founder": {
               "@type": "Person",
               "name": "Tom Hand",
-              "jobTitle": "Creative Director & Web Developer",
+              "jobTitle": "Creative Director & Cultural Strategist",
               "sameAs": [
                 "https://www.linkedin.com/in/tomhand",
                 "https://github.com/handtomouse"
@@ -87,45 +87,45 @@ export default function Home() {
             "currenciesAccepted": "AUD",
             "paymentAccepted": "Invoice, Bank Transfer",
             "knowsAbout": [
-              "Web Design",
-              "Web Development",
-              "Next.js",
-              "React",
-              "TypeScript",
               "Creative Direction",
               "Cultural Strategy",
-              "UX Design",
-              "Frontend Development"
+              "Brand Strategy",
+              "Digital Strategy",
+              "Experience Design",
+              "Content Strategy",
+              "Cultural Projects",
+              "Storytelling",
+              "Strategic Planning"
             ],
             "hasOfferCatalog": {
               "@type": "OfferCatalog",
-              "name": "Web Design & Development Services",
+              "name": "Creative Direction & Cultural Strategy Services",
               "itemListElement": [
                 {
                   "@type": "Offer",
                   "itemOffered": {
                     "@type": "Service",
-                    "name": "Web Design",
-                    "description": "Modern, responsive web design for startups and creative organizations",
-                    "serviceType": "Design"
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
-                    "name": "Next.js Development",
-                    "description": "Fast, SEO-friendly websites built with Next.js and React",
-                    "serviceType": "Development"
-                  }
-                },
-                {
-                  "@type": "Offer",
-                  "itemOffered": {
-                    "@type": "Service",
                     "name": "Creative Direction",
-                    "description": "Cultural strategy and creative direction for digital experiences",
-                    "serviceType": "Consulting"
+                    "description": "Strategic creative vision and direction for digital experiences, brands, and cultural projects",
+                    "serviceType": "Creative"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Cultural Strategy",
+                    "description": "Cultural strategy and narrative development for organizations and creative initiatives",
+                    "serviceType": "Strategy"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Digital Experience Design",
+                    "description": "End-to-end digital experience design and development for meaningful engagement",
+                    "serviceType": "Design & Development"
                   }
                 }
               ]
