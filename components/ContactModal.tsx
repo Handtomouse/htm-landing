@@ -120,10 +120,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: 'clamp(var(--grid-2x), 3vh, var(--grid-3x))',
+          padding: isMobile ? 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' : 'clamp(var(--grid-2x), 3vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
-          maxHeight: 'clamp(500px, 85dvh, 90dvh)',
+          maxHeight: 'clamp(350px, 75dvh, 80dvh)',
           overflowY: 'auto',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
           position: 'relative'
@@ -172,10 +172,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             fontFamily: 'var(--font-body)',
             fontSize: 'clamp(14px, 3vw, 16px)',
             color: 'var(--muted)',
-            marginBottom: 'var(--grid-2x)',
+            marginBottom: isMobile ? 'var(--grid-unit)' : 'var(--grid-2x)',
             textAlign: 'center',
             lineHeight: 1.6,
-            display: typeof window !== 'undefined' && window.innerHeight < 700 ? 'none' : 'block'
+            display: isMobile ? 'none' : 'block'
           }}
         >
           Have a project in mind? Let's talk.
@@ -184,7 +184,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         {/* Form */}
         <form onSubmit={handleSubmit}>
           {/* Name Field */}
-          <div style={{ marginBottom: 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: isMobile ? 'clamp(0.5rem, 1.5vh, var(--grid-unit))' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
             <label
               htmlFor="contact-name"
               style={{
@@ -232,7 +232,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Email Field */}
-          <div style={{ marginBottom: 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: isMobile ? 'clamp(0.5rem, 1.5vh, var(--grid-unit))' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
             <label
               htmlFor="contact-email"
               style={{
@@ -278,7 +278,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Subject Field */}
-          <div style={{ marginBottom: 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: isMobile ? 'clamp(0.5rem, 1.5vh, var(--grid-unit))' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
             <label
               htmlFor="contact-subject"
               style={{
@@ -326,7 +326,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           </div>
 
           {/* Message Field */}
-          <div style={{ marginBottom: 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
+          <div style={{ marginBottom: isMobile ? 'clamp(0.5rem, 1.5vh, var(--grid-unit))' : 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' }}>
             <label
               htmlFor="contact-message"
               style={{

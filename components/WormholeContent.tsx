@@ -1226,10 +1226,10 @@ export default function WormholeContent() {
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-50"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.7)",
-            paddingTop: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-top))' : (isMobile ? 'calc(1rem + env(safe-area-inset-top))' : '1.5rem'),
-            paddingBottom: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-bottom))' : (isMobile ? 'calc(1rem + env(safe-area-inset-bottom))' : '1.5rem'),
-            paddingLeft: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-left))' : (isMobile ? '1rem' : '1.5rem'),
-            paddingRight: isMobileLandscape ? 'calc(0.75rem + env(safe-area-inset-right))' : (isMobile ? '1rem' : '1.5rem'),
+            paddingTop: 'calc(2rem + env(safe-area-inset-top))',
+            paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
+            paddingLeft: 'calc(1.5rem + env(safe-area-inset-left))',
+            paddingRight: 'calc(1.5rem + env(safe-area-inset-right))',
             maxHeight: isMobileLandscape ? '90vh' : 'none',
             overflowY: isMobileLandscape ? 'auto' : 'visible'
           }}
@@ -1242,7 +1242,9 @@ export default function WormholeContent() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              maxWidth: isMobile ? '90%' : '600px'
+              textAlign: 'center',
+              width: 'auto',
+              margin: '0 auto'
             }}
             aria-label={countdown === 3 ? `Warp initiating in ${countdown} seconds to ${currentHint}` : countdown === 0 ? `Warping to ${currentHint} now` : undefined}
           >
@@ -1260,7 +1262,11 @@ export default function WormholeContent() {
                     ? "flip-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
                     : "flip-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
                   textAlign: 'center',
-                  marginBottom: isMobileLandscape ? '0.4rem' : (isMobile ? '0.75rem' : '1rem')
+                  marginBottom: isMobileLandscape ? '1.2rem' : (isMobile ? '2rem' : '2.5rem'),
+                  textDecoration: 'none',
+                  border: 'none',
+                  outline: 'none',
+                  isolation: 'isolate'
                 }}
               >
                 {currentDestination.category === 'interactive' && '🎮'}
@@ -1282,7 +1288,9 @@ export default function WormholeContent() {
             <div
               key={countdown}
               style={{
-                width: '100%',
+                width: 'auto',
+                display: 'inline-block',
+                margin: '0 auto',
                 fontFamily: "monospace",
                 fontSize: isMobileLandscape ? "clamp(2.5rem, 8vh, 3.5rem)" : (isMobile ? "clamp(4rem, 13vw, 5.5rem)" : "8rem"),
                 fontWeight: 700,
@@ -1301,13 +1309,15 @@ export default function WormholeContent() {
               {countdown}
             </div>
             <p style={{
-              width: '100%',
+              width: 'auto',
+              display: 'inline-block',
+              maxWidth: '85vw',
+              margin: '0 auto',
               fontFamily: "monospace",
               letterSpacing: isMobile ? "0.03em" : "0.05em",
               fontSize: isMobileLandscape ? "clamp(1rem, 2.8vw, 1.125rem)" : (isMobile ? "clamp(1.125rem, 4vw, 1.25rem)" : "1.25rem"),
               color: "rgba(255, 255, 255, 0.85)",
               textAlign: 'center',
-              margin: 0,
               marginBottom: isMobileLandscape ? '0.5rem' : (isMobile ? '1rem' : '1.5rem')
             }}>
               {currentMessage}
@@ -1317,18 +1327,19 @@ export default function WormholeContent() {
                 className="flex items-center justify-center"
                 style={{
                   width: '100%',
-                  gap: '0.75rem',
+                  gap: '0.5rem',
                   marginBottom: isMobileLandscape ? '0.4rem' : '1rem'
                 }}
               >
-                <div style={{ height: "1px", width: "clamp(2.5rem, 8vw, 3.5rem)", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
+                <div style={{ height: "1px", flex: "1 1 0", minWidth: "1rem", maxWidth: "5rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
                 <p style={{
                   fontFamily: "monospace",
                   fontSize: "clamp(1rem, 3.5vw, 1.125rem)",
                   letterSpacing: "0.03em",
                   fontWeight: "500",
                   color: "var(--accent)",
-                  maxWidth: "60vw",
+                  maxWidth: "45vw",
+                  minWidth: "80px",
                   textAlign: "center",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -1337,7 +1348,7 @@ export default function WormholeContent() {
                 }}>
                   {currentHint}
                 </p>
-                <div style={{ height: "1px", width: "clamp(2.5rem, 8vw, 3.5rem)", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
+                <div style={{ height: "1px", flex: "1 1 0", minWidth: "1rem", maxWidth: "5rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
               </div>
             ) : (
               <div
@@ -1348,7 +1359,7 @@ export default function WormholeContent() {
                   marginBottom: '1.5rem'
                 }}
               >
-                <div style={{ height: "1px", width: "clamp(3rem, 6vw, 20%)", maxWidth: "5rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
+                <div style={{ height: "1px", flex: "1 1 0", minWidth: "2rem", maxWidth: "8rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
                 <p style={{
                   fontFamily: "monospace",
                   fontSize: "clamp(0.9375rem, 1.5vw, 1.125rem)",
@@ -1364,7 +1375,7 @@ export default function WormholeContent() {
                 }}>
                   {currentHint}
                 </p>
-                <div style={{ height: "1px", width: "clamp(3rem, 6vw, 20%)", maxWidth: "5rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
+                <div style={{ height: "1px", flex: "1 1 0", minWidth: "2rem", maxWidth: "8rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
               </div>
             )}
             {canAbort && !isMobile && (
