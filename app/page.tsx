@@ -32,34 +32,71 @@ export default function Home() {
 
   return (
     <>
-      {/* SEO Structured Data - Tells Google who you are */}
+      {/* SEO Structured Data - LocalBusiness + ProfessionalService */}
       <Script
         id="schema-org"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "ProfessionalService",
+            "@type": ["ProfessionalService", "LocalBusiness"],
             "name": "Hand To Mouse",
+            "alternateName": "HandToMouse",
             "description": "Independent creative direction and cultural strategy from Sydney. Web design and development for startups, agencies, and cultural organizations.",
             "url": "https://handtomouse.org",
+            "telephone": "+61-PLACEHOLDER",
+            "email": "hello@handtomouse.org",
+            "image": "https://handtomouse.org/HTM-LOGO-ICON-WHITE.svg",
+            "logo": "https://handtomouse.org/HTM-LOGO-ICON-WHITE.svg",
             "founder": {
               "@type": "Person",
-              "name": "Tom",
-              "jobTitle": "Creative Director & Web Developer"
+              "name": "Tom Hand",
+              "jobTitle": "Creative Director & Web Developer",
+              "sameAs": [
+                "https://www.linkedin.com/in/tomhand",
+                "https://github.com/handtomouse"
+              ]
             },
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Sydney",
               "addressRegion": "NSW",
-              "addressCountry": "AU"
+              "addressCountry": "AU",
+              "postalCode": "2000"
             },
-            "areaServed": {
-              "@type": "City",
-              "name": "Sydney"
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "-33.8688",
+              "longitude": "151.2093"
             },
-            "priceRange": "$$",
-            "knowsAbout": ["Web Design", "Web Development", "Next.js", "React", "Creative Direction", "Cultural Strategy"],
+            "areaServed": [
+              {
+                "@type": "City",
+                "name": "Sydney"
+              },
+              {
+                "@type": "State",
+                "name": "New South Wales"
+              },
+              {
+                "@type": "Country",
+                "name": "Australia"
+              }
+            ],
+            "priceRange": "$$-$$$",
+            "currenciesAccepted": "AUD",
+            "paymentAccepted": "Invoice, Bank Transfer",
+            "knowsAbout": [
+              "Web Design",
+              "Web Development",
+              "Next.js",
+              "React",
+              "TypeScript",
+              "Creative Direction",
+              "Cultural Strategy",
+              "UX Design",
+              "Frontend Development"
+            ],
             "hasOfferCatalog": {
               "@type": "OfferCatalog",
               "name": "Web Design & Development Services",
@@ -69,7 +106,8 @@ export default function Home() {
                   "itemOffered": {
                     "@type": "Service",
                     "name": "Web Design",
-                    "description": "Modern, responsive web design for startups and creative organizations"
+                    "description": "Modern, responsive web design for startups and creative organizations",
+                    "serviceType": "Design"
                   }
                 },
                 {
@@ -77,7 +115,8 @@ export default function Home() {
                   "itemOffered": {
                     "@type": "Service",
                     "name": "Next.js Development",
-                    "description": "Fast, SEO-friendly websites built with Next.js and React"
+                    "description": "Fast, SEO-friendly websites built with Next.js and React",
+                    "serviceType": "Development"
                   }
                 },
                 {
@@ -85,10 +124,23 @@ export default function Home() {
                   "itemOffered": {
                     "@type": "Service",
                     "name": "Creative Direction",
-                    "description": "Cultural strategy and creative direction for digital experiences"
+                    "description": "Cultural strategy and creative direction for digital experiences",
+                    "serviceType": "Consulting"
                   }
                 }
               ]
+            },
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+              ],
+              "opens": "09:00",
+              "closes": "18:00"
             }
           })
         }}
