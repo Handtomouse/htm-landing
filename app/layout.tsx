@@ -24,6 +24,14 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: 'Independent creative direction and cultural strategy from Sydney | Hand To Mouse',
   description: 'Sydney-based creative director and web developer specializing in modern web design and cultural projects for startups, agencies, and cultural organizations.',
+  keywords: ['creative direction sydney', 'web developer sydney', 'nextjs developer', 'react developer', 'cultural strategy', 'web design sydney', 'startup web design', 'agency web development'],
+  authors: [{ name: 'Tom Hand' }],
+  creator: 'Hand To Mouse',
+  publisher: 'Hand To Mouse',
+  metadataBase: new URL('https://handtomouse.org'),
+  alternates: {
+    canonical: 'https://handtomouse.org',
+  },
   openGraph: {
     title: 'Hand To Mouse | Creative Direction + Code',
     description: 'Independent creative direction and cultural strategy from Sydney. Modern web design and development for startups, agencies, and cultural organizations.',
@@ -31,11 +39,35 @@ export const metadata: Metadata = {
     siteName: 'Hand To Mouse',
     locale: 'en_AU',
     type: 'website',
+    images: [
+      {
+        url: '/HTM-LOGO-ICON-WHITE.svg',
+        width: 512,
+        height: 512,
+        alt: 'Hand To Mouse Logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Hand To Mouse | Creative Direction + Code',
     description: 'Independent creative direction and cultural strategy from Sydney',
+    creator: '@handtomouse',
+    images: ['/HTM-LOGO-ICON-WHITE.svg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: '32edcb2607debf2d',
   },
 }
 

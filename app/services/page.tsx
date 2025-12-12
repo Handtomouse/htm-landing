@@ -3,9 +3,19 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Services | Web Design & Next.js Development Sydney | Hand To Mouse',
   description: 'Full-service web design and development in Sydney. Specializing in Next.js, React, modern web design, and creative direction for startups and cultural organizations.',
+  keywords: ['web design services sydney', 'nextjs development', 'react development sydney', 'creative direction services', 'website design sydney', 'full stack developer'],
+  alternates: {
+    canonical: 'https://handtomouse.org/services',
+  },
+  openGraph: {
+    title: 'Services | Web Design & Next.js Development Sydney',
+    description: 'Full-service web design and development. Next.js, React, creative direction.',
+    url: 'https://handtomouse.org/services',
+    type: 'website',
+  },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 }
 

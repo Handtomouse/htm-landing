@@ -3,9 +3,19 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'About | Hand To Mouse - Creative Director & Web Developer Sydney',
   description: 'Learn about Tom, a Sydney-based creative director and web developer who bridges the gap between design vision and technical execution.',
+  keywords: ['about hand to mouse', 'tom hand', 'sydney web developer', 'creative director sydney', 'design and development'],
+  alternates: {
+    canonical: 'https://handtomouse.org/about',
+  },
+  openGraph: {
+    title: 'About | Hand To Mouse',
+    description: 'Creative direction meets clean code. Sydney-based design and development.',
+    url: 'https://handtomouse.org/about',
+    type: 'website',
+  },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 }
 
