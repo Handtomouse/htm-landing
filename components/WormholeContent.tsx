@@ -1410,10 +1410,10 @@ export default function WormholeContent() {
           style={{
             backdropFilter: "blur(20px)",
             backgroundColor: "rgba(11, 11, 11, 0.85)",
-            paddingTop: isMobile ? 'max(1.5rem, env(safe-area-inset-top))' : 'max(var(--grid-3x), env(safe-area-inset-top))',
-            paddingBottom: isMobile ? 'max(2rem, calc(env(safe-area-inset-bottom) + 1rem))' : 'max(var(--grid-3x), env(safe-area-inset-bottom))',
-            paddingLeft: 'max(var(--grid-3x), env(safe-area-inset-left))',
-            paddingRight: 'max(var(--grid-3x), env(safe-area-inset-right))'
+            paddingTop: isMobile ? 'max(0.75rem, env(safe-area-inset-top))' : 'max(var(--grid-3x), env(safe-area-inset-top))',
+            paddingBottom: isMobile ? 'max(0.75rem, calc(env(safe-area-inset-bottom) + 0.5rem))' : 'max(var(--grid-3x), env(safe-area-inset-bottom))',
+            paddingLeft: isMobile ? 'max(0.75rem, env(safe-area-inset-left))' : 'max(var(--grid-3x), env(safe-area-inset-left))',
+            paddingRight: isMobile ? 'max(0.75rem, env(safe-area-inset-right))' : 'max(var(--grid-3x), env(safe-area-inset-right))'
           }}
           onClick={(e) => {
             // Dismiss modal when clicking backdrop (not content)
@@ -1431,13 +1431,13 @@ export default function WormholeContent() {
             maxWidth: "400px",
             margin: "0 1rem",
             borderRadius: "12px",
-            padding: isMobile ? "1rem" : "clamp(1rem, 4vw, 1.5rem)"
+            padding: isMobile ? "0.75rem" : "clamp(1rem, 4vw, 1.5rem)"
           }}>
             <div className="text-center">
               <div
                 style={{
-                  fontSize: "2rem",
-                  marginBottom: "1rem",
+                  fontSize: isMobile ? "1.5rem" : "2rem",
+                  marginBottom: isMobile ? "0.5rem" : "1rem",
                   color: "var(--accent)",
                   textShadow: "0 0 20px rgba(255, 157, 35, 0.3)"
                 }}
@@ -1445,8 +1445,8 @@ export default function WormholeContent() {
               >✦</div>
               <h2 id="exit-warning-title" style={{
                 fontFamily: "system-ui",
-                fontSize: isMobile ? "1.125rem" : "clamp(1.125rem, 3vw, 1.25rem)",
-                marginBottom: "0.5rem",
+                fontSize: isMobile ? "1rem" : "clamp(1.125rem, 3vw, 1.25rem)",
+                marginBottom: isMobile ? "0.25rem" : "0.5rem",
                 color: "var(--accent)",
                 letterSpacing: "0.02em",
                 fontWeight: "600"
@@ -1455,21 +1455,21 @@ export default function WormholeContent() {
               </h2>
               <p style={{
                 fontFamily: "monospace",
-                fontSize: "0.75rem",
-                marginBottom: "1rem",
+                fontSize: isMobile ? "0.625rem" : "0.75rem",
+                marginBottom: isMobile ? "0.5rem" : "1rem",
                 color: "rgba(255, 255, 255, 0.6)"
               }}>
                 Step into the unknown
               </p>
             </div>
 
-            <div style={{ marginBottom: "1rem" }}>
+            <div style={{ marginBottom: isMobile ? "0.5rem" : "1rem" }}>
               <p style={{
                 fontFamily: "monospace",
-                fontSize: "0.75rem",
-                lineHeight: "1.6",
+                fontSize: isMobile ? "0.625rem" : "0.75rem",
+                lineHeight: "1.5",
                 color: "rgba(255, 255, 255, 0.8)",
-                marginBottom: "1rem",
+                marginBottom: isMobile ? "0.5rem" : "1rem",
                 textAlign: "center"
               }}>
                 You're about to embark on a curated journey through the internet.
@@ -1479,8 +1479,8 @@ export default function WormholeContent() {
                 background: "rgba(255, 157, 35, 0.05)",
                 border: "1px solid rgba(255, 157, 35, 0.1)",
                 borderRadius: "8px",
-                padding: "1rem",
-                marginBottom: "1rem"
+                padding: isMobile ? "0.5rem" : "1rem",
+                marginBottom: isMobile ? "0.5rem" : "1rem"
               }}>
                 <p style={{
                   fontFamily: "monospace",
@@ -1492,36 +1492,36 @@ export default function WormholeContent() {
                 }}>
                   What to expect
                 </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: isMobile ? "0.25rem" : "0.5rem" }}>
                   <div className="flex items-start" style={{ gap: "0.5rem" }}>
-                    <span style={{ color: "var(--accent)", fontSize: "0.875rem" }}>→</span>
+                    <span style={{ color: "var(--accent)", fontSize: isMobile ? "0.75rem" : "0.875rem" }}>→</span>
                     <p style={{
                       fontFamily: "monospace",
-                      fontSize: "0.875rem",
+                      fontSize: isMobile ? "0.75rem" : "0.875rem",
                       color: "rgba(255, 255, 255, 0.7)",
-                      lineHeight: "1.5"
+                      lineHeight: "1.4"
                     }}>
                       You'll be transported to an external website
                     </p>
                   </div>
                   <div className="flex items-start" style={{ gap: "0.5rem" }}>
-                    <span style={{ color: "var(--accent)", fontSize: "0.875rem" }}>→</span>
+                    <span style={{ color: "var(--accent)", fontSize: isMobile ? "0.75rem" : "0.875rem" }}>→</span>
                     <p style={{
                       fontFamily: "monospace",
-                      fontSize: "0.875rem",
+                      fontSize: isMobile ? "0.75rem" : "0.875rem",
                       color: "rgba(255, 255, 255, 0.7)",
-                      lineHeight: "1.5"
+                      lineHeight: "1.4"
                     }}>
                       Each destination is handpicked and unique
                     </p>
                   </div>
                   <div className="flex items-start" style={{ gap: "0.5rem" }}>
-                    <span style={{ color: "var(--accent)", fontSize: "0.875rem" }}>→</span>
+                    <span style={{ color: "var(--accent)", fontSize: isMobile ? "0.75rem" : "0.875rem" }}>→</span>
                     <p style={{
                       fontFamily: "monospace",
-                      fontSize: "0.875rem",
+                      fontSize: isMobile ? "0.75rem" : "0.875rem",
                       color: "rgba(255, 255, 255, 0.7)",
-                      lineHeight: "1.5"
+                      lineHeight: "1.4"
                     }}>
                       You may discover something extraordinary
                     </p>
@@ -1530,10 +1530,10 @@ export default function WormholeContent() {
               </div>
 
               <label
-                className={`flex items-center justify-center gap-3 cursor-pointer ${isMobile ? 'py-4' : 'py-3'}`}
+                className={`flex items-center justify-center gap-3 cursor-pointer ${isMobile ? 'py-2' : 'py-3'}`}
                 style={{
                   minHeight: '44px',
-                  padding: isMobile ? '0.75rem' : '0.5rem'
+                  padding: isMobile ? '0.5rem' : '0.5rem'
                 }}
               >
                 <input
@@ -1559,7 +1559,7 @@ export default function WormholeContent() {
               </label>
             </div>
 
-            <div className={`flex ${isMobile ? 'gap-4' : 'gap-4'}`}>
+            <div className="flex" style={{ gap: isMobile ? '16px' : '16px' }}>
               <button
                 onClick={() => {
                   triggerHaptic(10);
@@ -1611,7 +1611,7 @@ export default function WormholeContent() {
             <p className="text-center" style={{
               fontFamily: "monospace",
               fontSize: "0.625rem",
-              marginTop: "1rem",
+              marginTop: isMobile ? "0.5rem" : "1rem",
               color: "rgba(255, 255, 255, 0.4)"
             }}>
               ESC to cancel
