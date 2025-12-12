@@ -150,55 +150,65 @@ export default function WormholeContent() {
   const playSound = useCallback((type: 'whoosh' | 'beep' | 'warp' | 'abort') => {
     if (!soundEnabled) return;
 
-    const audioContext = getAudioContext();
-    if (!audioContext) return;
+    try {
+      const audioContext = getAudioContext();
+      if (!audioContext) return;
 
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+      // Resume audio context if suspended (iOS requirement)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
 
-    switch (type) {
-      case 'whoosh':
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.3);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.3);
-        break;
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
 
-      case 'beep':
-        oscillator.type = 'square';
-        oscillator.frequency.value = 600;
-        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.1);
-        break;
+      switch (type) {
+        case 'whoosh':
+          oscillator.type = 'sawtooth';
+          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.3);
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.3);
+          break;
 
-      case 'warp':
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 1.5);
-        gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 1.5);
-        break;
+        case 'beep':
+          oscillator.type = 'square';
+          oscillator.frequency.value = 600;
+          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.1);
+          break;
 
-      case 'abort':
-        oscillator.type = 'triangle';
-        oscillator.frequency.value = 400;
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.05);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 0.1);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.3);
-        break;
+        case 'warp':
+          oscillator.type = 'sine';
+          oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 1.5);
+          gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 1.5);
+          break;
+
+        case 'abort':
+          oscillator.type = 'triangle';
+          oscillator.frequency.value = 400;
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0, audioContext.currentTime + 0.05);
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 0.1);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.3);
+          break;
+      }
+    } catch (error) {
+      // Silently fail if audio playback fails (common on iOS)
+      console.warn('Audio playback failed:', error);
     }
   }, [soundEnabled]);
 
