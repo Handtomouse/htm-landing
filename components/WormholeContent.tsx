@@ -91,6 +91,7 @@ export default function WormholeContent() {
   const animationTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const particleRafRef = useRef<number | null>(null);
 
   const [stars, setStars] = useState<Star[]>([]);
   const [isWarping, setIsWarping] = useState(false);
@@ -113,6 +114,7 @@ export default function WormholeContent() {
   const [showHecticMessage, setShowHecticMessage] = useState(false);
   const [lastClickTime, setLastClickTime] = useState(0);
   const [currentDestination, setCurrentDestination] = useState<{url: string, category: string, hint: string} | null>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [enabledCategories, setEnabledCategories] = useState<Record<string, boolean>>({
     interactive: true,
     games: true,
@@ -343,7 +345,7 @@ export default function WormholeContent() {
 
       // If rotating during warp, abort warp for safety
       if (isWarping && rotationDetected && viewportReady) {
-        handleAbort();
+        abortWarp();
       }
 
       setViewportWidth(newWidth);
@@ -587,7 +589,7 @@ export default function WormholeContent() {
     setShowAbortFeedback(true);
     playSound('abort');
     setTimeout(() => setShowAbortFeedback(false), WORMHOLE_CONFIG.ABORT_FEEDBACK_DURATION);
-  }, [triggerHaptic, soundEnabled]);
+  }, [triggerHaptic, playSound]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -663,9 +665,14 @@ export default function WormholeContent() {
 
   // Animate burst particles
   useEffect(() => {
-    if (burstParticles.length === 0) return;
-
-    let animationFrameId: number;
+    if (burstParticles.length === 0) {
+      // Cleanup any existing animation
+      if (particleRafRef.current) {
+        cancelAnimationFrame(particleRafRef.current);
+        particleRafRef.current = null;
+      }
+      return;
+    }
 
     const animateParticles = () => {
       setBurstParticles(prev => {
@@ -679,15 +686,22 @@ export default function WormholeContent() {
           .filter(p => p.life > 0);
 
         if (updated.length > 0) {
-          animationFrameId = requestAnimationFrame(animateParticles);
+          particleRafRef.current = requestAnimationFrame(animateParticles);
+        } else {
+          particleRafRef.current = null;
         }
 
         return updated;
       });
     };
 
-    animationFrameId = requestAnimationFrame(animateParticles);
-    return () => cancelAnimationFrame(animationFrameId);
+    particleRafRef.current = requestAnimationFrame(animateParticles);
+    return () => {
+      if (particleRafRef.current) {
+        cancelAnimationFrame(particleRafRef.current);
+        particleRafRef.current = null;
+      }
+    };
   }, [burstParticles.length]);
 
   // Memoize category weights (only recalculate per hour)
@@ -913,6 +927,16 @@ export default function WormholeContent() {
     setIsMobile(viewportWidth < WORMHOLE_CONFIG.MOBILE_BREAKPOINT);
   }, [viewportWidth]);
 
+  // Detect prefers-reduced-motion for accessibility
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleChange = () => setPrefersReducedMotion(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
   return (
     <div
       className="fixed inset-0 overflow-hidden"
@@ -1083,8 +1107,8 @@ export default function WormholeContent() {
             style={{
               width: isMobile ? "120px" : "200px",
               height: isMobile ? "120px" : "200px",
-              top: 'calc(50% + max(0px, env(safe-area-inset-top) / 2))',
-              left: 'calc(50% + max(0px, env(safe-area-inset-left) / 2))',
+              top: '50%',
+              left: '50%',
               transform: "translate(-50%, -50%)",
               background: "radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(200, 220, 255, 0.2) 20%, transparent 50%)",
               filter: "blur(30px)",
@@ -1156,7 +1180,7 @@ export default function WormholeContent() {
 
       {/* Abort Feedback */}
       {showAbortFeedback && (
-        <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center pointer-events-none z-50">
+        <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center pointer-events-none z-50" role="status" aria-live="polite">
           <div className="text-center">
             <p className="font-mono text-4xl text-red-500 mb-2 font-bold">WARP ABORTED</p>
             <p className="font-mono text-sm text-white">Returning to normal space...</p>
@@ -1166,7 +1190,7 @@ export default function WormholeContent() {
 
       {/* Konami Code Activation */}
       {konamiActive && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50" role="status" aria-live="polite">
           <div className="text-center px-4">
             <p className="text-3xl mb-2" style={{
               background: "linear-gradient(90deg, var(--accent), #6495ED, #BA55D3, #40E0D0, var(--accent))",
@@ -1189,7 +1213,7 @@ export default function WormholeContent() {
       {showHecticMessage && (
         <>
           {/* Speed Lines (Comic book style motion lines) */}
-          <div className="absolute inset-0 pointer-events-none z-[99]" style={{ overflow: 'hidden' }}>
+          <div className="absolute inset-0 pointer-events-none z-[99]" style={{ overflow: 'hidden' }} role="status" aria-live="polite">
             {SPEED_LINE_INDICES.map((i) => (
               <div
                 key={i}
@@ -1646,14 +1670,14 @@ export default function WormholeContent() {
                     className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       fontFamily: "monospace",
-                      fontSize: isMobile ? "0.625rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
+                      fontSize: isMobile ? "0.75rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
                       letterSpacing: "0.05em",
                       textTransform: "capitalize",
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
                       borderRadius: isMobile ? "6px" : "8px",
-                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem",
+                      padding: isMobile ? "0.75rem 1rem" : "0.625rem 0.875rem",
                       minHeight: "44px",
                       flex: "1",
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
@@ -1699,14 +1723,14 @@ export default function WormholeContent() {
                     className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       fontFamily: "monospace",
-                      fontSize: isMobile ? "0.625rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
+                      fontSize: isMobile ? "0.75rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
                       letterSpacing: "0.05em",
                       textTransform: "capitalize",
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
                       borderRadius: isMobile ? "6px" : "8px",
-                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem",
+                      padding: isMobile ? "0.75rem 1rem" : "0.625rem 0.875rem",
                       minHeight: "44px",
                       flex: "1",
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
