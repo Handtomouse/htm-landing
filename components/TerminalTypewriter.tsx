@@ -415,15 +415,15 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
             style={{
               fontFamily: 'var(--font-body)',
               textAlign: 'center',
-              fontSize: 'clamp(10px, 1.2vw, 13px)',
+              fontSize: 'clamp(9px, 1.2vw, 13px)',
               letterSpacing: '0.02em',
               lineHeight: 1.4,
-              maxWidth: 'min(510px, 76.5vw)',
+              maxWidth: 'min(510px, 90vw)',
               color: '#EDECEC'
             }}
           >
-            <div style={{ marginBottom: '4px' }}>{TAGLINE_LINE1}</div>
-            <div>{TAGLINE_LINE2}</div>
+            <div style={{ marginBottom: '4px', whiteSpace: 'nowrap' }}>{TAGLINE_LINE1}</div>
+            <div style={{ whiteSpace: 'nowrap' }}>{TAGLINE_LINE2}</div>
           </div>
         </div>
 
