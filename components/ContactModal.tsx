@@ -16,6 +16,17 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [statusMessage, setStatusMessage] = useState('')
   const [charCount, setCharCount] = useState(0)
   const [formStartTime, setFormStartTime] = useState<number | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Track when form is opened (for bot prevention)
   useEffect(() => {
