@@ -1428,10 +1428,11 @@ export default function WormholeContent() {
             background: "rgba(11, 11, 11, 0.6)",
             border: "1px solid rgba(255, 157, 35, 0.2)",
             boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 1px 0 rgba(255, 157, 35, 0.1)",
-            maxWidth: "400px",
-            margin: "0 1rem",
+            maxWidth: isMobile ? "400px" : "550px",
+            width: "100%",
+            margin: "0 auto",
             borderRadius: "12px",
-            padding: isMobile ? "0.75rem" : "clamp(1rem, 4vw, 1.5rem)"
+            padding: isMobile ? "0.75rem" : "clamp(1.25rem, 4vw, 2rem)"
           }}>
             <div className="text-center">
               <div
@@ -1559,7 +1560,7 @@ export default function WormholeContent() {
               </label>
             </div>
 
-            <div className="flex" style={{ gap: isMobile ? '16px' : '16px' }}>
+            <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
               <button
                 onClick={() => {
                   triggerHaptic(10);
@@ -1567,8 +1568,8 @@ export default function WormholeContent() {
                   setAcceptedRisk(false);
                 }}
                 aria-label="Return to home page"
-                className="flex-1 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 style={{
+                  flex: '1',
                   fontFamily: "monospace",
                   fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
                   letterSpacing: "0.05em",
@@ -1577,7 +1578,9 @@ export default function WormholeContent() {
                   borderRadius: "6px",
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
                   minHeight: "44px",
-                  background: "transparent"
+                  background: "transparent",
+                  transition: 'all 0.2s',
+                  cursor: 'pointer'
                 }}
               >
                 ← RETURN
@@ -1587,8 +1590,8 @@ export default function WormholeContent() {
                 disabled={!acceptedRisk}
                 aria-label="Enter wormhole"
                 aria-disabled={!acceptedRisk}
-                className="flex-1 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                 style={{
+                  flex: '1',
                   fontFamily: "monospace",
                   fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
                   letterSpacing: "0.05em",
@@ -1601,7 +1604,9 @@ export default function WormholeContent() {
                   borderRadius: "6px",
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
                   minHeight: "44px",
-                  fontWeight: "600"
+                  fontWeight: "600",
+                  transition: 'all 0.2s',
+                  border: 'none'
                 }}
               >
                 ENTER →
