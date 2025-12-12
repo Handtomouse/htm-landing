@@ -1225,13 +1225,8 @@ export default function WormholeContent() {
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-50"
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            paddingTop: 'calc(2rem + env(safe-area-inset-top))',
-            paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
-            paddingLeft: 'calc(1.5rem + env(safe-area-inset-left))',
-            paddingRight: 'calc(1.5rem + env(safe-area-inset-right))',
-            maxHeight: isMobileLandscape ? '90vh' : 'none',
-            overflowY: isMobileLandscape ? 'auto' : 'visible'
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+            padding: 'max(2rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left))'
           }}
           role="alert"
           aria-live="assertive"
@@ -1242,31 +1237,21 @@ export default function WormholeContent() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              textAlign: 'center',
-              width: 'auto',
+              maxWidth: isMobile ? '90vw' : '700px',
+              width: '100%',
               margin: '0 auto'
             }}
             aria-label={countdown === 3 ? `Warp initiating in ${countdown} seconds to ${currentHint}` : countdown === 0 ? `Warping to ${currentHint} now` : undefined}
           >
+            {/* Emoji Icon */}
             {countdown > 0 && currentDestination && (
               <div
                 style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: isMobileLandscape ? "clamp(1.25rem, 4vh, 1.75rem)" : (isMobile ? "clamp(2.5rem, 10vw, 3.5rem)" : "clamp(3rem, 5vw, 4rem)"),
+                  fontSize: isMobile ? "3rem" : "4rem",
                   lineHeight: 1,
-                  filter: isMobile ? "drop-shadow(0 0 12px rgba(255, 157, 35, 0.4))" : "drop-shadow(0 0 20px rgba(255, 157, 35, 0.5))",
-                  animation: isMobile
-                    ? "flip-reveal 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
-                    : "flip-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-                  textAlign: 'center',
-                  marginBottom: isMobileLandscape ? '1.2rem' : (isMobile ? '2rem' : '2.5rem'),
-                  textDecoration: 'none',
-                  border: 'none',
-                  outline: 'none',
-                  isolation: 'isolate'
+                  filter: "drop-shadow(0 0 16px rgba(255, 157, 35, 0.6))",
+                  animation: prefersReducedMotion ? 'none' : "flip-reveal 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                  marginBottom: isMobile ? '1.5rem' : '2rem'
                 }}
               >
                 {currentDestination.category === 'interactive' && '🎮'}
@@ -1279,120 +1264,105 @@ export default function WormholeContent() {
               </div>
             )}
 
-            {/* Screen reader announcement - only critical countdown steps */}
+            {/* Screen reader announcement */}
             <span className="sr-only" aria-live="polite" aria-atomic="true">
               {countdown === 3 && `Warp initiating in ${countdown} seconds to ${currentHint}`}
               {countdown === 0 && `Warping to ${currentHint} now`}
             </span>
 
+            {/* Countdown Number */}
             <div
               key={countdown}
               style={{
-                width: 'auto',
-                display: 'inline-block',
-                margin: '0 auto',
                 fontFamily: "monospace",
-                fontSize: isMobileLandscape ? "clamp(2.5rem, 8vh, 3.5rem)" : (isMobile ? "clamp(4rem, 13vw, 5.5rem)" : "8rem"),
+                fontSize: isMobile ? "clamp(4rem, 15vw, 5rem)" : "6rem",
                 fontWeight: 700,
+                lineHeight: 1.2,
                 color: "var(--accent)",
-                filter: isMobile ? "drop-shadow(0 0 12px rgba(255, 157, 35, 0.5))" : "drop-shadow(0 0 20px rgba(255, 157, 35, 0.6))",
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
-                animation: 'countdown-bounce 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                transformOrigin: 'center',
-                transform: 'translateZ(0)',
-                willChange: 'transform',
-                textAlign: 'center',
-                marginTop: 0,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                marginBottom: isMobileLandscape ? '0.6rem' : (isMobile ? '1.25rem' : '1.5rem')
+                filter: "drop-shadow(0 0 24px rgba(255, 157, 35, 0.8))",
+                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s',
+                marginBottom: isMobile ? '1rem' : '1.5rem'
               }}
             >
               {countdown}
             </div>
+
+            {/* Message Text */}
             <p style={{
-              width: 'auto',
-              display: 'inline-block',
-              maxWidth: '85vw',
-              margin: '0 auto',
               fontFamily: "monospace",
-              letterSpacing: isMobile ? "0.03em" : "0.05em",
-              fontSize: isMobileLandscape ? "clamp(1rem, 2.8vw, 1.125rem)" : (isMobile ? "clamp(1.125rem, 4vw, 1.25rem)" : "1.25rem"),
-              color: "rgba(255, 255, 255, 0.85)",
+              fontSize: isMobile ? "clamp(1rem, 4vw, 1.125rem)" : "1.25rem",
+              lineHeight: 1.4,
+              letterSpacing: "0.04em",
+              color: "rgba(255, 255, 255, 0.9)",
               textAlign: 'center',
-              marginBottom: isMobileLandscape ? '0.5rem' : (isMobile ? '1rem' : '1.5rem')
+              maxWidth: isMobile ? '80vw' : '65vw',
+              marginBottom: isMobile ? '1rem' : '1.5rem',
+              animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out 0.2s backwards'
             }}>
               {currentMessage}
             </p>
-            {isMobile ? (
-              <div
-                className="flex items-center justify-center"
-                style={{
-                  width: '100%',
-                  gap: '0.5rem',
-                  marginBottom: isMobileLandscape ? '0.4rem' : '1rem'
-                }}
-              >
-                <div style={{ height: "1px", flex: "1 1 0", minWidth: "1rem", maxWidth: "5rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
-                <p style={{
-                  fontFamily: "monospace",
-                  fontSize: "clamp(1rem, 3.5vw, 1.125rem)",
-                  letterSpacing: "0.03em",
-                  fontWeight: "500",
-                  color: "var(--accent)",
-                  maxWidth: "45vw",
-                  minWidth: "80px",
-                  textAlign: "center",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  margin: 0
-                }}>
-                  {currentHint}
-                </p>
-                <div style={{ height: "1px", flex: "1 1 0", minWidth: "1rem", maxWidth: "5rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
-              </div>
-            ) : (
-              <div
-                className="flex items-center justify-center"
-                style={{
-                  width: '100%',
-                  gap: '1rem',
-                  marginBottom: '1.5rem'
-                }}
-              >
-                <div style={{ height: "1px", flex: "1 1 0", minWidth: "2rem", maxWidth: "8rem", background: "linear-gradient(to right, transparent, var(--accent))" }}></div>
-                <p style={{
-                  fontFamily: "monospace",
-                  fontSize: "clamp(0.9375rem, 1.5vw, 1.125rem)",
-                  letterSpacing: "0.05em",
-                  fontWeight: "600",
-                  color: "var(--accent)",
-                  maxWidth: "50vw",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  textAlign: "center",
-                  margin: 0
-                }}>
-                  {currentHint}
-                </p>
-                <div style={{ height: "1px", flex: "1 1 0", minWidth: "2rem", maxWidth: "8rem", background: "linear-gradient(to left, transparent, var(--accent))" }}></div>
-              </div>
-            )}
-            {canAbort && !isMobile && (
+
+            {/* Hint with Decorative Lines */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: isMobile ? '0.75rem' : '1rem',
+                width: '100%',
+                maxWidth: isMobile ? '90vw' : '600px',
+                marginBottom: isMobile ? '1rem' : '1.5rem',
+                animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out 0.3s backwards'
+              }}
+            >
+              <div style={{
+                height: "1px",
+                flex: "1 1 0",
+                minWidth: isMobile ? "1rem" : "2rem",
+                maxWidth: isMobile ? "4rem" : "6rem",
+                background: "linear-gradient(to right, transparent, var(--accent))"
+              }}></div>
+              <p style={{
+                fontFamily: "monospace",
+                fontSize: isMobile ? "clamp(0.875rem, 3.5vw, 1rem)" : "1rem",
+                letterSpacing: "0.04em",
+                fontWeight: "600",
+                color: "var(--accent)",
+                textAlign: "center",
+                margin: 0,
+                maxWidth: isMobile ? "50vw" : "350px",
+                lineHeight: 1.3,
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical"
+              }}>
+                {currentHint}
+              </p>
+              <div style={{
+                height: "1px",
+                flex: "1 1 0",
+                minWidth: isMobile ? "1rem" : "2rem",
+                maxWidth: isMobile ? "4rem" : "6rem",
+                background: "linear-gradient(to left, transparent, var(--accent))"
+              }}></div>
+            </div>
+
+            {/* ESC to abort - show on all devices */}
+            {canAbort && (
               <p
-                className="font-mono animate-pulse"
                 style={{
-                  fontSize: "0.875rem",
-                  color: "rgba(255, 255, 255, 0.75)",
+                  fontFamily: "monospace",
+                  fontSize: isMobile ? "0.75rem" : "0.875rem",
+                  color: "rgba(255, 255, 255, 0.6)",
                   letterSpacing: "0.08em",
                   textAlign: "center",
-                  margin: 0
+                  margin: 0,
+                  animation: prefersReducedMotion ? 'none' : 'pulse 2s ease-in-out infinite'
                 }}
-                aria-label="Press escape key on keyboard to abort warp"
+                aria-label="Press escape key or tap to abort warp"
               >
-                ESC to abort
+                {isMobile ? 'TAP to abort' : 'ESC to abort'}
               </p>
             )}
           </div>
