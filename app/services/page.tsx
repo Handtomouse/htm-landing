@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Services | Creative Direction & Cultural Strategy Sydney | Hand To Mouse',
@@ -114,7 +115,7 @@ export default function Services() {
           </h2>
 
           <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
-            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help.
+            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help. Learn more <Link href="/about" className="underline hover:text-gray-400 transition-colors">about my approach</Link> or check the <Link href="/faq" className="underline hover:text-gray-400 transition-colors">FAQ</Link>.
           </p>
 
           <a

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'About | Independent Creative Direction & Cultural Strategy | Hand To Mouse',
@@ -79,7 +80,7 @@ export default function About() {
           </p>
 
           <p>
-            I specialize in cultural strategy, narrative development, and experience design. Whether you're
+            I specialize in <Link href="/services" className="underline hover:text-gray-400 transition-colors">cultural strategy, narrative development, and experience design</Link>. Whether you're
             a museum launching a digital initiative, a startup defining your brand positioning, or an agency
             needing creative direction for a client project—I work collaboratively to create work that matters.
           </p>
@@ -97,7 +98,7 @@ export default function About() {
 
           <p>
             If you're looking for creative direction that's strategic, culturally intelligent, and built
-            to last—someone who can guide your project from concept to reality—let's talk.
+            to last—someone who can guide your project from concept to reality—let's talk. Have questions? Check out the <Link href="/faq" className="underline hover:text-gray-400 transition-colors">FAQ page</Link>.
           </p>
 
           <div className="mt-12 pt-8 border-t border-gray-800">
