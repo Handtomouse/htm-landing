@@ -131,10 +131,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: isMobile ? 'clamp(var(--grid-unit), 2vh, var(--grid-2x))' : 'clamp(var(--grid-2x), 3vh, var(--grid-3x))',
+          padding: isMobile ? 'clamp(var(--grid-unit), 1.5vh, var(--grid-2x))' : 'clamp(var(--grid-2x), 2.5vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
-          maxHeight: 'clamp(350px, 75dvh, 80dvh)',
+          maxHeight: 'clamp(280px, 60dvh, 65dvh)',
           overflowY: 'auto',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
           position: 'relative'
@@ -145,16 +145,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: 'max(var(--grid-2x), env(safe-area-inset-top))',
-            right: 'max(var(--grid-2x), env(safe-area-inset-right))',
+            top: 'max(var(--grid-unit), env(safe-area-inset-top))',
+            right: 'max(var(--grid-unit), env(safe-area-inset-right))',
             background: 'transparent',
             border: 'none',
             color: 'var(--muted)',
-            fontSize: '32px',
+            fontSize: '28px',
             cursor: 'pointer',
-            padding: '12px',
-            minWidth: '48px',
-            minHeight: '48px',
+            padding: '8px',
+            minWidth: '44px',
+            minHeight: '44px',
             lineHeight: 1,
             transition: 'color 0.2s'
           }}
@@ -168,9 +168,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           id="contact-modal-title"
           style={{
             fontFamily: 'var(--font-heading)',
-            fontSize: 'clamp(24px, 5vw, 32px)',
+            fontSize: 'clamp(22px, 4.5vw, 28px)',
             color: 'var(--accent)',
-            marginBottom: 'var(--grid-2x)',
+            marginBottom: isMobile ? 'var(--grid-unit)' : 'var(--grid-2x)',
             textAlign: 'center'
           }}
         >

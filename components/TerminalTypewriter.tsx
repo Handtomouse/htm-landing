@@ -415,7 +415,7 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
             style={{
               fontFamily: 'var(--font-body)',
               textAlign: 'center',
-              fontSize: 'clamp(9px, 1.2vw, 13px)',
+              fontSize: 'clamp(8.5px, 1.14vw, 12px)',
               letterSpacing: '0.02em',
               lineHeight: 1.4,
               maxWidth: 'min(510px, 90vw)',

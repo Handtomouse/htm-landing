@@ -1559,7 +1559,7 @@ export default function WormholeContent() {
               </label>
             </div>
 
-            <div className={`flex ${isMobile ? 'gap-3' : 'gap-2'}`}>
+            <div className={`flex ${isMobile ? 'gap-4' : 'gap-4'}`}>
               <button
                 onClick={() => {
                   triggerHaptic(10);
