@@ -3,7 +3,7 @@ import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'About | Independent Creative Direction & Cultural Strategy | Hand To Mouse',
-  description: 'Learn about Tom Hand, a Sydney-based creative director and cultural strategist working with startups, agencies, and cultural organizations to create meaningful digital experiences.',
+  description: 'Sydney creative director and cultural strategist. Working with startups, agencies, and cultural organizations to create meaningful experiences.',
   keywords: ['about hand to mouse', 'tom hand', 'creative director sydney', 'cultural strategy', 'independent creative director', 'sydney creative services'],
   alternates: {
     canonical: 'https://handtomouse.org/about',
@@ -102,7 +102,7 @@ export default function About() {
 
           <div className="mt-12 pt-8 border-t border-gray-800">
             <a
-              href="mailto:hello@handtomouse.org"
+              href="mailto:hello@handtomouse.org?subject=Inquiry%20from%20About%20Page"
               className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all"
               style={{ fontFamily: 'var(--font-body)' }}
             >

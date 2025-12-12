@@ -156,7 +156,7 @@ export default function FAQ() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="mailto:hello@handtomouse.org"
+                href="mailto:hello@handtomouse.org?subject=Question%20from%20FAQ%20Page"
                 className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all text-center"
                 style={{ fontFamily: 'var(--font-body)' }}
               >

@@ -31,7 +31,7 @@ export default function NotFound() {
           className="text-lg mb-8 text-gray-300"
           style={{ fontFamily: 'var(--font-body)' }}
         >
-          This page doesn't exist or has been moved. The site has been redesigned with a fresh new look.
+          This page doesn't exist or has been moved. The site has been redesigned with a fresh new look. If you're looking for portfolio or gallery pages, they've moved to Services.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

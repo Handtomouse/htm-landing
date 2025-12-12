@@ -3,7 +3,7 @@ import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Services | Creative Direction & Cultural Strategy Sydney | Hand To Mouse',
-  description: 'Independent creative direction, cultural strategy, and digital experience design for startups, agencies, and cultural organizations across Sydney and beyond.',
+  description: 'Creative direction, cultural strategy, and digital experience design for startups, agencies, and cultural organizations. Based in Sydney.',
   keywords: ['creative direction sydney', 'cultural strategy', 'brand strategy sydney', 'digital strategy', 'creative services sydney', 'experience design'],
   alternates: {
     canonical: 'https://handtomouse.org/services',
@@ -118,7 +118,7 @@ export default function Services() {
           </p>
 
           <a
-            href="mailto:hello@handtomouse.org"
+            href="mailto:hello@handtomouse.org?subject=Project%20Inquiry%20from%20Services%20Page"
             className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all"
             style={{ fontFamily: 'var(--font-body)' }}
           >
