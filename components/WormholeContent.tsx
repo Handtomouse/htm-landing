@@ -1302,7 +1302,9 @@ export default function WormholeContent() {
                 transform: 'translateZ(0)',
                 willChange: 'transform',
                 textAlign: 'center',
-                margin: 0,
+                marginTop: 0,
+                marginLeft: 'auto',
+                marginRight: 'auto',
                 marginBottom: isMobileLandscape ? '0.6rem' : (isMobile ? '1.25rem' : '1.5rem')
               }}
             >
