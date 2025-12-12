@@ -24,9 +24,6 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: 'Independent creative direction and cultural strategy from Sydney | Hand To Mouse',
   description: 'Sydney-based creative director and web developer specializing in modern web design and cultural projects for startups, agencies, and cultural organizations.',
-  icons: {
-    icon: '/favicon.ico',
-  },
   openGraph: {
     title: 'Hand To Mouse | Creative Direction + Code',
     description: 'Independent creative direction and cultural strategy from Sydney. Modern web design and development for startups, agencies, and cultural organizations.',
