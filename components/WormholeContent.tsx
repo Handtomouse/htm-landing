@@ -1333,10 +1333,9 @@ export default function WormholeContent() {
                 maxWidth: isMobile ? "50vw" : "350px",
                 lineHeight: 1.3,
                 overflow: "hidden",
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical"
-              }}>
+                textOverflow: "ellipsis",
+                whiteSpace: isMobile ? "normal" : "nowrap"
+              } as React.CSSProperties}>
                 {currentHint}
               </p>
               <div style={{
