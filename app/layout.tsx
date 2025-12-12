@@ -6,19 +6,22 @@ import './globals.css'
 const vt323 = VT323({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-mono'
+  variable: '--font-mono',
+  display: 'swap',  // Optimize font loading for better CLS
 })
 
 const pixelifySans = Pixelify_Sans({
   weight: ['400', '600', '700'],
   subsets: ['latin'],
-  variable: '--font-heading'
+  variable: '--font-heading',
+  display: 'swap',  // Optimize font loading for better CLS
 })
 
 const robotoMono = Roboto_Mono({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
-  variable: '--font-body'
+  variable: '--font-body',
+  display: 'swap',  // Optimize font loading for better CLS
 })
 
 export const metadata: Metadata = {
