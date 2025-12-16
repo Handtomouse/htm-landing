@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'About | Independent Creative Direction & Cultural Strategy | Hand To Mouse',
   description: 'Sydney creative director and cultural strategist. Working with startups, agencies, and cultural organizations to create meaningful experiences.',
-  keywords: ['about hand to mouse', 'tom hand', 'creative director sydney', 'cultural strategy', 'independent creative director', 'sydney creative services'],
+  keywords: ['about hand to mouse', 'nate don', 'nathan don', 'creative director sydney', 'cultural strategy', 'independent creative director', 'sydney creative services'],
   alternates: {
     canonical: 'https://handtomouse.org/about',
   },

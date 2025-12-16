@@ -14,8 +14,8 @@ interface FooterCTAsProps {
 }
 
 const LEFT_BUTTONS: CTAButton[] = [
-  { label: 'Portfolio', href: '/portfolio', ariaLabel: 'View portfolio' },
-  { label: 'Work', href: '/NateDon_Portfolio_2025.pdf', ariaLabel: 'Download portfolio PDF' }
+  { label: 'Portfolio', href: '/NateDon_Portfolio_2025.pdf', ariaLabel: 'Download portfolio PDF' },
+  { label: 'Instagram', href: 'https://www.instagram.com/handtomouse.studio/', ariaLabel: 'Visit our Instagram profile' }
 ]
 
 const RIGHT_BUTTONS: CTAButton[] = [
