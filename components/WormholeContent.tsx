@@ -1464,8 +1464,38 @@ export default function WormholeContent() {
             padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
             opacity: isWarningAnimating ? 1 : 0,
             transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
+            transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+            position: 'relative'
           }}>
+            {/* Close button */}
+            <button
+              onClick={() => {
+                triggerHaptic(10);
+                setShowExitWarning(false);
+                setAcceptedRisk(false);
+              }}
+              aria-label="Close wormhole warning modal"
+              style={{
+                position: 'absolute',
+                top: 'max(var(--grid-unit), env(safe-area-inset-top))',
+                right: 'max(var(--grid-unit), env(safe-area-inset-right))',
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--muted)',
+                fontSize: '28px',
+                cursor: 'pointer',
+                padding: '12px',
+                minWidth: '48px',
+                minHeight: '48px',
+                lineHeight: 1,
+                transition: 'color 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--muted)'}
+            >
+              ×
+            </button>
+
             <div className="text-center">
               <div
                 style={{
@@ -1477,8 +1507,8 @@ export default function WormholeContent() {
                 aria-hidden="true"
               >✦</div>
               <h2 id="exit-warning-title" style={{
-                fontFamily: "system-ui",
-                fontSize: isMobile ? "1rem" : "clamp(1.125rem, 3vw, 1.25rem)",
+                fontFamily: "var(--font-heading)",
+                fontSize: "clamp(20px, 4vw, 28px)",
                 marginBottom: isMobile ? "0.75rem" : "0.5rem",
                 color: "var(--accent)",
                 letterSpacing: "0.02em",
@@ -1487,10 +1517,11 @@ export default function WormholeContent() {
                 Your Journey Awaits
               </h2>
               <p style={{
-                fontFamily: "monospace",
-                fontSize: isMobile ? "0.625rem" : "0.75rem",
+                fontFamily: "var(--font-body)",
+                fontSize: "clamp(12px, 2.5vw, 14px)",
                 marginBottom: isMobile ? "1rem" : "1rem",
-                color: "rgba(255, 255, 255, 0.6)"
+                color: "rgba(255, 255, 255, 0.6)",
+                letterSpacing: "0.05em"
               }}>
                 Step into the unknown
               </p>
@@ -1498,8 +1529,8 @@ export default function WormholeContent() {
 
             <div style={{ marginBottom: isMobile ? "1rem" : "1rem" }}>
               <p style={{
-                fontFamily: "monospace",
-                fontSize: isMobile ? "0.625rem" : "0.75rem",
+                fontFamily: "var(--font-body)",
+                fontSize: "clamp(13px, 2.5vw, 15px)",
                 lineHeight: "1.5",
                 color: "rgba(255, 255, 255, 0.8)",
                 marginBottom: isMobile ? "1rem" : "1rem",
@@ -1516,8 +1547,8 @@ export default function WormholeContent() {
                 marginBottom: isMobile ? "1rem" : "1rem"
               }}>
                 <p style={{
-                  fontFamily: "monospace",
-                  fontSize: "0.625rem",
+                  fontFamily: "var(--font-body)",
+                  fontSize: "clamp(11px, 2vw, 12px)",
                   color: "rgba(255, 255, 255, 0.5)",
                   marginBottom: "0.5rem",
                   letterSpacing: "0.1em",
@@ -1529,8 +1560,8 @@ export default function WormholeContent() {
                   <div className="flex items-start" style={{ gap: "0.5rem" }}>
                     <span style={{ color: "var(--accent)", fontSize: isMobile ? "0.75rem" : "0.875rem" }}>→</span>
                     <p style={{
-                      fontFamily: "monospace",
-                      fontSize: isMobile ? "0.75rem" : "0.875rem",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "clamp(12px, 2.5vw, 14px)",
                       color: "rgba(255, 255, 255, 0.7)",
                       lineHeight: "1.4"
                     }}>
@@ -1540,8 +1571,8 @@ export default function WormholeContent() {
                   <div className="flex items-start" style={{ gap: "0.5rem" }}>
                     <span style={{ color: "var(--accent)", fontSize: isMobile ? "0.75rem" : "0.875rem" }}>→</span>
                     <p style={{
-                      fontFamily: "monospace",
-                      fontSize: isMobile ? "0.75rem" : "0.875rem",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "clamp(12px, 2.5vw, 14px)",
                       color: "rgba(255, 255, 255, 0.7)",
                       lineHeight: "1.4"
                     }}>
@@ -1551,8 +1582,8 @@ export default function WormholeContent() {
                   <div className="flex items-start" style={{ gap: "0.5rem" }}>
                     <span style={{ color: "var(--accent)", fontSize: isMobile ? "0.75rem" : "0.875rem" }}>→</span>
                     <p style={{
-                      fontFamily: "monospace",
-                      fontSize: isMobile ? "0.75rem" : "0.875rem",
+                      fontFamily: "var(--font-body)",
+                      fontSize: "clamp(12px, 2.5vw, 14px)",
                       color: "rgba(255, 255, 255, 0.7)",
                       lineHeight: "1.4"
                     }}>
@@ -1583,8 +1614,8 @@ export default function WormholeContent() {
                   }}
                 />
                 <span style={{
-                  fontFamily: "monospace",
-                  fontSize: "0.75rem",
+                  fontFamily: "var(--font-body)",
+                  fontSize: "clamp(12px, 2.5vw, 13px)",
                   color: "rgba(255, 255, 255, 0.8)"
                 }}>
                   I'm ready to explore
@@ -1602,14 +1633,15 @@ export default function WormholeContent() {
                 aria-label="Return to home page"
                 style={{
                   flex: '1',
-                  fontFamily: "monospace",
-                  fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
-                  letterSpacing: "0.05em",
+                  fontFamily: "var(--font-body)",
+                  fontSize: "clamp(12px, 2.5vw, 14px)",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
                   border: "1px solid rgba(255, 255, 255, 0.2)",
                   color: "rgba(255, 255, 255, 0.8)",
                   borderRadius: "6px",
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
-                  minHeight: "44px",
+                  minHeight: "48px",
                   background: "transparent",
                   transition: 'all 0.2s',
                   cursor: 'pointer'
@@ -1624,9 +1656,10 @@ export default function WormholeContent() {
                 aria-disabled={!acceptedRisk}
                 style={{
                   flex: '1',
-                  fontFamily: "monospace",
-                  fontSize: "clamp(0.7rem, 1.8vw, 0.75rem)",
-                  letterSpacing: "0.05em",
+                  fontFamily: "var(--font-body)",
+                  fontSize: "clamp(12px, 2.5vw, 14px)",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
                   background: acceptedRisk
                     ? "linear-gradient(to right, var(--accent), var(--accent-hover))"
                     : "rgba(255, 255, 255, 0.1)",
@@ -1635,7 +1668,7 @@ export default function WormholeContent() {
                   boxShadow: acceptedRisk ? "0 0 30px rgba(255, 157, 35, 0.3)" : "none",
                   borderRadius: "6px",
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
-                  minHeight: "44px",
+                  minHeight: "48px",
                   fontWeight: "600",
                   transition: 'all 0.2s',
                   border: 'none'
@@ -1646,10 +1679,11 @@ export default function WormholeContent() {
             </div>
 
             <p className="text-center" style={{
-              fontFamily: "monospace",
-              fontSize: "0.625rem",
+              fontFamily: "var(--font-body)",
+              fontSize: "clamp(11px, 2vw, 12px)",
               marginTop: isMobile ? "0.5rem" : "1rem",
-              color: "rgba(255, 255, 255, 0.4)"
+              color: "rgba(255, 255, 255, 0.4)",
+              letterSpacing: "0.05em"
             }}>
               ESC to cancel
             </p>
