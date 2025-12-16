@@ -33,6 +33,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const firstFocusableRef = useRef<HTMLButtonElement>(null)
   const lastFocusableRef = useRef<HTMLButtonElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
 
   // XSS sanitization helper
   const sanitizeInput = (input: string) => {
@@ -129,6 +130,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   useEffect(() => {
     if (!isOpen || !modalRef.current) return
 
+    // Save the previously focused element
+    previousFocusRef.current = document.activeElement as HTMLElement
+
     const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
       'button, input, textarea, [tabindex]:not([tabindex="-1"])'
     )
@@ -151,7 +155,13 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     }
 
     document.addEventListener('keydown', trapFocus)
-    return () => document.removeEventListener('keydown', trapFocus)
+    return () => {
+      document.removeEventListener('keydown', trapFocus)
+      // Restore focus when modal closes
+      if (previousFocusRef.current && !isOpen) {
+        previousFocusRef.current.focus()
+      }
+    }
   }, [isOpen])
 
   // Session storage draft saving
@@ -282,8 +292,8 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         right: 0,
         bottom: 0,
         height: viewportHeight,
-        backgroundColor: 'rgba(0, 0, 0, 0.85)',
-        backdropFilter: 'blur(8px)',
+        backgroundColor: 'rgba(11, 11, 11, 0.85)',
+        backdropFilter: 'blur(20px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -298,15 +308,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: 'var(--bg)',
-          border: '2px solid var(--grid)',
-          borderRadius: '0',
+          backgroundColor: 'rgba(11, 11, 11, 0.6)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 157, 35, 0.2)',
+          borderRadius: '12px',
           padding: isMobile ? 'var(--grid-2x)' : 'clamp(var(--grid-2x), 2vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
           maxHeight: '85dvh',
           overflowY: 'auto',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+          boxShadow: '0 0 60px rgba(255, 157, 35, 0.15), inset 0 1px 0 rgba(255, 157, 35, 0.1)',
           position: 'relative',
           opacity: isAnimating ? 1 : 0,
           transform: isAnimating ? 'translateY(0)' : 'translateY(20px)',

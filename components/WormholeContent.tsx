@@ -115,6 +115,7 @@ export default function WormholeContent() {
   const [lastClickTime, setLastClickTime] = useState(0);
   const [currentDestination, setCurrentDestination] = useState<{url: string, category: string, hint: string} | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isWarningAnimating, setIsWarningAnimating] = useState(false);
   const [enabledCategories, setEnabledCategories] = useState<Record<string, boolean>>({
     interactive: true,
     games: true,
@@ -330,6 +331,31 @@ export default function WormholeContent() {
         previousFocusRef.current.focus();
       }
     };
+  }, [showExitWarning]);
+
+  // Prevent body scroll when modal open
+  useEffect(() => {
+    if (showExitWarning) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [showExitWarning]);
+
+  // Modal slide-in animation
+  useEffect(() => {
+    if (showExitWarning) {
+      setTimeout(() => setIsWarningAnimating(true), 10);
+    } else {
+      setIsWarningAnimating(false);
+    }
   }, [showExitWarning]);
 
   // Track viewport dimensions for responsive calculations
@@ -613,7 +639,7 @@ export default function WormholeContent() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isWarping, canAbort, showExitWarning]);
+  }, [isWarping, canAbort, showExitWarning, abortWarp]);
 
   // Particle burst on speed change
   useEffect(() => {
@@ -1435,7 +1461,10 @@ export default function WormholeContent() {
             width: "100%",
             margin: "0 auto",
             borderRadius: "12px",
-            padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)"
+            padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
+            opacity: isWarningAnimating ? 1 : 0,
+            transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
           }}>
             <div className="text-center">
               <div
