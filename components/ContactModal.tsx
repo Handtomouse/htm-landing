@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 interface ContactModalProps {
   isOpen: boolean
@@ -34,6 +34,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const firstFocusableRef = useRef<HTMLButtonElement>(null)
   const lastFocusableRef = useRef<HTMLButtonElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
+  const validationTimeoutRef = useRef<NodeJS.Timeout>()
 
   // XSS sanitization helper
   const sanitizeInput = (input: string) => {
@@ -60,6 +61,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     if (charCount > 800) return 'var(--warning-medium)'
     return 'var(--muted)'
   }
+
+  // Debounced validation helper
+  const debouncedValidate = useCallback((field: keyof typeof errors, errorMessage: string) => {
+    if (validationTimeoutRef.current) {
+      clearTimeout(validationTimeoutRef.current)
+    }
+    validationTimeoutRef.current = setTimeout(() => {
+      setErrors(prev => ({ ...prev, [field]: errorMessage }))
+    }, 300) // 300ms debounce
+  }, [])
 
   // Detect mobile viewport
   useEffect(() => {
@@ -321,7 +332,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           position: 'relative',
           opacity: isAnimating ? 1 : 0,
           transform: isAnimating ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'opacity 0.3s ease-out, transform 0.3s ease-out'
+          transition: 'opacity var(--duration-fast) ease-out, transform var(--duration-fast) ease-out'
         }}
       >
         {/* Close button */}
@@ -341,7 +352,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             minWidth: '48px',
             minHeight: '48px',
             lineHeight: 1,
-            transition: 'color 0.2s'
+            transition: 'color var(--duration-flash)'
           }}
           aria-label="Close contact form modal"
         >
@@ -429,7 +440,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 border: errors.name ? '1px solid #ff6b6b' : '1px solid var(--grid)',
                 borderLeft: name && !errors.name ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
-                transition: 'all 0.3s',
+                transition: 'all var(--duration-fast)',
                 outline: 'none'
               }}
               onFocus={(e) => {
@@ -495,7 +506,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 border: errors.email ? '1px solid #ff6b6b' : '1px solid var(--grid)',
                 borderLeft: email && !errors.email ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
-                transition: 'all 0.3s',
+                transition: 'all var(--duration-fast)',
                 outline: 'none'
               }}
               onFocus={(e) => {
@@ -552,6 +563,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               required
               minLength={2}
               maxLength={200}
+              autoComplete="off"
               disabled={status === 'loading' || status === 'success'}
               aria-invalid={errors.subject ? 'true' : 'false'}
               aria-describedby={errors.subject ? 'subject-error' : undefined}
@@ -564,7 +576,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 border: errors.subject ? '1px solid #ff6b6b' : '1px solid var(--grid)',
                 borderLeft: subject && !errors.subject ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
-                transition: 'all 0.3s',
+                transition: 'all var(--duration-fast)',
                 outline: 'none'
               }}
               onFocus={(e) => {
@@ -616,6 +628,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               minLength={10}
               maxLength={1000}
               rows={5}
+              autoComplete="off"
               disabled={status === 'loading' || status === 'success'}
               aria-invalid={errors.message ? 'true' : 'false'}
               aria-describedby={errors.message ? 'message-error' : undefined}
@@ -628,7 +641,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 border: errors.message ? '1px solid #ff6b6b' : '1px solid var(--grid)',
                 borderLeft: message && !errors.message ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
-                transition: 'all 0.3s',
+                transition: 'all var(--duration-fast)',
                 outline: 'none',
                 resize: 'vertical',
                 minHeight: 'clamp(80px, 12vh, 120px)'
@@ -739,7 +752,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 borderRightColor: 'transparent',
                 borderRadius: '50%',
                 display: 'inline-block',
-                animation: 'spin 0.6s linear infinite'
+                animation: 'spin var(--duration-normal) linear infinite'
               }} />
             )}
             {status === 'loading' ? 'SENDING...' : status === 'success' ? '✓ SENT' : 'SEND MESSAGE'}

@@ -76,7 +76,7 @@ export default function Home() {
               "jobTitle": "Creative Director & Cultural Strategist"
             },
             "sameAs": [
-              "https://www.linkedin.com/in/tomhand",
+              "https://www.linkedin.com/in/nate-don",
               "https://github.com/handtomouse"
             ],
             "address": {
@@ -103,7 +103,7 @@ export default function Home() {
             "description": "Independent creative director and cultural strategist based in Sydney, working with startups, agencies, and cultural organizations to create meaningful digital experiences.",
             "url": "https://handtomouse.org",
             "sameAs": [
-              "https://www.linkedin.com/in/tomhand",
+              "https://www.linkedin.com/in/nate-don",
               "https://github.com/handtomouse",
               "https://twitter.com/handtomouse",
               "https://www.instagram.com/handtomouse.studio"
@@ -152,7 +152,7 @@ export default function Home() {
               "alternateName": "Nathan Don",
               "jobTitle": "Creative Director & Cultural Strategist",
               "sameAs": [
-                "https://www.linkedin.com/in/tomhand",
+                "https://www.linkedin.com/in/nate-don",
                 "https://github.com/handtomouse",
                 "https://www.instagram.com/handtomouse.studio"
               ]

@@ -65,10 +65,15 @@
 
   /* Animation Durations */
   --duration-instant: 120ms;
+  --duration-quick: 150ms;
+  --duration-flash: 200ms;
   --duration-fast: 300ms;
   --duration-normal: 600ms;
-  --duration-slow: 1200ms;
+  --duration-slow: 800ms;
+  --duration-slower: 1000ms;
   --duration-dramatic: 1800ms;
+  --duration-invincible: 2000ms;
+  --duration-message: 3000ms;
 
   /* Easing Functions */
   --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);

@@ -1,6 +1,12 @@
-# Allow Google to crawl all public pages
+# Allow only homepage and wormhole
 User-agent: *
-Allow: /
+Allow: /$
+Allow: /wormhole
+Disallow: /about
+Disallow: /services
+Disallow: /faq
+Disallow: /portfolio
+Disallow: /testimonials
 Disallow: /api/
 
 # Sitemap location
