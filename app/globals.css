@@ -32,6 +32,11 @@
   --accent-hover: #FFB84D;
   --icon: #6b6b6b;
 
+  /* Warning/Status Colors */
+  --warning-critical: #ff6b6b;
+  --warning-high: #ff9d23;
+  --warning-medium: #ffd700;
+
   /* Baseline Grid System (8px base unit) */
   --grid-unit: 8px;
   --grid-2x: calc(var(--grid-unit) * 2);  /* 16px */

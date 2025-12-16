@@ -1,4 +1,5 @@
 import WormholeContent from '@/components/WormholeContent'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import Script from 'next/script'
 
 export const metadata = {
@@ -42,7 +43,9 @@ export default function WormholePage() {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <WormholeContent />
+      <ErrorBoundary>
+        <WormholeContent />
+      </ErrorBoundary>
     </>
   )
 }

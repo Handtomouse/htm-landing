@@ -55,9 +55,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   // Character count color coding
   const getCountColor = () => {
-    if (charCount > 990) return '#ff6b6b'
-    if (charCount > 950) return '#ff9d23'
-    if (charCount > 800) return '#ffd700'
+    if (charCount > 990) return 'var(--warning-critical)'
+    if (charCount > 950) return 'var(--warning-high)'
+    if (charCount > 800) return 'var(--warning-medium)'
     return 'var(--muted)'
   }
 

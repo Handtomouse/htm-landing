@@ -120,7 +120,11 @@ export default function About() {
 
           <p>
             If you're looking for creative direction that's strategic, culturally intelligent, and built
-            to last—someone who can guide your project from concept to reality—let's talk. Have questions? Check out the <Link href="/faq" className="underline hover:text-gray-400 transition-colors">FAQ page</Link>.
+            to last—someone who can guide your project from concept to reality—let's talk.
+          </p>
+
+          <p>
+            View <Link href="/portfolio" className="underline hover:text-gray-400 transition-colors">selected work</Link>, read <Link href="/testimonials" className="underline hover:text-gray-400 transition-colors">client testimonials</Link>, or check out the <Link href="/faq" className="underline hover:text-gray-400 transition-colors">FAQ</Link>.
           </p>
 
           <div className="mt-12 pt-8 border-t border-gray-800">

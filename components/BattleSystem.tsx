@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, ReactNode } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, ReactNode } from 'react'
 
 // Simple interfaces
 interface Projectile {
@@ -61,6 +61,7 @@ export default function BattleSystem({ children }: Props) {
     left: null,
     right: null
   })
+  const deathSequenceTimeouts = useRef<NodeJS.Timeout[]>([])
 
   // Constants
   const SHOT_COOLDOWN = 1000 // 1 second between shots
@@ -80,15 +81,15 @@ export default function BattleSystem({ children }: Props) {
   const FINGERTIP_Y = 315   // Vertical center of yellow squares (287.1 + 28.3)
 
   // Get logo element (first .logo-container = left, second = right)
-  const getLogoElement = (side: 'left' | 'right'): HTMLElement | null => {
+  const getLogoElement = useCallback((side: 'left' | 'right'): HTMLElement | null => {
     const containers = document.querySelectorAll('.logo-container')
     if (containers.length < 2) return null
     const container = side === 'left' ? containers[0] : containers[1]
     return container as HTMLElement | null
-  }
+  }, [])
 
   // Calculate fingertip position from logo
-  const calculateFingertipPosition = (side: 'left' | 'right') => {
+  const calculateFingertipPosition = useCallback((side: 'left' | 'right') => {
     const logo = getLogoElement(side)
     if (!logo) return null
 
@@ -118,10 +119,10 @@ export default function BattleSystem({ children }: Props) {
       x: fingertipX - layerRect.left,
       y: fingertipY - layerRect.top
     }
-  }
+  }, [getLogoElement])
 
   // Fire projectile (after telegraph)
-  const fireProjectile = (side: 'left' | 'right') => {
+  const fireProjectile = useCallback((side: 'left' | 'right') => {
     const now = Date.now()
 
     // Calculate fingertip position
@@ -153,10 +154,10 @@ export default function BattleSystem({ children }: Props) {
 
     // End charging state
     setChargingShot(prev => ({ ...prev, [side]: false }))
-  }
+  }, [calculateFingertipPosition])
 
   // Shoot projectile (with telegraph)
-  const shoot = (side: 'left' | 'right') => {
+  const shoot = useCallback((side: 'left' | 'right') => {
     const now = Date.now()
 
     // Check if hands exist (they render conditionally after loading animation)
@@ -185,7 +186,7 @@ export default function BattleSystem({ children }: Props) {
       fireProjectile(side)
       telegraphTimeoutRef.current[side] = null
     }, TELEGRAPH_DURATION)
-  }
+  }, [getLogoElement, handState, chargingShot, fireProjectile])
 
   // Use ref to track hand state for collision checks (avoid stale closures)
   const handStateRef = useRef(handState)
@@ -195,7 +196,7 @@ export default function BattleSystem({ children }: Props) {
   }, [handState])
 
   // Check collision between projectile and logo
-  const checkCollision = (projectile: Projectile, targetSide: 'left' | 'right'): boolean => {
+  const checkCollision = useCallback((projectile: Projectile, targetSide: 'left' | 'right'): boolean => {
     // Can't hit dead/dying/respawning targets
     const currentHandState = handStateRef.current[targetSide]
     if (currentHandState !== 'alive' && currentHandState !== 'invincible') {
@@ -224,10 +225,10 @@ export default function BattleSystem({ children }: Props) {
     )
 
     return collision
-  }
+  }, [getLogoElement])
 
   // Handle hit on a hand
-  const handleHit = (side: 'left' | 'right', impactX: number, impactY: number) => {
+  const handleHit = useCallback((side: 'left' | 'right', impactX: number, impactY: number) => {
     const now = Date.now()
 
     // Create impact effect
@@ -241,10 +242,12 @@ export default function BattleSystem({ children }: Props) {
 
     // Screen effects (shake + flash)
     setScreenShake(true)
-    setTimeout(() => setScreenShake(false), 150)
+    const shakeTimeout = setTimeout(() => setScreenShake(false), 150)
+    deathSequenceTimeouts.current.push(shakeTimeout)
 
     setScreenFlash(true)
-    setTimeout(() => setScreenFlash(false), 300)
+    const flashTimeout = setTimeout(() => setScreenFlash(false), 300)
+    deathSequenceTimeouts.current.push(flashTimeout)
 
     // Record animation start time for JS-driven transforms
     animationStartTime.current[side] = now
@@ -253,21 +256,24 @@ export default function BattleSystem({ children }: Props) {
     setHandState(prev => ({ ...prev, [side]: 'dying' }))
 
     // Death sequence
-    setTimeout(() => {
+    const deathTimeout = setTimeout(() => {
       animationStartTime.current[side] = Date.now()
       setHandState(prev => ({ ...prev, [side]: 'respawning' }))
 
-      setTimeout(() => {
+      const respawnTimeout = setTimeout(() => {
         animationStartTime.current[side] = Date.now()
         setHandState(prev => ({ ...prev, [side]: 'invincible' }))
 
-        setTimeout(() => {
+        const invincibleTimeout = setTimeout(() => {
           animationStartTime.current[side] = 0 // Reset
           setHandState(prev => ({ ...prev, [side]: 'alive' }))
         }, INVINCIBLE_DURATION)
+        deathSequenceTimeouts.current.push(invincibleTimeout)
       }, RESPAWN_DURATION)
+      deathSequenceTimeouts.current.push(respawnTimeout)
     }, DEATH_DURATION)
-  }
+    deathSequenceTimeouts.current.push(deathTimeout)
+  }, [])
 
   // Apply state via data-state attribute (CSS expects this)
   useEffect(() => {
@@ -481,6 +487,9 @@ export default function BattleSystem({ children }: Props) {
       if (telegraphTimeoutRef.current.right) {
         clearTimeout(telegraphTimeoutRef.current.right)
       }
+      // Clean up all death sequence timeouts
+      deathSequenceTimeouts.current.forEach(timeout => clearTimeout(timeout))
+      deathSequenceTimeouts.current = []
     }
   }, []) // Empty deps - game loop runs continuously without restarting
 
