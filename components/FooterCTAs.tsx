@@ -65,7 +65,7 @@ export default function FooterCTAs({ onContactClick }: FooterCTAsProps) {
     textTransform: 'uppercase' as const,
     letterSpacing: '0.05em',
     minWidth: 'clamp(80px, 12vw, 110px)',
-    minHeight: '36px',
+    minHeight: '44px',
     cursor: disabled ? 'not-allowed' : 'pointer',
     boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.05)',
     touchAction: 'manipulation' as const,

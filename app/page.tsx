@@ -56,6 +56,39 @@ export default function Home() {
         }}
       />
 
+      {/* SEO Structured Data - Organization */}
+      <Script
+        id="organization-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Hand To Mouse",
+            "alternateName": "HandToMouse",
+            "url": "https://handtomouse.org",
+            "logo": "https://handtomouse.org/HTM-LOGO-ICON-WHITE.svg",
+            "description": "Independent creative direction and cultural strategy from Sydney",
+            "founder": {
+              "@type": "Person",
+              "name": "Nate Don",
+              "alternateName": "Nathan Don",
+              "jobTitle": "Creative Director & Cultural Strategist"
+            },
+            "sameAs": [
+              "https://www.linkedin.com/in/tomhand",
+              "https://github.com/handtomouse"
+            ],
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Sydney",
+              "addressRegion": "NSW",
+              "addressCountry": "AU"
+            }
+          })
+        }}
+      />
+
       {/* SEO Structured Data - Person (Founder) */}
       <Script
         id="person-schema"
@@ -64,17 +97,21 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
-            "name": "Tom Hand",
+            "name": "Nate Don",
+            "alternateName": "Nathan Don",
             "jobTitle": "Creative Director & Cultural Strategist",
             "description": "Independent creative director and cultural strategist based in Sydney, working with startups, agencies, and cultural organizations to create meaningful digital experiences.",
             "url": "https://handtomouse.org",
             "sameAs": [
               "https://www.linkedin.com/in/tomhand",
-              "https://github.com/handtomouse"
+              "https://github.com/handtomouse",
+              "https://twitter.com/handtomouse",
+              "https://www.instagram.com/handtomouse.studio"
             ],
             "worksFor": {
               "@type": "Organization",
-              "name": "Hand To Mouse"
+              "name": "Hand To Mouse",
+              "url": "https://handtomouse.org"
             },
             "address": {
               "@type": "PostalAddress",
@@ -106,17 +143,18 @@ export default function Home() {
             "alternateName": "HandToMouse",
             "description": "Independent creative direction and cultural strategy from Sydney. Working with startups, agencies, and cultural organizations to create meaningful digital experiences.",
             "url": "https://handtomouse.org",
-            "telephone": "+61-PLACEHOLDER",
             "email": "hello@handtomouse.org",
             "image": "https://handtomouse.org/HTM-LOGO-ICON-WHITE.svg",
             "logo": "https://handtomouse.org/HTM-LOGO-ICON-WHITE.svg",
             "founder": {
               "@type": "Person",
-              "name": "Tom Hand",
+              "name": "Nate Don",
+              "alternateName": "Nathan Don",
               "jobTitle": "Creative Director & Cultural Strategist",
               "sameAs": [
                 "https://www.linkedin.com/in/tomhand",
-                "https://github.com/handtomouse"
+                "https://github.com/handtomouse",
+                "https://www.instagram.com/handtomouse.studio"
               ]
             },
             "address": {
@@ -209,6 +247,7 @@ export default function Home() {
       />
 
       <main
+        id="main-content"
         className="screen-curve"
         style={{
           background: '#000',

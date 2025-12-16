@@ -1,9 +1,7 @@
-# Allow Google to crawl only the homepage
+# Allow Google to crawl all public pages
 User-agent: *
-Allow: /$
-Disallow: /about
-Disallow: /services
-Disallow: /wormhole
+Allow: /
+Disallow: /api/
 
 # Sitemap location
 Sitemap: https://handtomouse.org/sitemap.xml

@@ -64,6 +64,48 @@ export default function Services() {
     }
   ]
 
+  // ItemList schema for services
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": services.map((service, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Service",
+        "name": service.title,
+        "description": service.description,
+        "provider": {
+          "@type": "Organization",
+          "name": "Hand To Mouse"
+        }
+      }
+    }))
+  }
+
+  // Offer schema for service offerings
+  const offerSchema = {
+    "@context": "https://schema.org",
+    "@type": "Offer",
+    "itemOffered": {
+      "@type": "Service",
+      "name": "Creative Direction & Cultural Strategy Services",
+      "description": "Independent creative direction, cultural strategy, and digital experience design",
+      "provider": {
+        "@type": "Organization",
+        "name": "Hand To Mouse",
+        "url": "https://handtomouse.org"
+      }
+    },
+    "priceRange": "$5000-$50000",
+    "priceCurrency": "AUD",
+    "availability": "https://schema.org/InStock",
+    "areaServed": {
+      "@type": "City",
+      "name": "Sydney"
+    }
+  }
+
   return (
     <>
       <Script
@@ -73,7 +115,21 @@ export default function Services() {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <main className="min-h-screen bg-black text-white px-6 py-20">
+      <Script
+        id="itemlist-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(itemListSchema),
+        }}
+      />
+      <Script
+        id="offer-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(offerSchema),
+        }}
+      />
+      <main id="main-content" className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
           Services

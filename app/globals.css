@@ -1,5 +1,24 @@
 @import 'tailwindcss';
 
+/* Skip Navigation Link for Keyboard Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-body);
+  border: 2px solid var(--ink);
+}
+
+.skip-link:focus {
+  top: 8px;
+  left: 8px;
+}
+
 :root {
   /* Base Colors (BB-OS Palette) */
   --bg: #0b0b0b;

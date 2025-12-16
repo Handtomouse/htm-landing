@@ -50,7 +50,7 @@ export default function About() {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <main className="min-h-screen bg-black text-white px-6 py-20">
+      <main id="main-content" className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-8" style={{ fontFamily: 'var(--font-heading)' }}>
           About Hand To Mouse
@@ -69,6 +69,28 @@ export default function About() {
             I bridge the gap between vision and execution. Whether you need strategic direction for a
             cultural project, brand positioning for a startup, or end-to-end creative leadership for
             a digital experience—I bring both the strategic thinking and the ability to see it through.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-12 mb-4">About Nate Don</h2>
+
+          <p>
+            I'm Nate Don, an independent creative director and cultural strategist based in Sydney.
+            I help startups, agencies, and cultural organizations create digital experiences that are
+            meaningful, strategic, and built to resonate with their audiences.
+          </p>
+
+          <p>
+            My approach combines strategic thinking with hands-on execution. I don't just develop the
+            creative vision—I see it through to reality. Whether that's crafting brand positioning for
+            a new startup, directing a cultural initiative for a museum, or leading the digital strategy
+            for a creative agency's client, I bring both the creative direction and the technical capability
+            to make it happen.
+          </p>
+
+          <p>
+            I believe great work comes from deep understanding: understanding your mission, your audience,
+            and the cultural context you're operating in. That's why every project starts with listening,
+            research, and collaborative discovery before moving into strategy and execution.
           </p>
 
           <h2 className="text-2xl font-semibold mt-12 mb-4">The Approach</h2>

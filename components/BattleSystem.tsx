@@ -276,12 +276,10 @@ export default function BattleSystem({ children }: Props) {
 
     if (leftLogo) {
       leftLogo.setAttribute('data-state', handState.left)
-      console.log('🎯 LEFT hand state:', handState.left, 'Element:', leftLogo)
     }
 
     if (rightLogo) {
       rightLogo.setAttribute('data-state', handState.right)
-      console.log('🎯 RIGHT hand state:', handState.right, 'Element:', rightLogo)
     }
   }, [handState])
 
