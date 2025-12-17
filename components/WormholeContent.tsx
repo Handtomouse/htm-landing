@@ -1580,6 +1580,7 @@ export default function WormholeContent() {
             transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
             transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
             position: 'relative',
+            pointerEvents: 'auto', // Enable pointer events on modal content
             willChange: 'transform, opacity' // Performance hint for smooth modal entrance
           }}>
             {/* Close button */}
