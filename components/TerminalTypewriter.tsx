@@ -371,7 +371,9 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
     // Only allow clicking revealed characters when not actively typing
     if (index < currentIndex && phase !== 'typing') {
       // Would implement re-scramble animation here
-      console.log('Clicked character:', index)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Clicked character:', index)
+      }
     }
   }
 

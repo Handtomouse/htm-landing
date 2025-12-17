@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
   async headers() {
     return [
       {
         source: '/:path*',
         headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' use.typekit.net vitals.vercel-insights.com va.vercel-scripts.com; style-src 'self' 'unsafe-inline' use.typekit.net; font-src 'self' use.typekit.net data:; img-src 'self' data: blob:; connect-src 'self' vitals.vercel-insights.com; frame-ancestors 'self';"
+          },
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'

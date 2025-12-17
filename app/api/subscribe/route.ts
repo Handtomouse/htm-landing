@@ -66,16 +66,20 @@ export async function POST(request: NextRequest) {
           { status: 200 }
         )
       } catch (error: any) {
-        console.error('Resend error:', error)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Resend error:', error)
+        }
         // Fall through to simple logging if Resend fails
       }
     }
 
     // Fallback: Simple logging (if Resend not configured)
-    console.log('[EMAIL SIGNUP]', {
-      email,
-      timestamp: new Date().toISOString(),
-    })
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[EMAIL SIGNUP]', {
+        email,
+        timestamp: new Date().toISOString(),
+      })
+    }
 
     // TODO: In production, you might want to:
     // - Store in Vercel KV/Postgres
@@ -88,7 +92,9 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     )
   } catch (error) {
-    console.error('Subscription error:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Subscription error:', error)
+    }
     return NextResponse.json(
       { error: 'Something went wrong. Please try again.' },
       { status: 500 }

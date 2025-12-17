@@ -81,7 +81,7 @@ const WORMHOLE_CONFIG = {
 
   // Double-tap detection
   DOUBLE_TAP_WINDOW_MS: 300,
-} as const;
+};
 
 export default function WormholeContent() {
   const triggerHaptic = useHapticFeedback();
@@ -211,7 +211,9 @@ export default function WormholeContent() {
       }
     } catch (error) {
       // Silently fail if audio playback fails (common on iOS)
-      console.warn('Audio playback failed:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Audio playback failed:', error);
+      }
     }
   }, [soundEnabled]);
 
@@ -772,7 +774,7 @@ export default function WormholeContent() {
       const filteredWeights: Record<string, number> = {};
       let totalWeight = 0;
       for (const cat of enabledCats) {
-        const weight = baseCategoryWeights[cat] || (1 / enabledCats.length);
+        const weight = (baseCategoryWeights as Record<string, number>)[cat] || (1 / enabledCats.length);
         filteredWeights[cat] = weight;
         totalWeight += weight;
       }
@@ -897,12 +899,16 @@ export default function WormholeContent() {
             try {
               window.location.href = destination.url;
             } catch (error) {
-              console.warn('Direct navigation failed, trying fallback:', error);
+              if (process.env.NODE_ENV === 'development') {
+                console.warn('Direct navigation failed, trying fallback:', error);
+              }
               // Fallback: open in new tab
               try {
                 window.open(destination.url, '_blank', 'noopener,noreferrer');
               } catch (fallbackError) {
-                console.error('All navigation methods failed:', fallbackError);
+                if (process.env.NODE_ENV === 'development') {
+                  console.error('All navigation methods failed:', fallbackError);
+                }
                 // Last resort: show URL to user
                 alert(`Unable to navigate automatically. Please visit: ${destination.url}`);
               }
@@ -968,8 +974,6 @@ export default function WormholeContent() {
       className="fixed inset-0 overflow-hidden"
       style={{
         background: "#0b0b0b",
-        height: '100vh', // Fallback for older browsers
-        height: '-webkit-fill-available', // iOS Safari fallback
         height: '100dvh', // Dynamic viewport height for modern mobile browsers
         touchAction: 'manipulation', // Prevent iOS zoom on double-tap
         transition: 'opacity 0.2s ease',
@@ -1707,8 +1711,6 @@ export default function WormholeContent() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '0', // Explicit - using spacer divs instead
-            minHeight: '100vh', // Fallback for older browsers
-            minHeight: '-webkit-fill-available', // iOS Safari fallback
             minHeight: '100dvh', // Dynamic viewport height for modern mobile (with notches)
             paddingTop: 'max(1.75rem, env(safe-area-inset-top))',
             paddingBottom: 'max(2rem, env(safe-area-inset-bottom))',

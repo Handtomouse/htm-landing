@@ -26,7 +26,9 @@ export default function Home() {
         body: JSON.stringify({ email })
       })
     } catch (error) {
-      console.error('Subscription error:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Subscription error:', error)
+      }
     }
   }
 

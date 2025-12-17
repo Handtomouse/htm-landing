@@ -162,27 +162,33 @@ export async function POST(request: NextRequest) {
           { status: 200 }
         )
       } catch (error: any) {
-        console.error('Resend error:', error)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Resend error:', error)
+        }
         // Fall through to simple logging if Resend fails
       }
     }
 
     // Fallback: Simple logging (if Resend not configured)
-    console.log('[CONTACT FORM]', {
-      name,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
-      ip,
-    })
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[CONTACT FORM]', {
+        name,
+        email,
+        subject,
+        message,
+        timestamp: new Date().toISOString(),
+        ip,
+      })
+    }
 
     return NextResponse.json(
       { success: true, message: 'Thanks for reaching out! We\'ll get back to you soon.' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Contact form error:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Contact form error:', error)
+    }
     return NextResponse.json(
       { error: 'Something went wrong. Please try again.' },
       { status: 500 }
