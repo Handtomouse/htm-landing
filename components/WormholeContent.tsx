@@ -1435,8 +1435,13 @@ export default function WormholeContent() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="exit-warning-title"
-          className="absolute inset-0 flex items-center justify-center pointer-events-auto z-50"
+          className="flex items-center justify-center pointer-events-auto z-50"
           style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             backdropFilter: "blur(20px)",
             backgroundColor: "rgba(11, 11, 11, 0.85)",
             paddingTop: isMobile ? 'max(1.5rem, env(safe-area-inset-top))' : 'max(var(--grid-3x), env(safe-area-inset-top))',
@@ -1594,10 +1599,11 @@ export default function WormholeContent() {
               </div>
 
               <label
-                className={`flex items-center justify-center gap-6 cursor-pointer ${isMobile ? 'py-2' : 'py-3'}`}
+                className={`flex items-center justify-center cursor-pointer ${isMobile ? 'py-2' : 'py-3'}`}
                 style={{
                   minHeight: '44px',
-                  padding: isMobile ? '0.5rem' : '0.5rem'
+                  padding: isMobile ? '0.5rem' : '0.5rem',
+                  gap: isMobile ? '1rem' : '1.5rem'
                 }}
               >
                 <input
