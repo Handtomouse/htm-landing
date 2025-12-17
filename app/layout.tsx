@@ -126,9 +126,6 @@ export default function RootLayout({
           flexDirection: 'column'
         }}
       >
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
         {children}
         <Analytics />
       </body>

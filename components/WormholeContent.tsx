@@ -1541,13 +1541,16 @@ export default function WormholeContent() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="exit-warning-title"
-          className="flex items-center justify-center pointer-events-auto"
+          className="pointer-events-auto"
           style={{
             position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             zIndex: "var(--z-modal)",
             backdropFilter: "blur(12px)", // Reduced from 20px for better performance
             backgroundColor: "rgba(11, 11, 11, 0.75)", // Reduced from 0.85 for lighter feel
@@ -1571,7 +1574,6 @@ export default function WormholeContent() {
             border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
             boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2)", // Enhanced inner shadow
             maxWidth: isMobile ? "90vw" : "550px",
-            width: isMobile ? "90vw" : "550px", // Fixed width for proper centering
             borderRadius: "12px",
             padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
             opacity: isWarningAnimating ? 1 : 0,
