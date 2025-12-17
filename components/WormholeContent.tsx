@@ -1565,24 +1565,27 @@ export default function WormholeContent() {
             }
           }}
         >
-          <div className="backdrop-blur-xl shadow-2xl" style={{
-            background: `
-              linear-gradient(rgba(11, 11, 11, 0.6), rgba(11, 11, 11, 0.6)),
-              repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px),
-              repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px)
-            `, // Subtle film grain texture
-            border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
-            boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2)", // Enhanced inner shadow
-            maxWidth: isMobile ? "90vw" : "550px",
-            borderRadius: "12px",
-            padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
-            opacity: isWarningAnimating ? 1 : 0,
-            transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
-            position: 'relative',
-            pointerEvents: 'auto', // Enable pointer events on modal content
-            willChange: 'transform, opacity' // Performance hint for smooth modal entrance
-          }}>
+          <div
+            className="backdrop-blur-xl shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: `
+                linear-gradient(rgba(11, 11, 11, 0.6), rgba(11, 11, 11, 0.6)),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px)
+              `, // Subtle film grain texture
+              border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
+              boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2)", // Enhanced inner shadow
+              maxWidth: isMobile ? "90vw" : "550px",
+              borderRadius: "12px",
+              padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
+              opacity: isWarningAnimating ? 1 : 0,
+              transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
+              transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+              position: 'relative',
+              pointerEvents: 'auto', // Enable pointer events on modal content
+              willChange: 'transform, opacity' // Performance hint for smooth modal entrance
+            }}>
             {/* Close button */}
             <button
               onClick={() => {
