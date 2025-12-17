@@ -1551,10 +1551,7 @@ export default function WormholeContent() {
             zIndex: "var(--z-modal)",
             backdropFilter: "blur(12px)", // Reduced from 20px for better performance
             backgroundColor: "rgba(11, 11, 11, 0.75)", // Reduced from 0.85 for lighter feel
-            paddingTop: isMobile ? 'max(1.5rem, env(safe-area-inset-top))' : 'max(var(--grid-3x), env(safe-area-inset-top))',
-            paddingBottom: isMobile ? 'max(1.5rem, calc(env(safe-area-inset-bottom) + 0.5rem))' : 'max(var(--grid-3x), env(safe-area-inset-bottom))',
-            paddingLeft: isMobile ? 'max(1.5rem, env(safe-area-inset-left))' : 'max(var(--grid-3x), env(safe-area-inset-left))',
-            paddingRight: isMobile ? 'max(1.5rem, env(safe-area-inset-right))' : 'max(var(--grid-3x), env(safe-area-inset-right))'
+            padding: '1rem' // Minimal padding to prevent edge clipping
           }}
           onClick={(e) => {
             // Dismiss modal when clicking backdrop (not content)
