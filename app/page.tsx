@@ -45,15 +45,7 @@ export default function Home() {
             "name": "Hand To Mouse",
             "alternateName": "HandToMouse",
             "url": "https://handtomouse.org",
-            "description": "Independent creative direction and cultural strategy from Sydney",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://handtomouse.org/search?q={search_term_string}"
-              },
-              "query-input": "required name=search_term_string"
-            }
+            "description": "Independent creative direction and cultural strategy from Sydney"
           })
         }}
       />
