@@ -1551,7 +1551,7 @@ export default function WormholeContent() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: "var(--z-modal)",
+            zIndex: "var(--z-flash)", // Must be above countdown (--z-loading: 100)
             backdropFilter: "blur(12px)", // Reduced from 20px for better performance
             backgroundColor: "rgba(11, 11, 11, 0.75)", // Reduced from 0.85 for lighter feel
             padding: '1rem' // Minimal padding to prevent edge clipping
