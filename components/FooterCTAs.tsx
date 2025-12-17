@@ -1,5 +1,7 @@
 'use client'
 
+import { memo } from 'react'
+
 interface CTAButton {
   label: string
   href?: string
@@ -23,7 +25,7 @@ const RIGHT_BUTTONS: CTAButton[] = [
   { label: 'Wormhole', href: '/wormhole', ariaLabel: 'Enter the wormhole', disabled: false }
 ]
 
-export default function FooterCTAs({ onContactClick }: FooterCTAsProps) {
+const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps) {
   const handleClick = (button: CTAButton) => {
     if (button.disabled) return
 
@@ -118,4 +120,6 @@ export default function FooterCTAs({ onContactClick }: FooterCTAsProps) {
       </div>
     </footer>
   )
-}
+})
+
+export default FooterCTAs

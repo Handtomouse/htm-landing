@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef, memo } from 'react'
 
 const MAIN_MESSAGE = `We are currently
 undergoing a
@@ -23,7 +23,7 @@ const seededRandom = (seed: number, min: number, max: number) => {
   return min + (x - Math.floor(x)) * (max - min)
 }
 
-export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: (email: string) => void }) {
+const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: (email: string) => void }) {
   // Loading stage state: controls the intro animation sequence
   const [loadingStage, setLoadingStage] = useState<'fade-in' | 'center-hold' | 'slide-up' | 'complete'>('fade-in')
 
@@ -626,4 +626,6 @@ export default function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: 
       </div>
     </>
   )
-}
+})
+
+export default TerminalTypewriter

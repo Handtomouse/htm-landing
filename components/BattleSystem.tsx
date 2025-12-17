@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback, useMemo, ReactNode } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, ReactNode, memo } from 'react'
 
 // Simple interfaces
 interface Projectile {
@@ -33,7 +33,7 @@ interface Props {
   children: ReactNode
 }
 
-export default function BattleSystem({ children }: Props) {
+const BattleSystem = memo(function BattleSystem({ children }: Props) {
   // Core state
   const [projectiles, setProjectiles] = useState<Projectile[]>([])
   const [impacts, setImpacts] = useState<Impact[]>([])
@@ -62,6 +62,8 @@ export default function BattleSystem({ children }: Props) {
     right: null
   })
   const deathSequenceTimeouts = useRef<NodeJS.Timeout[]>([])
+  const chargingShotRef = useRef(chargingShot)
+  const handStateRef = useRef(handState)
 
   // Constants
   const SHOT_COOLDOWN = 1000 // 1 second between shots
@@ -156,6 +158,15 @@ export default function BattleSystem({ children }: Props) {
     setChargingShot(prev => ({ ...prev, [side]: false }))
   }, [calculateFingertipPosition])
 
+  // Keep refs in sync with state (for use in game loop)
+  useEffect(() => {
+    chargingShotRef.current = chargingShot
+  }, [chargingShot])
+
+  useEffect(() => {
+    handStateRef.current = handState
+  }, [handState])
+
   // Shoot projectile (with telegraph)
   const shoot = useCallback((side: 'left' | 'right') => {
     const now = Date.now()
@@ -164,11 +175,11 @@ export default function BattleSystem({ children }: Props) {
     const logo = getLogoElement(side)
     if (!logo) return // Hands not ready yet
 
-    // Check cooldown and hand state
+    // Check cooldown and hand state (use refs to avoid stale closures)
     if (
       now - lastShotTime.current[side] < SHOT_COOLDOWN ||
-      handState[side] !== 'alive' ||
-      chargingShot[side] // Don't start new shot while charging
+      handStateRef.current[side] !== 'alive' ||
+      chargingShotRef.current[side] // Don't start new shot while charging
     ) {
       return
     }
@@ -186,14 +197,7 @@ export default function BattleSystem({ children }: Props) {
       fireProjectile(side)
       telegraphTimeoutRef.current[side] = null
     }, TELEGRAPH_DURATION)
-  }, [getLogoElement, handState, chargingShot, fireProjectile])
-
-  // Use ref to track hand state for collision checks (avoid stale closures)
-  const handStateRef = useRef(handState)
-
-  useEffect(() => {
-    handStateRef.current = handState
-  }, [handState])
+  }, [getLogoElement, fireProjectile])
 
   // Check collision between projectile and logo
   const checkCollision = useCallback((projectile: Projectile, targetSide: 'left' | 'right'): boolean => {
@@ -593,4 +597,6 @@ export default function BattleSystem({ children }: Props) {
       {children}
     </div>
   )
-}
+})
+
+export default BattleSystem
