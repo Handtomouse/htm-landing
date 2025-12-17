@@ -8,6 +8,16 @@ validateEnv()
 // Initialize Resend only if API key is available
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
+// Request body interface
+interface ContactFormData {
+  name: string
+  email: string
+  subject: string
+  message: string
+  website?: string // Honeypot field
+  timestamp?: number // Bot detection
+}
+
 // Rate limiting: Simple in-memory store (resets on server restart)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour
@@ -72,7 +82,7 @@ function getClientIp(request: NextRequest): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body = await request.json() as ContactFormData
     const { name, email, subject, message } = body
 
     // Honeypot check

@@ -8,6 +8,12 @@ validateEnv()
 // Initialize Resend only if API key is available
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
+// Request body interface
+interface SubscribeFormData {
+  email: string
+  website?: string // Honeypot field
+}
+
 // Simple email validation
 function isValidEmail(email: string): boolean {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -32,7 +38,7 @@ function checkHoneypot(body: any): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body = await request.json() as SubscribeFormData
     const { email } = body
 
     // Honeypot check
