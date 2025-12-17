@@ -57,6 +57,14 @@
   --space-16: 64px;
   --space-20: 80px;
 
+  /* Z-Index Scale (Explicit layering hierarchy) */
+  --z-base: 1;          /* Base content, starfield */
+  --z-controls: 10;     /* Interactive controls, buttons */
+  --z-modal: 50;        /* Modals, overlays */
+  --z-loading: 100;     /* Loading screens, countdown */
+  --z-flash: 200;       /* White flash effects, transitions */
+  --z-skip-link: 9999;  /* Accessibility skip link */
+
   /* Layout Constants */
   --footer-height: 56px;
   --page-padding-x: var(--grid-3x);

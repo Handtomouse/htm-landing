@@ -47,7 +47,7 @@ interface Star {
 const WORMHOLE_CONFIG = {
   // Countdown settings
   COUNTDOWN_DURATION: 3,
-  ABORT_WINDOW_MS: 1000,
+  ABORT_WINDOW_MS: 1500, // Increased from 1000ms for better UX - more time to abort
 
   // Animation timings (ms)
   HYPERHYPERSPACE_DURATION: 2000,
@@ -241,11 +241,15 @@ export default function WormholeContent() {
       const lastJourney = localStorage.getItem("wormhole_last_journey");
       const savedSound = localStorage.getItem("wormhole_sound");
       const savedCategories = localStorage.getItem("wormhole_categories");
+      const savedSelectedCategory = localStorage.getItem("wormhole_selected_category");
 
       setJourneyCount(saved ? parseInt(saved) : 0);
       setSoundEnabled(savedSound === "true");
       if (savedCategories) {
         setEnabledCategories(JSON.parse(savedCategories));
+      }
+      if (savedSelectedCategory) {
+        setSelectedCategory(savedSelectedCategory as any); // Restore selected category filter
       }
       if (history) {
         setJourneyHistory(JSON.parse(history));
@@ -266,6 +270,15 @@ export default function WormholeContent() {
       // App continues to work with default values
     }
   }, []);
+
+  // Persist selected category to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("wormhole_selected_category", selectedCategory);
+    } catch (error) {
+      // Gracefully handle localStorage errors
+    }
+  }, [selectedCategory]);
 
   // Cleanup timeouts, intervals, and AudioContext on unmount
   useEffect(() => {
@@ -351,10 +364,15 @@ export default function WormholeContent() {
     }
   }, [showExitWarning]);
 
-  // Modal slide-in animation
+  // Modal slide-in animation (using RAF for smooth timing)
   useEffect(() => {
     if (showExitWarning) {
-      setTimeout(() => setIsWarningAnimating(true), 10);
+      // Use double RAF to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsWarningAnimating(true);
+        });
+      });
     } else {
       setIsWarningAnimating(false);
     }
@@ -546,6 +564,8 @@ export default function WormholeContent() {
       return;
     }
 
+    let boostTimeout: NodeJS.Timeout | null = null;
+
     const handleClick = (e: Event) => {
       // Prevent boost on button clicks
       const target = e.target as HTMLElement;
@@ -557,7 +577,14 @@ export default function WormholeContent() {
         const now = Date.now();
         const timeSinceLastClick = now - lastClickTime;
 
+        // Cancel pending boost if double-tap detected
+        if (boostTimeout) {
+          clearTimeout(boostTimeout);
+          boostTimeout = null;
+        }
+
         if (timeSinceLastClick < WORMHOLE_CONFIG.DOUBLE_TAP_WINDOW_MS && timeSinceLastClick > 0) {
+          // Double-tap detected - trigger hectic speed immediately
           triggerHaptic([10, 30, 10, 30, 10]);
           setHecticSpeed(true);
           setShowHecticMessage(true);
@@ -567,10 +594,13 @@ export default function WormholeContent() {
             setShowHecticMessage(false);
           }, WORMHOLE_CONFIG.HECTIC_SPEED_DURATION);
         } else {
+          // Single tap - delay boost activation to allow for double-tap detection
           triggerHaptic(10);
-          setBoost(true);
-          playSound('whoosh');
-          setTimeout(() => setBoost(false), WORMHOLE_CONFIG.BOOST_DURATION);
+          boostTimeout = setTimeout(() => {
+            setBoost(true);
+            playSound('whoosh');
+            setTimeout(() => setBoost(false), WORMHOLE_CONFIG.BOOST_DURATION);
+          }, WORMHOLE_CONFIG.DOUBLE_TAP_WINDOW_MS);
         }
 
         setLastClickTime(now);
@@ -578,7 +608,10 @@ export default function WormholeContent() {
     };
 
     window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
+    return () => {
+      window.removeEventListener("click", handleClick);
+      if (boostTimeout) clearTimeout(boostTimeout);
+    };
   }, [isWarping, showExitWarning, hasSeenWarning]); // Removed lastClickTime, triggerHaptic, playSound to prevent unnecessary re-renders
 
   // Konami Code detection (lazy loaded - only active when arrow keys pressed)
@@ -690,6 +723,56 @@ export default function WormholeContent() {
       createBurst();
     }
   }, [isWarping, hecticSpeed, isHyperhyperspace]);
+
+  // Sync particle bursts to countdown milestones (3, 2, 1, 0)
+  useEffect(() => {
+    if (isWarping && countdown >= 0 && countdown <= 3) {
+      const createBurst = () => {
+        const newParticles: Array<{
+          id: number;
+          x: number;
+          y: number;
+          vx: number;
+          vy: number;
+          life: number;
+          color: string;
+        }> = [];
+
+        // Compute mobile state from viewport width to avoid TDZ
+        const isMobileViewport = viewportWidth < 768;
+
+        // Increasing intensity as countdown approaches 0
+        const particleCount = isMobileViewport ? 15 + (3 - countdown) * 5 : 25 + (3 - countdown) * 10;
+        const baseId = Date.now();
+
+        for (let i = 0; i < particleCount; i++) {
+          const angle = (Math.PI * 2 * i) / particleCount;
+          const speed = 2 + Math.random() * 3 + (3 - countdown); // Faster as countdown decreases
+          const color = 'rgba(255, 157, 35, 0.8)'; // Accent color for countdown sync
+
+          newParticles.push({
+            id: baseId + i,
+            x: viewportWidth / 2,
+            y: viewportHeight / 2,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1.0,
+            color
+          });
+        }
+
+        setBurstParticles(prev => {
+          const combined = [...prev, ...newParticles];
+          const maxParticles = isMobileViewport ? 100 : WORMHOLE_CONFIG.MAX_PARTICLES;
+          return combined.length > maxParticles
+            ? combined.slice(combined.length - maxParticles)
+            : combined;
+        });
+      };
+
+      createBurst();
+    }
+  }, [countdown, isWarping, viewportWidth, viewportHeight]);
 
   // Animate burst particles
   useEffect(() => {
@@ -927,19 +1010,29 @@ export default function WormholeContent() {
   };
 
   // Get star color - Star Wars style (pure white/blue) - Memoized for performance
+  // Now with smooth color interpolation based on colorPhase
   const getStarColor = useCallback((colorPhase: number) => {
     if (!isWarping) {
       // Pure white stars at rest
       return `rgb(255, 255, 255)`;
     }
 
-    // Blue-tinted hyperspace (classic Star Wars look)
+    // Smooth interpolation between white and blue based on colorPhase
+    const phase = Math.sin(colorPhase) * 0.5 + 0.5; // Oscillates between 0-1
+
     if (isHyperhyperspace) {
-      return `rgb(220, 235, 255)`; // Bright blue-white
+      // Bright blue-white with color phase oscillation
+      const r = Math.floor(220 + phase * 15); // 220-235
+      const g = Math.floor(235 + phase * 15); // 235-250
+      const b = 255;
+      return `rgb(${r}, ${g}, ${b})`;
     }
 
-    // Regular warp: white with slight blue tint
-    return `rgb(235, 245, 255)`;
+    // Regular warp: white with slight blue tint and phase variation
+    const r = Math.floor(235 + phase * 15); // 235-250
+    const g = Math.floor(245 + phase * 10); // 245-255
+    const b = 255;
+    return `rgb(${r}, ${g}, ${b})`;
   }, [isWarping, isHyperhyperspace]);
 
   // Memoized filtered stars for performance
@@ -972,6 +1065,7 @@ export default function WormholeContent() {
   return (
     <div
       className="fixed inset-0 overflow-hidden"
+      {...(showExitWarning ? { inert: 'true' as any } : {})}  // Prevent focus trap on modal open (mobile Safari fix)
       style={{
         background: "#0b0b0b",
         height: '100dvh', // Dynamic viewport height for modern mobile browsers
@@ -986,7 +1080,7 @@ export default function WormholeContent() {
     >
       {/* Loading Screen */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center z-[100]" style={{ background: "#0b0b0b" }}>
+        <div className="absolute inset-0 flex items-center justify-center" style={{ background: "#0b0b0b", zIndex: "var(--z-loading)" }}>
           <div className="text-center">
             <div style={{
               fontSize: "3rem",
@@ -1099,6 +1193,7 @@ export default function WormholeContent() {
                   fill={starColor}
                   opacity={brightness}
                   filter="url(#starGlow)"
+                  style={{ transition: 'fill 0.3s ease-out' }}
                 />
               </g>
             );
@@ -1202,15 +1297,18 @@ export default function WormholeContent() {
       {/* White Flash - Covers entire viewport including OS UI */}
       {showWhiteFlash && (
         <div
-          className="fixed inset-0 bg-white z-[9999]"
-          style={{ animation: isMobile ? "white-flash-mobile 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards" : "white-flash 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards" }}
+          className="fixed inset-0 bg-white"
+          style={{
+            zIndex: "var(--z-flash)",
+            animation: isMobile ? "white-flash-mobile 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards" : "white-flash 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards"
+          }}
           onAnimationEnd={() => setShowWhiteFlash(false)}
         />
       )}
 
       {/* Abort Feedback */}
       {showAbortFeedback && (
-        <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center pointer-events-none z-50" role="status" aria-live="polite">
+        <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center pointer-events-none" style={{ zIndex: "var(--z-loading)" }} role="status" aria-live="polite">
           <div className="text-center">
             <p className="font-mono text-4xl text-red-500 mb-2 font-bold">WARP ABORTED</p>
             <p className="font-mono text-sm text-white">Returning to normal space...</p>
@@ -1220,7 +1318,7 @@ export default function WormholeContent() {
 
       {/* Konami Code Activation */}
       {konamiActive && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50" role="status" aria-live="polite">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: "var(--z-loading)" }} role="status" aria-live="polite">
           <div className="text-center px-4">
             <p className="text-3xl mb-2" style={{
               background: "linear-gradient(90deg, var(--accent), #6495ED, #BA55D3, #40E0D0, var(--accent))",
@@ -1243,7 +1341,7 @@ export default function WormholeContent() {
       {showHecticMessage && (
         <>
           {/* Speed Lines (Comic book style motion lines) */}
-          <div className="absolute inset-0 pointer-events-none z-[99]" style={{ overflow: 'hidden' }} role="status" aria-live="polite">
+          <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'hidden', zIndex: "var(--z-loading)" }} role="status" aria-live="polite">
             {SPEED_LINE_INDICES.map((i) => (
               <div
                 key={i}
@@ -1262,7 +1360,7 @@ export default function WormholeContent() {
             ))}
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[100]">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: "var(--z-loading)" }}>
             <div className={`${isMobile ? 'px-3 py-4' : 'px-12 py-10'} bg-black/90 rounded-xl`} style={{
               border: isMobile ? "3px solid #ffffff" : "4px solid #ffffff",
               boxShadow: "0 0 80px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8)",
@@ -1287,10 +1385,11 @@ export default function WormholeContent() {
       {/* Countdown Overlay */}
       {isWarping && (
         <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-50"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{
+            zIndex: "var(--z-loading)",
             backgroundColor: "rgba(0, 0, 0, 0.75)",
-            padding: 'max(2rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left))'
+            padding: 'max(2rem, env(safe-area-inset-top)) max(2rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(2rem, env(safe-area-inset-left))' // Standardized to 2rem all sides
           }}
           role="alert"
           aria-live="assertive"
@@ -1328,9 +1427,11 @@ export default function WormholeContent() {
               </div>
             )}
 
-            {/* Screen reader announcement */}
+            {/* Screen reader announcement - all countdown values */}
             <span className="sr-only" aria-live="polite" aria-atomic="true">
               {countdown === 3 && `Warp initiating in ${countdown} seconds to ${currentHint}`}
+              {countdown === 2 && `${countdown} seconds until warp`}
+              {countdown === 1 && `${countdown} second until warp`}
               {countdown === 0 && `Warping to ${currentHint} now`}
             </span>
 
@@ -1344,8 +1445,9 @@ export default function WormholeContent() {
                 lineHeight: 1.2,
                 color: "var(--accent)",
                 filter: "drop-shadow(0 0 24px rgba(255, 157, 35, 0.8))",
-                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s',
-                marginBottom: isMobile ? '1rem' : '1.5rem'
+                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)', // Removed delay, added elastic easing
+                marginBottom: isMobile ? '1rem' : '1.5rem',
+                willChange: 'transform, opacity' // Performance hint for smooth animations
               }}
             >
               {countdown}
@@ -1439,15 +1541,16 @@ export default function WormholeContent() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="exit-warning-title"
-          className="flex items-center justify-center pointer-events-auto z-50"
+          className="flex items-center justify-center pointer-events-auto"
           style={{
             position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            backdropFilter: "blur(20px)",
-            backgroundColor: "rgba(11, 11, 11, 0.85)",
+            zIndex: "var(--z-modal)",
+            backdropFilter: "blur(12px)", // Reduced from 20px for better performance
+            backgroundColor: "rgba(11, 11, 11, 0.75)", // Reduced from 0.85 for lighter feel
             paddingTop: isMobile ? 'max(1.5rem, env(safe-area-inset-top))' : 'max(var(--grid-3x), env(safe-area-inset-top))',
             paddingBottom: isMobile ? 'max(1.5rem, calc(env(safe-area-inset-bottom) + 0.5rem))' : 'max(var(--grid-3x), env(safe-area-inset-bottom))',
             paddingLeft: isMobile ? 'max(1.5rem, env(safe-area-inset-left))' : 'max(var(--grid-3x), env(safe-area-inset-left))',
@@ -1462,19 +1565,23 @@ export default function WormholeContent() {
             }
           }}
         >
-          <div className="w-full backdrop-blur-xl shadow-2xl" style={{
-            background: "rgba(11, 11, 11, 0.6)",
-            border: "1px solid rgba(255, 157, 35, 0.2)",
-            boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 1px 0 rgba(255, 157, 35, 0.1)",
-            maxWidth: isMobile ? "400px" : "550px",
-            width: "100%",
-            margin: "0 auto",
+          <div className="backdrop-blur-xl shadow-2xl" style={{
+            background: `
+              linear-gradient(rgba(11, 11, 11, 0.6), rgba(11, 11, 11, 0.6)),
+              repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px),
+              repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px)
+            `, // Subtle film grain texture
+            border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
+            boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2)", // Enhanced inner shadow
+            maxWidth: isMobile ? "90vw" : "550px",
+            width: isMobile ? "90vw" : "550px", // Fixed width for proper centering
             borderRadius: "12px",
             padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
             opacity: isWarningAnimating ? 1 : 0,
             transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
             transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
-            position: 'relative'
+            position: 'relative',
+            willChange: 'transform, opacity' // Performance hint for smooth modal entrance
           }}>
             {/* Close button */}
             <button
@@ -1488,19 +1595,36 @@ export default function WormholeContent() {
                 position: 'absolute',
                 top: 'max(var(--grid-unit), env(safe-area-inset-top))',
                 right: 'max(var(--grid-unit), env(safe-area-inset-right))',
-                background: 'transparent',
+                background: isMobile ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
                 border: 'none',
+                borderRadius: isMobile ? '50%' : '0',
                 color: 'var(--muted)',
-                fontSize: '28px',
+                fontSize: isMobile ? '36px' : '28px',
                 cursor: 'pointer',
-                padding: '12px',
+                padding: isMobile ? '8px' : '12px',
                 minWidth: '48px',
                 minHeight: '48px',
                 lineHeight: 1,
-                transition: 'color 0.2s'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color 0.2s, background 0.2s, transform 0.2s',
+                transform: 'scale(1)'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--muted)'}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--accent)';
+                if (isMobile) e.currentTarget.style.background = 'rgba(255, 157, 35, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--muted)';
+                if (isMobile) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              }}
+              onTouchStart={(e) => {
+                e.currentTarget.style.transform = 'scale(0.9)';
+              }}
+              onTouchEnd={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
             >
               ×
             </button>
@@ -1610,18 +1734,65 @@ export default function WormholeContent() {
                   gap: isMobile ? '1rem' : '1.5rem'
                 }}
               >
-                <input
-                  type="checkbox"
-                  checked={acceptedRisk}
-                  onChange={(e) => setAcceptedRisk(e.target.checked)}
+                {/* Custom animated checkbox */}
+                <div
+                  onClick={() => setAcceptedRisk(!acceptedRisk)}
+                  role="checkbox"
+                  aria-checked={acceptedRisk}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setAcceptedRisk(!acceptedRisk);
+                    }
+                  }}
                   className="cursor-pointer"
                   style={{
-                    accentColor: "var(--accent)",
+                    position: 'relative',
                     width: isMobile ? "32px" : "24px",
                     height: isMobile ? "32px" : "24px",
                     minWidth: isMobile ? "32px" : "24px",
-                    minHeight: isMobile ? "32px" : "24px"
+                    minHeight: isMobile ? "32px" : "24px",
+                    border: `2px solid ${acceptedRisk ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)'}`,
+                    borderRadius: '4px',
+                    background: acceptedRisk ? 'rgba(255, 157, 35, 0.1)' : 'transparent',
+                    boxShadow: acceptedRisk ? '0 0 12px rgba(255, 157, 35, 0.3)' : 'none',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
+                >
+                  {/* Animated checkmark SVG */}
+                  {acceptedRisk && (
+                    <svg
+                      viewBox="0 0 16 16"
+                      style={{
+                        width: isMobile ? '20px' : '16px',
+                        height: isMobile ? '20px' : '16px',
+                        strokeDasharray: '20',
+                        strokeDashoffset: '20',
+                        animation: 'checkmark-draw 0.4s ease-out forwards'
+                      }}
+                    >
+                      <polyline
+                        points="3,8 7,12 13,4"
+                        fill="none"
+                        stroke="var(--accent)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <input
+                  type="checkbox"
+                  checked={acceptedRisk}
+                  onChange={() => {}}
+                  style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+                  tabIndex={-1}
+                  aria-hidden="true"
                 />
                 <span style={{
                   fontFamily: "var(--font-body)",
@@ -1704,8 +1875,9 @@ export default function WormholeContent() {
       {/* Controls */}
       {!isWarping && !isLoading && !showExitWarning && hasSeenWarning && viewportReady && (
         <div
-          className={`absolute inset-0 flex flex-col items-center justify-center z-10 ${isMobile ? 'px-4' : 'px-8'}`}
+          className={`absolute inset-0 flex flex-col items-center justify-center ${isMobile ? 'px-4' : 'px-8'}`}
           style={{
+            zIndex: "var(--z-controls)",
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -1722,7 +1894,7 @@ export default function WormholeContent() {
           {/* Category Selector - Two rows with even distribution */}
           <div style={{ width: '100%', maxWidth: isMobile ? '95%' : '600px', display: 'flex', flexDirection: 'column', gap: isMobile ? '16px' : '20px' }}>
             {/* Top row: 4 buttons */}
-            <div style={{ display: 'flex', gap: isMobile ? '12px' : '16px', width: '100%' }}>
+            <div style={{ display: 'flex', gap: isMobile ? '16px' : '16px', width: '100%' }}> {/* Increased mobile gap from 12px */}
               {(['all', 'interactive', 'games', 'weirdFun'] as const).map((cat) => {
                 const isSelected = selectedCategory === cat;
                 return (
@@ -1775,7 +1947,7 @@ export default function WormholeContent() {
               })}
             </div>
             {/* Bottom row: 3 buttons */}
-            <div style={{ display: 'flex', gap: isMobile ? '12px' : '16px', width: '100%' }}>
+            <div style={{ display: 'flex', gap: isMobile ? '16px' : '16px', width: '100%' }}> {/* Increased mobile gap from 12px */}
               {(['music', 'educational', 'retro'] as const).map((cat) => {
                 const isSelected = selectedCategory === cat;
                 return (
@@ -1840,13 +2012,13 @@ export default function WormholeContent() {
               className="hover:scale-105 active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               style={{
                 fontFamily: "monospace",
-                fontSize: isMobile ? "1rem" : "clamp(1rem, 2.5vw, 1.125rem)",
+                fontSize: isMobile ? "1.125rem" : "clamp(1.25rem, 2.5vw, 1.375rem)", // Increased for better hierarchy
                 letterSpacing: "0.1em",
                 fontWeight: "700",
-                background: "linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%)",
+                background: "linear-gradient(135deg, var(--accent) 0%, #FFA84D 50%, var(--accent-hover) 100%)", // Enhanced gradient
                 color: "#0b0b0b",
                 boxShadow: "0 0 40px rgba(255, 157, 35, 0.5)",
-                borderRadius: "12px",
+                borderRadius: "16px", // Increased from 12px for softer, premium feel
                 padding: "1rem 1.5rem",
                 minHeight: "56px",
                 width: "100%",
@@ -1906,13 +2078,20 @@ export default function WormholeContent() {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.8; transform: scale(1.05); }
         }
+        @keyframes checkmark-draw {
+          0% { stroke-dashoffset: 20; opacity: 0; }
+          50% { opacity: 1; }
+          100% { stroke-dashoffset: 0; opacity: 1; }
+        }
         @keyframes nebula-rotate-slow {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
         @keyframes countdown-bounce {
-          0% { transform: scale(2); opacity: 0; }
-          60% { transform: scale(1.1); }
+          0% { transform: scale(2.2); opacity: 0; }
+          50% { transform: scale(1.15); opacity: 0.8; }
+          70% { transform: scale(0.95); }
+          85% { transform: scale(1.05); }
           100% { transform: scale(1); opacity: 1; }
         }
         @keyframes countdown-zero {
