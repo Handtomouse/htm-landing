@@ -10,6 +10,16 @@ function isValidEmail(email: string): boolean {
   return re.test(email)
 }
 
+// HTML escape to prevent XSS in email
+function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+}
+
 // Honeypot check (simple spam prevention)
 function checkHoneypot(body: any): boolean {
   // If there's a 'website' field (honeypot), reject
@@ -47,7 +57,7 @@ export async function POST(request: NextRequest) {
           subject: '🎯 New Landing Page Signup',
           html: `
             <h2>New subscriber from HandToMouse landing page</h2>
-            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Email:</strong> ${escapeHtml(email)}</p>
             <p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>
           `,
         })

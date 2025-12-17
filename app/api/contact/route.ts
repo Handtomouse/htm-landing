@@ -15,6 +15,16 @@ function isValidEmail(email: string): boolean {
   return re.test(email)
 }
 
+// HTML escape to prevent XSS in email
+function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+}
+
 // Honeypot check (simple spam prevention)
 function checkHoneypot(body: any): boolean {
   // If there's a 'website' field (honeypot), reject
@@ -141,18 +151,18 @@ export async function POST(request: NextRequest) {
           from: 'HandToMouse Contact Form <onboarding@resend.dev>',
           to: process.env.NOTIFICATION_EMAIL || 'hello@handtomouse.org',
           replyTo: email,
-          subject: `📬 Contact Form: ${subject}`,
+          subject: `📬 Contact Form: ${escapeHtml(subject)}`,
           html: `
             <h2>New contact form submission from HandToMouse landing page</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+            <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+            <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
             <p><strong>Message:</strong></p>
-            <p style="white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-left: 4px solid #FF9D23;">${message}</p>
+            <p style="white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-left: 4px solid #FF9D23;">${escapeHtml(message)}</p>
             <hr />
             <p style="color: #666; font-size: 12px;">
               <strong>Timestamp:</strong> ${new Date().toISOString()}<br />
-              <strong>IP:</strong> ${ip}
+              <strong>IP:</strong> ${escapeHtml(ip)}
             </p>
           `,
         })
