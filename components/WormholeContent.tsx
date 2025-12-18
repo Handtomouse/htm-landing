@@ -1905,7 +1905,8 @@ export default function WormholeContent() {
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
-                      touchAction: "manipulation"
+                      touchAction: "manipulation",
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)" // #8: Smooth luxurious transitions
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
@@ -1958,7 +1959,8 @@ export default function WormholeContent() {
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
-                      touchAction: "manipulation"
+                      touchAction: "manipulation",
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)" // #8: Smooth luxurious transitions
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
@@ -1988,7 +1990,8 @@ export default function WormholeContent() {
             <button
               onClick={handleWarpButtonClick}
               aria-label={`Initiate warp to ${selectedCategory === 'all' ? 'random' : selectedCategory} destination`}
-              className="hover:scale-105 active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              aria-describedby="warp-hint"
+              className="hover:scale-105 hover:shadow-[0_0_60px_rgba(255,157,35,0.7)] active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               style={{
                 fontFamily: "monospace",
                 fontSize: isMobile ? "1.125rem" : "clamp(1.25rem, 2.5vw, 1.375rem)", // Increased for better hierarchy
@@ -2010,7 +2013,7 @@ export default function WormholeContent() {
               INITIATE WARP
             </button>
 
-            <p style={{
+            <p id="warp-hint" style={{
               fontFamily: "monospace",
               fontSize: isMobile ? "0.875rem" : "0.75rem",
               color: "rgba(255, 255, 255, 0.5)",
@@ -2036,7 +2039,7 @@ export default function WormholeContent() {
             style={{
               fontFamily: "monospace",
               fontSize: "clamp(0.75rem, 1.8vw, 0.8rem)",
-              color: "rgba(255, 255, 255, 0.75)",
+              color: "rgba(255, 255, 255, 0.85)", // #14: Improved contrast for WCAG AA compliance
               border: "1px solid rgba(255, 255, 255, 0.2)",
               borderRadius: "6px",
               padding: "0.75rem 1rem",
