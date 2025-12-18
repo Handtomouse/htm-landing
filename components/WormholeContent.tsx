@@ -1526,7 +1526,7 @@ export default function WormholeContent() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: "var(--z-flash)", // Must be above countdown (--z-loading: 100)
-            backdropFilter: "blur(12px)", // Reduced from 20px for better performance
+            backdropFilter: "blur(8px)", // #20: Optimized for mobile performance
             backgroundColor: "rgba(11, 11, 11, 0.75)", // Reduced from 0.85 for lighter feel
             padding: '1rem' // Minimal padding to prevent edge clipping
           }}
@@ -1549,7 +1549,7 @@ export default function WormholeContent() {
                 repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px)
               `, // Subtle film grain texture
               border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
-              boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2)", // Enhanced inner shadow
+              boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1)", // #7: Added depth with subtle inner shadow
               maxWidth: isMobile ? "90vw" : "550px",
               borderRadius: "12px",
               padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
