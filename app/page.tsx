@@ -78,6 +78,12 @@ export default function Home() {
               "addressLocality": "Sydney",
               "addressRegion": "NSW",
               "addressCountry": "AU"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "hello@handtomouse.org",
+              "contactType": "Customer Service",
+              "availableLanguage": ["English"]
             }
           })
         }}

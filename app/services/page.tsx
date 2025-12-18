@@ -95,15 +95,26 @@ export default function Services() {
         "@type": "Organization",
         "name": "Hand To Mouse",
         "url": "https://handtomouse.org"
-      }
+      },
+      "serviceType": "Creative Direction, Cultural Strategy, Brand Strategy, Digital Experience Design",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Sydney",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "New South Wales"
+          }
+        },
+        {
+          "@type": "Country",
+          "name": "Australia"
+        }
+      ]
     },
     "priceRange": "$5000-$50000",
     "priceCurrency": "AUD",
-    "availability": "https://schema.org/InStock",
-    "areaServed": {
-      "@type": "City",
-      "name": "Sydney"
-    }
+    "availability": "https://schema.org/InStock"
   }
 
   return (

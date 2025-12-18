@@ -41,6 +41,47 @@ export default function About() {
     ]
   }
 
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nate Don",
+    "alternateName": "Nathan Don",
+    "jobTitle": "Creative Director & Cultural Strategist",
+    "description": "Independent creative director and cultural strategist based in Sydney, working with startups, agencies, and cultural organizations to create meaningful digital experiences.",
+    "url": "https://handtomouse.org/about",
+    "email": "hello@handtomouse.org",
+    "sameAs": [
+      "https://www.linkedin.com/in/nate-don",
+      "https://github.com/handtomouse",
+      "https://twitter.com/handtomouse",
+      "https://www.instagram.com/handtomouse.studio"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Hand To Mouse",
+      "url": "https://handtomouse.org"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Sydney",
+      "addressRegion": "NSW",
+      "addressCountry": "AU"
+    },
+    "knowsAbout": [
+      "Creative Direction",
+      "Cultural Strategy",
+      "Brand Strategy",
+      "Digital Strategy",
+      "Experience Design",
+      "Content Strategy"
+    ],
+    "hasOccupation": {
+      "@type": "Occupation",
+      "name": "Creative Director",
+      "occupationalCategory": "Creative and Cultural Industries"
+    }
+  }
+
   return (
     <>
       <Script
@@ -48,6 +89,13 @@ export default function About() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <Script
+        id="person-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personSchema),
         }}
       />
       <main id="main-content" className="min-h-screen bg-black text-white px-6 py-20">

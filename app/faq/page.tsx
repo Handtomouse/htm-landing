@@ -152,6 +152,9 @@ export default function FAQ() {
               style={{ fontFamily: 'var(--font-body)' }}
             >
               Get in touch to discuss your project and see how I can help bring your vision to life.
+            View <Link href="/services" className="underline hover:text-white transition-colors">services offered</Link>,
+            read <Link href="/about" className="underline hover:text-white transition-colors">about my approach</Link>,
+            or explore <Link href="/portfolio" className="underline hover:text-white transition-colors">selected work</Link>.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -164,11 +167,11 @@ export default function FAQ() {
               </a>
 
               <Link
-                href="/services"
+                href="/testimonials"
                 className="inline-block px-8 py-4 border-2 border-gray-700 hover:border-white transition-all text-center"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
-                View Services
+                View Testimonials
               </Link>
             </div>
           </div>

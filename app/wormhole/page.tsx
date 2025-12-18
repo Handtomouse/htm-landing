@@ -34,6 +34,24 @@ export default function WormholePage() {
     ]
   }
 
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Wormhole",
+    "description": "Discover random corners of the web through the wormhole - a curated journey to unexpected destinations",
+    "url": "https://handtomouse.org/wormhole",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Hand To Mouse",
+      "url": "https://handtomouse.org"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Web Discovery",
+      "description": "Interactive web discovery experience"
+    }
+  }
+
   return (
     <>
       <Script
@@ -41,6 +59,13 @@ export default function WormholePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+      <Script
+        id="webpage-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(webPageSchema),
         }}
       />
       <ErrorBoundary>
