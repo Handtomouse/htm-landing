@@ -25,9 +25,9 @@ const robotoMono = Roboto_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Independent creative direction and cultural strategy from Sydney | Hand To Mouse',
-  description: 'Independent creative direction and cultural strategy from Sydney. Working with startups, agencies, and cultural organizations to create meaningful digital experiences.',
-  keywords: ['creative direction sydney', 'cultural strategy', 'creative director sydney', 'cultural projects sydney', 'digital strategy', 'independent creative director', 'cultural organizations', 'brand strategy sydney'],
+  title: 'Nate Don | Creative Director & Cultural Strategist Sydney | Hand To Mouse',
+  description: 'Nate Don (Nathan Don) - Independent creative director and cultural strategist in Sydney. Working with startups, agencies, and cultural organizations to create meaningful digital experiences.',
+  keywords: ['nate don', 'nathan don', 'creative direction sydney', 'cultural strategy', 'creative director sydney', 'cultural projects sydney', 'digital strategy', 'independent creative director', 'cultural organizations', 'brand strategy sydney'],
   authors: [{ name: 'Nate Don' }],
   creator: 'Hand To Mouse',
   publisher: 'Hand To Mouse',
