@@ -1299,7 +1299,7 @@ export default function WormholeContent() {
           className="fixed inset-0 bg-white"
           style={{
             zIndex: "var(--z-flash)",
-            animation: isMobile ? "white-flash-mobile 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards" : "white-flash 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards"
+            animation: isMobile ? "white-flash-mobile 0.5s cubic-bezier(0.4, 0, 0.6, 1) forwards" : "white-flash 0.8s cubic-bezier(0.4, 0, 0.6, 1) forwards" // #11: Smoother easing (0.2→0.6 for gentler fade)
           }}
           onAnimationEnd={() => setShowWhiteFlash(false)}
         />
@@ -1392,6 +1392,7 @@ export default function WormholeContent() {
           }}
           role="alert"
           aria-live="assertive"
+          aria-busy="true" // #13: Indicate countdown is in progress
         >
           <div
             style={{
@@ -1444,7 +1445,7 @@ export default function WormholeContent() {
                 lineHeight: 1.2,
                 color: "var(--accent)",
                 filter: "drop-shadow(0 0 24px rgba(255, 157, 35, 0.8))",
-                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.7s ease-out', // Smoother, more luxurious timing
+                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.6s ease-out', // #9: Snappier timing (0.7s → 0.6s)
                 marginBottom: isMobile ? '1.5rem' : '2.5rem', // Primary element gets most space
                 willChange: 'transform, opacity' // Performance hint for smooth animations
               }}
@@ -1482,6 +1483,7 @@ export default function WormholeContent() {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: isMobile ? "normal" : "nowrap",
+              textShadow: "0 2px 8px rgba(0, 0, 0, 0.5)", // #5: Better readability against starfield
               animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out' // Unified timing, no delay
             } as React.CSSProperties}>
               {currentHint}
@@ -1578,7 +1580,7 @@ export default function WormholeContent() {
                 color: 'var(--muted)',
                 fontSize: isMobile ? '36px' : '28px',
                 cursor: 'pointer',
-                padding: isMobile ? '8px' : '12px',
+                padding: '12px', // #16: Increased to 12px all devices for consistent large tap target
                 minWidth: '48px',
                 minHeight: '48px',
                 lineHeight: 1,
@@ -1798,7 +1800,7 @@ export default function WormholeContent() {
                   textTransform: "uppercase",
                   border: "1px solid rgba(255, 255, 255, 0.2)",
                   color: "rgba(255, 255, 255, 0.8)",
-                  borderRadius: "6px",
+                  borderRadius: "16px", // #2: Standardized border-radius (16px large buttons)
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
                   minHeight: "48px",
                   background: "transparent",
@@ -1826,7 +1828,7 @@ export default function WormholeContent() {
                   color: acceptedRisk ? "#0b0b0b" : "rgba(255, 255, 255, 0.3)",
                   cursor: acceptedRisk ? "pointer" : "not-allowed",
                   boxShadow: acceptedRisk ? "0 0 30px rgba(255, 157, 35, 0.3)" : "none",
-                  borderRadius: "6px",
+                  borderRadius: "16px", // #2: Standardized border-radius (16px large buttons)
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
                   minHeight: "48px",
                   fontWeight: "600",
@@ -1898,7 +1900,7 @@ export default function WormholeContent() {
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
-                      borderRadius: isMobile ? "6px" : "8px",
+                      borderRadius: "8px", // #2: Standardized border-radius (8px small)
                       padding: isMobile ? "0.75rem 1rem" : "0.625rem 0.875rem",
                       minHeight: "44px",
                       flex: "1",
@@ -1906,16 +1908,20 @@ export default function WormholeContent() {
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
                       touchAction: "manipulation",
-                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)" // #8: Smooth luxurious transitions
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)", // #8: Smooth luxurious transitions
+                      willChange: "transform" // #17: GPU acceleration for smooth hover scaling
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
+                        // #3: Enhanced hover with gradient glow
+                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 157, 35, 0.1), rgba(255, 157, 35, 0.05))";
                         e.currentTarget.style.boxShadow = "0 0 15px rgba(255, 157, 35, 0.2)";
                         e.currentTarget.style.filter = "drop-shadow(0 0 5px rgba(255, 157, 35, 0.3))";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isSelected) {
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
                         e.currentTarget.style.boxShadow = "none";
                         e.currentTarget.style.filter = "none";
                       }
@@ -1952,7 +1958,7 @@ export default function WormholeContent() {
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
-                      borderRadius: isMobile ? "6px" : "8px",
+                      borderRadius: "8px", // #2: Standardized border-radius (8px small)
                       padding: isMobile ? "0.75rem 1rem" : "0.625rem 0.875rem",
                       minHeight: "44px",
                       flex: "1",
@@ -1960,16 +1966,20 @@ export default function WormholeContent() {
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
                       touchAction: "manipulation",
-                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)" // #8: Smooth luxurious transitions
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)", // #8: Smooth luxurious transitions
+                      willChange: "transform" // #17: GPU acceleration for smooth hover scaling
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
+                        // #3: Enhanced hover with gradient glow
+                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 157, 35, 0.1), rgba(255, 157, 35, 0.05))";
                         e.currentTarget.style.boxShadow = "0 0 15px rgba(255, 157, 35, 0.2)";
                         e.currentTarget.style.filter = "drop-shadow(0 0 5px rgba(255, 157, 35, 0.3))";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isSelected) {
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
                         e.currentTarget.style.boxShadow = "none";
                         e.currentTarget.style.filter = "none";
                       }
