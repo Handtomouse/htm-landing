@@ -1065,7 +1065,6 @@ export default function WormholeContent() {
   return (
     <div
       className="fixed inset-0 overflow-hidden"
-      {...(showExitWarning ? { inert: 'true' as any } : {})}  // Prevent focus trap on modal open (mobile Safari fix)
       style={{
         background: "#0b0b0b",
         height: '100dvh', // Dynamic viewport height for modern mobile browsers
