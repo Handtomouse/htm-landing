@@ -310,7 +310,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         justifyContent: 'center',
         zIndex: 9999,
         paddingTop: 'max(var(--grid-3x), env(safe-area-inset-top))',
-        paddingBottom: 'max(var(--grid-3x), env(safe-area-inset-bottom))',
+        paddingBottom: 'max(var(--grid-4x), env(safe-area-inset-bottom))', // MOBILE FIX: grid-3x→grid-4x (more space for iOS keyboard)
         paddingLeft: 'max(var(--grid-3x), env(safe-area-inset-left))',
         paddingRight: 'max(var(--grid-3x), env(safe-area-inset-right))'
       }}
@@ -397,7 +397,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(13px, 2.5vw, 14px)',
+                fontSize: 'clamp(14px, 2.5vw, 15px)', // MOBILE FIX: 13px→14px (better readability on small screens)
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -467,7 +467,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(13px, 2.5vw, 14px)',
+                fontSize: 'clamp(14px, 2.5vw, 15px)', // MOBILE FIX: 13px→14px (better readability on small screens)
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -533,7 +533,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(13px, 2.5vw, 14px)',
+                fontSize: 'clamp(14px, 2.5vw, 15px)', // MOBILE FIX: 13px→14px (better readability on small screens)
                 color: 'var(--muted)',
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',
@@ -603,7 +603,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-body)',
-                fontSize: 'clamp(13px, 2.5vw, 14px)',
+                fontSize: 'clamp(14px, 2.5vw, 15px)', // MOBILE FIX: 13px→14px (better readability on small screens)
                 color: getCountColor(),
                 marginBottom: 'var(--grid-unit)',
                 textTransform: 'uppercase',

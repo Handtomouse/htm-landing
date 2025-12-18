@@ -541,7 +541,7 @@ const BattleSystem = memo(function BattleSystem({ children }: Props) {
               position: 'absolute',
               left: `${p.x}px`,
               top: `${p.y}px`,
-              width: 'clamp(14.28px, 2.856vw, 28.56px)',
+              width: 'clamp(18px, 3vw, 28.56px)', // MOBILE FIX: 14.28px→18px minimum for visibility
               height: 'auto',
               transform: `translateX(${getProjectileX(p)}px) ${p.side === 'right' ? 'scaleX(-1)' : ''}`,
               imageRendering: 'pixelated',

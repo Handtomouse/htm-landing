@@ -161,7 +161,7 @@ export default function FAQ() {
               <a
                 href="mailto:hello@handtomouse.org?subject=Question%20from%20FAQ%20Page"
                 className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all text-center"
-                style={{ fontFamily: 'var(--font-body)' }}
+                style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
               >
                 Email me →
               </a>
@@ -169,7 +169,7 @@ export default function FAQ() {
               <Link
                 href="/testimonials"
                 className="inline-block px-8 py-4 border-2 border-gray-700 hover:border-white transition-all text-center"
-                style={{ fontFamily: 'var(--font-body)' }}
+                style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
               >
                 View Testimonials
               </Link>

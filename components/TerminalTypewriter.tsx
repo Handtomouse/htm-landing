@@ -406,7 +406,7 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
             alt="Hand To Mouse - Sydney Creative Director and Web Developer"
             className="wordmark-glow"
             style={{
-              width: 'min(336.6px, 50.49vw)',
+              width: 'clamp(200px, 50.49vw, 336.6px)', // MOBILE FIX: min→clamp with 200px minimum (readable on 320px screens)
               height: 'auto',
               marginBottom: '0'
             }}
@@ -417,7 +417,7 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
             style={{
               fontFamily: 'var(--font-body)',
               textAlign: 'center',
-              fontSize: 'clamp(8.5px, 1.14vw, 12px)',
+              fontSize: 'clamp(10px, 1.4vw, 13px)', // MOBILE FIX: 8.5px→10px minimum (much more readable)
               letterSpacing: '0.02em',
               lineHeight: 1.4,
               maxWidth: 'min(510px, 90vw)',
@@ -483,7 +483,7 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
                 fontFamily: 'var(--font-body)',
                 color: '#EDECEC',
                 textAlign: 'center',
-                fontSize: 'clamp(14px, 2vw, 20px)',
+                fontSize: 'clamp(16px, 2.5vw, 20px)', // MOBILE FIX: 14px→16px minimum (comfortable reading)
                 marginTop: 'clamp(var(--grid-6x), 8vw, var(--grid-12x))'
               }}
             >

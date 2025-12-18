@@ -179,7 +179,7 @@ export default function About() {
             <a
               href="mailto:hello@handtomouse.org?subject=Inquiry%20from%20About%20Page"
               className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all"
-              style={{ fontFamily: 'var(--font-body)' }}
+              style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
             >
               Get in touch →
             </a>

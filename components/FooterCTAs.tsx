@@ -66,8 +66,8 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
     transition: 'all 0.3s var(--ease-luxury)',
     textTransform: 'uppercase' as const,
     letterSpacing: '0.05em',
-    minWidth: 'clamp(80px, 12vw, 110px)',
-    minHeight: '44px',
+    minWidth: 'clamp(95px, 14vw, 120px)', // MOBILE FIX: 80px→95px (prevents text overflow on 320px)
+    minHeight: '48px', // MOBILE FIX: 44px→48px (better touch target per Apple HIG)
     cursor: disabled ? 'not-allowed' : 'pointer',
     boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.05)',
     touchAction: 'manipulation' as const,
