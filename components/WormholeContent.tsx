@@ -688,9 +688,11 @@ export default function WormholeContent() {
         life: number;
         color: string;
       }> = [];
-      const particleCount = isHyperhyperspace
+      // #18: Reduce particles by 50% for users with reduced-motion preference
+      const baseCount = isHyperhyperspace
         ? (isMobile ? 30 : WORMHOLE_CONFIG.PARTICLES_HYPERHYPERSPACE)
         : (hecticSpeed ? (isMobile ? 20 : WORMHOLE_CONFIG.PARTICLES_HECTIC) : WORMHOLE_CONFIG.PARTICLES_NORMAL);
+      const particleCount = prefersReducedMotion ? Math.floor(baseCount * 0.5) : baseCount;
       const baseId = Date.now();
 
       for (let i = 0; i < particleCount; i++) {
@@ -1091,7 +1093,7 @@ export default function WormholeContent() {
             </div>
             <p style={{
               fontFamily: "monospace",
-              letterSpacing: "0.08em",
+              letterSpacing: "0.1em", // #6: Standardized (0.08em → 0.1em wide)
               fontSize: "0.875rem",
               color: "rgba(255, 255, 255, 0.8)",
               marginTop: "1.5rem"
@@ -1206,7 +1208,7 @@ export default function WormholeContent() {
               cy={particle.y}
               r={4 * particle.life}
               fill={particle.color}
-              opacity={particle.life * 0.8}
+              opacity={Math.pow(particle.life, 1.5) * 0.8} // #12: Ease-out fade (quadratic easing for smoother disappearance)
               style={{
                 filter: `blur(${2 * (1 - particle.life)}px)`
               }}
@@ -1353,7 +1355,7 @@ export default function WormholeContent() {
                   background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
                   transform: `translate(-50%, -50%) rotate(${i * 30}deg)`,
                   transformOrigin: 'center',
-                  animation: `speed-line-pulse 0.3s ease-out ${i * 0.02}s infinite`
+                  animation: `speed-line-pulse 0.3s ease-out ${i * 0.04}s infinite` // #10: Increased stagger (0.02s → 0.04s) for more noticeable cascade
                 }}
               />
             ))}
@@ -1458,7 +1460,7 @@ export default function WormholeContent() {
               fontFamily: "monospace",
               fontSize: isMobile ? "1.25rem" : "1.5rem", // Larger for better readability
               lineHeight: 1.4,
-              letterSpacing: "0.04em",
+              letterSpacing: "0.05em", // #6: Standardized (0.04em → 0.05em normal)
               color: "rgba(255, 255, 255, 0.9)",
               textAlign: 'center',
               maxWidth: isMobile ? '80vw' : '65vw',
@@ -1472,7 +1474,7 @@ export default function WormholeContent() {
             <p style={{
               fontFamily: "monospace",
               fontSize: isMobile ? "1rem" : "1rem",
-              letterSpacing: "0.04em",
+              letterSpacing: "0.05em", // #6: Standardized (0.04em → 0.05em normal)
               fontWeight: "600",
               color: "var(--accent)",
               textAlign: "center",
@@ -1496,7 +1498,7 @@ export default function WormholeContent() {
                   fontFamily: "monospace",
                   fontSize: isMobile ? "0.75rem" : "0.875rem",
                   color: "rgba(255, 255, 255, 0.6)",
-                  letterSpacing: "0.08em",
+                  letterSpacing: "0.1em", // #6: Standardized (0.08em → 0.1em wide)
                   textAlign: "center",
                   margin: 0,
                   animation: prefersReducedMotion ? 'none' : 'pulse 2s ease-in-out infinite'
