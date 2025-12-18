@@ -1783,6 +1783,7 @@ export default function WormholeContent() {
 
             <div style={{ display: 'flex', gap: '16px', width: '100%' }}>
               <button
+                className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 onClick={() => {
                   triggerHaptic(10);
                   setShowExitWarning(false);
@@ -1808,6 +1809,7 @@ export default function WormholeContent() {
                 ← RETURN
               </button>
               <button
+                className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                 onClick={handleWarningAccept}
                 disabled={!acceptedRisk}
                 aria-label="Enter wormhole"
