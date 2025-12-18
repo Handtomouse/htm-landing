@@ -1367,9 +1367,9 @@ export default function WormholeContent() {
               boxShadow: "0 0 80px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8)",
               animation: "hectic-speed-entrance 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
               transform: "scale(1.1)",
-              maxWidth: isMobile ? "85%" : "auto"
+              maxWidth: isMobile ? "90%" : "auto" // MOBILE FIX: 85%→90% (more breathing room)
             }}>
-              <p className={`${isMobile ? 'text-2xl' : 'text-5xl'} font-bold mb-3`} style={{
+              <p className={`${isMobile ? 'text-xl' : 'text-5xl'} font-bold mb-3`} style={{ // MOBILE FIX: text-2xl→text-xl (20px, less cramped)
                 background: "linear-gradient(135deg, #ffffff 0%, #bbdefb 50%, #64b5f6 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -1377,7 +1377,7 @@ export default function WormholeContent() {
               }}>
                 HECTIC SPEED
               </p>
-              <p className={`text-white ${isMobile ? 'text-xs' : 'text-base'} text-center font-bold`}>Fast! Fast! Fast!</p>
+              <p className={`text-white ${isMobile ? 'text-sm' : 'text-base'} text-center font-bold`}>Fast! Fast! Fast!</p> {/* MOBILE FIX: text-xs→text-sm (14px, more readable) */}
             </div>
           </div>
         </>
@@ -1402,7 +1402,7 @@ export default function WormholeContent() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              maxWidth: isMobile ? '85vw' : '600px', // Tighter for better proportions
+              maxWidth: isMobile ? '75vw' : '600px', // MOBILE FIX: 85vw→75vw (240px on 320px, better hierarchy)
               width: '100%',
               margin: '0 auto'
             }}
@@ -1412,7 +1412,7 @@ export default function WormholeContent() {
             {countdown > 0 && currentDestination && (
               <div
                 style={{
-                  fontSize: isMobile ? "4rem" : "6rem", // Proportional to countdown number (80%/75%)
+                  fontSize: isMobile ? "3.5rem" : "6rem", // MOBILE FIX: 4rem→3.5rem (56px, maintains 70% ratio to countdown)
                   lineHeight: 1,
                   filter: "drop-shadow(0 0 16px rgba(255, 157, 35, 0.6))",
                   animation: prefersReducedMotion ? 'none' : "emoji-pop 0.6s ease-out",
@@ -1442,7 +1442,7 @@ export default function WormholeContent() {
               key={countdown}
               style={{
                 fontFamily: "monospace",
-                fontSize: isMobile ? "5rem" : "8rem", // Dominant focal point - fixed sizes
+                fontSize: isMobile ? "4.5rem" : "8rem", // MOBILE FIX: 5rem→4.5rem (72px, 22.5% of 320px screen)
                 fontWeight: 700,
                 lineHeight: 1.2,
                 color: "var(--accent)",
@@ -1458,7 +1458,7 @@ export default function WormholeContent() {
             {/* Message Text */}
             <p style={{
               fontFamily: "monospace",
-              fontSize: isMobile ? "1.25rem" : "1.5rem", // Larger for better readability
+              fontSize: isMobile ? "1.125rem" : "1.5rem", // MOBILE FIX: 1.25rem→1.125rem (18px, 25% of countdown)
               lineHeight: 1.4,
               letterSpacing: "0.05em", // #6: Standardized (0.04em → 0.05em normal)
               color: "rgba(255, 255, 255, 0.9)",
@@ -1473,13 +1473,13 @@ export default function WormholeContent() {
             {/* Hint - Simplified */}
             <p style={{
               fontFamily: "monospace",
-              fontSize: isMobile ? "1rem" : "1rem",
+              fontSize: isMobile ? "0.9rem" : "1rem", // MOBILE FIX: 1rem→0.9rem (14.4px, 20% of countdown)
               letterSpacing: "0.05em", // #6: Standardized (0.04em → 0.05em normal)
               fontWeight: "600",
               color: "var(--accent)",
               textAlign: "center",
               margin: 0,
-              maxWidth: isMobile ? "70vw" : "500px", // Tighter for cleaner composition
+              maxWidth: isMobile ? "65vw" : "500px", // MOBILE FIX: 70vw→65vw (208px on 320px, tighter composition)
               lineHeight: 1.3,
               marginBottom: isMobile ? '0.5rem' : '0.75rem', // Minimal spacing
               overflow: "hidden",
@@ -1554,9 +1554,9 @@ export default function WormholeContent() {
               `, // Subtle film grain texture
               border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
               boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1)", // #7: Added depth with subtle inner shadow
-              maxWidth: isMobile ? "90vw" : "550px",
+              maxWidth: isMobile ? "92vw" : "550px", // MOBILE FIX: 90vw→92vw (294px on 320px, more breathing room)
               borderRadius: "12px",
-              padding: isMobile ? "1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
+              padding: isMobile ? "1.5rem 1.25rem" : "clamp(1.25rem, 4vw, 2rem)", // MOBILE FIX: More vertical padding (24px vs 20px)
               opacity: isWarningAnimating ? 1 : 0,
               transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
               transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
@@ -1574,8 +1574,8 @@ export default function WormholeContent() {
               aria-label="Close wormhole warning modal"
               style={{
                 position: 'absolute',
-                top: 'max(var(--grid-unit), env(safe-area-inset-top))',
-                right: 'max(var(--grid-unit), env(safe-area-inset-right))',
+                top: 'max(1rem, env(safe-area-inset-top))', // MOBILE FIX: Use 1rem (16px) for notched devices
+                right: 'max(1rem, env(safe-area-inset-right))', // MOBILE FIX: Consistent safe area
                 background: isMobile ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
                 border: 'none',
                 borderRadius: isMobile ? '50%' : '0',
@@ -1622,7 +1622,7 @@ export default function WormholeContent() {
               >✦</div>
               <h2 id="exit-warning-title" style={{
                 fontFamily: "var(--font-heading)",
-                fontSize: "clamp(20px, 4vw, 28px)",
+                fontSize: isMobile ? "1.375rem" : "clamp(20px, 4vw, 28px)", // MOBILE FIX: Explicit 1.375rem (22px) for mobile
                 marginBottom: isMobile ? "0.75rem" : "0.5rem",
                 color: "var(--accent)",
                 letterSpacing: "0.02em",
@@ -1730,10 +1730,10 @@ export default function WormholeContent() {
                   className="cursor-pointer"
                   style={{
                     position: 'relative',
-                    width: isMobile ? "32px" : "24px",
-                    height: isMobile ? "32px" : "24px",
-                    minWidth: isMobile ? "32px" : "24px",
-                    minHeight: isMobile ? "32px" : "24px",
+                    width: isMobile ? "28px" : "24px", // MOBILE FIX: 32px→28px (less visually overwhelming)
+                    height: isMobile ? "28px" : "24px", // MOBILE FIX: 32px→28px
+                    minWidth: isMobile ? "28px" : "24px", // MOBILE FIX: 32px→28px
+                    minHeight: isMobile ? "28px" : "24px", // MOBILE FIX: 32px→28px
                     border: `2px solid ${acceptedRisk ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)'}`,
                     borderRadius: '4px',
                     background: acceptedRisk ? 'rgba(255, 157, 35, 0.1)' : 'transparent',
@@ -1749,8 +1749,8 @@ export default function WormholeContent() {
                     <svg
                       viewBox="0 0 16 16"
                       style={{
-                        width: isMobile ? '20px' : '16px',
-                        height: isMobile ? '20px' : '16px',
+                        width: isMobile ? '18px' : '16px', // MOBILE FIX: Scale with checkbox (28px container)
+                        height: isMobile ? '18px' : '16px', // MOBILE FIX: Proportional scaling
                         strokeDasharray: '20',
                         strokeDashoffset: '20',
                         animation: 'checkmark-draw 0.4s ease-out forwards'
@@ -1875,9 +1875,24 @@ export default function WormholeContent() {
           }}
         >
           {/* Category Selector - Two rows with even distribution */}
-          <div style={{ width: '100%', maxWidth: isMobile ? '95%' : '600px', display: 'flex', flexDirection: 'column', gap: isMobile ? '16px' : '20px' }}>
+          <div style={{
+            width: '100%',
+            maxWidth: isMobile ? '100%' : '600px', // MOBILE FIX: Remove 95% constraint
+            display: 'flex',
+            flexDirection: 'column',
+            gap: isMobile ? '12px' : '20px', // MOBILE FIX: Reduce gap for breathing room
+            padding: isMobile ? '0 8px' : '0' // MOBILE FIX: Minimal side padding
+          }}>
             {/* Top row: 4 buttons */}
-            <div style={{ display: 'flex', gap: isMobile ? '16px' : '16px', width: '100%' }}> {/* Increased mobile gap from 12px */}
+            <div style={{
+              display: 'flex',
+              gap: isMobile ? '8px' : '16px', // MOBILE FIX: Reduce gap 16px→8px (saves 24px on 320px)
+              width: '100%',
+              overflowX: 'auto', // MOBILE FIX: Horizontal scroll fallback
+              WebkitOverflowScrolling: 'touch', // MOBILE FIX: Smooth iOS scrolling
+              scrollbarWidth: 'none', // MOBILE FIX: Hide scrollbar
+              msOverflowStyle: 'none' // MOBILE FIX: Hide scrollbar IE/Edge
+            }}>
               {(['all', 'interactive', 'games', 'weirdFun'] as const).map((cat) => {
                 const isSelected = selectedCategory === cat;
                 return (
@@ -1896,16 +1911,17 @@ export default function WormholeContent() {
                     className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       fontFamily: "monospace",
-                      fontSize: isMobile ? "0.75rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
+                      fontSize: isMobile ? "0.7rem" : "clamp(0.75rem, 1.8vw, 0.8rem)", // MOBILE FIX: 0.75rem→0.7rem (11.2px)
                       letterSpacing: "0.05em",
                       textTransform: "capitalize",
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
                       borderRadius: "8px", // #2: Standardized border-radius (8px small)
-                      padding: isMobile ? "0.75rem 1rem" : "0.625rem 0.875rem",
+                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem", // MOBILE FIX: Reduce padding (saves 8px per button)
                       minHeight: "44px",
-                      flex: "1",
+                      flex: "1 1 auto", // MOBILE FIX: Allow shrinking
+                      minWidth: isMobile ? "68px" : "auto", // MOBILE FIX: Ensure 44px+ tap target
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
@@ -1935,7 +1951,15 @@ export default function WormholeContent() {
               })}
             </div>
             {/* Bottom row: 3 buttons */}
-            <div style={{ display: 'flex', gap: isMobile ? '16px' : '16px', width: '100%' }}> {/* Increased mobile gap from 12px */}
+            <div style={{
+              display: 'flex',
+              gap: isMobile ? '8px' : '16px', // MOBILE FIX: Reduce gap 16px→8px
+              width: '100%',
+              overflowX: 'auto', // MOBILE FIX: Horizontal scroll fallback
+              WebkitOverflowScrolling: 'touch', // MOBILE FIX: Smooth iOS scrolling
+              scrollbarWidth: 'none', // MOBILE FIX: Hide scrollbar
+              msOverflowStyle: 'none' // MOBILE FIX: Hide scrollbar IE/Edge
+            }}>
               {(['music', 'educational', 'retro'] as const).map((cat) => {
                 const isSelected = selectedCategory === cat;
                 return (
@@ -1954,16 +1978,17 @@ export default function WormholeContent() {
                     className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       fontFamily: "monospace",
-                      fontSize: isMobile ? "0.75rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
+                      fontSize: isMobile ? "0.7rem" : "clamp(0.75rem, 1.8vw, 0.8rem)", // MOBILE FIX: 0.75rem→0.7rem (11.2px)
                       letterSpacing: "0.05em",
                       textTransform: "capitalize",
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
                       borderRadius: "8px", // #2: Standardized border-radius (8px small)
-                      padding: isMobile ? "0.75rem 1rem" : "0.625rem 0.875rem",
+                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem", // MOBILE FIX: Reduce padding (saves 8px per button)
                       minHeight: "44px",
-                      flex: "1",
+                      flex: "1 1 auto", // MOBILE FIX: Allow shrinking
+                      minWidth: isMobile ? "68px" : "auto", // MOBILE FIX: Ensure 44px+ tap target
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
@@ -2006,7 +2031,7 @@ export default function WormholeContent() {
               className="hover:scale-105 hover:shadow-[0_0_60px_rgba(255,157,35,0.7)] active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               style={{
                 fontFamily: "monospace",
-                fontSize: isMobile ? "1.125rem" : "clamp(1.25rem, 2.5vw, 1.375rem)", // Increased for better hierarchy
+                fontSize: isMobile ? "1.25rem" : "clamp(1.25rem, 2.5vw, 1.375rem)", // MOBILE FIX: 1.125rem→1.25rem (20px, commanding CTA)
                 letterSpacing: "0.1em",
                 fontWeight: "700",
                 background: "linear-gradient(135deg, var(--accent) 0%, #FFA84D 50%, var(--accent-hover) 100%)", // Enhanced gradient
@@ -2027,8 +2052,8 @@ export default function WormholeContent() {
 
             <p id="warp-hint" style={{
               fontFamily: "monospace",
-              fontSize: isMobile ? "0.875rem" : "0.75rem",
-              color: "rgba(255, 255, 255, 0.5)",
+              fontSize: isMobile ? "0.8125rem" : "0.75rem", // MOBILE FIX: 0.875rem→0.8125rem (13px)
+              color: "rgba(255, 255, 255, 0.6)", // MOBILE FIX: 0.5→0.6 opacity (more visible)
               letterSpacing: "0.05em",
               textAlign: "center",
               width: "100%",
