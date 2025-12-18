@@ -1388,7 +1388,7 @@ export default function WormholeContent() {
           style={{
             zIndex: "var(--z-loading)",
             backgroundColor: "rgba(0, 0, 0, 0.75)",
-            padding: 'max(2rem, env(safe-area-inset-top)) max(2rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(2rem, env(safe-area-inset-left))' // Standardized to 2rem all sides
+            padding: 'max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left))' // Tighter padding for sleeker composition
           }}
           role="alert"
           aria-live="assertive"
@@ -1399,7 +1399,7 @@ export default function WormholeContent() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              maxWidth: isMobile ? '90vw' : '700px',
+              maxWidth: isMobile ? '85vw' : '600px', // Tighter for better proportions
               width: '100%',
               margin: '0 auto'
             }}
@@ -1409,11 +1409,11 @@ export default function WormholeContent() {
             {countdown > 0 && currentDestination && (
               <div
                 style={{
-                  fontSize: isMobile ? "3rem" : "4rem",
+                  fontSize: isMobile ? "4rem" : "6rem", // Proportional to countdown number (80%/75%)
                   lineHeight: 1,
                   filter: "drop-shadow(0 0 16px rgba(255, 157, 35, 0.6))",
-                  animation: prefersReducedMotion ? 'none' : "flip-reveal 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                  marginBottom: isMobile ? '1.5rem' : '2rem'
+                  animation: prefersReducedMotion ? 'none' : "emoji-pop 0.6s ease-out",
+                  marginBottom: isMobile ? '1rem' : '1.5rem' // Tighter hierarchy
                 }}
               >
                 {currentDestination.category === 'interactive' && '🎮'}
@@ -1439,13 +1439,13 @@ export default function WormholeContent() {
               key={countdown}
               style={{
                 fontFamily: "monospace",
-                fontSize: isMobile ? "clamp(4rem, 15vw, 5rem)" : "6rem",
+                fontSize: isMobile ? "5rem" : "8rem", // Dominant focal point - fixed sizes
                 fontWeight: 700,
                 lineHeight: 1.2,
                 color: "var(--accent)",
                 filter: "drop-shadow(0 0 24px rgba(255, 157, 35, 0.8))",
-                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)', // Removed delay, added elastic easing
-                marginBottom: isMobile ? '1rem' : '1.5rem',
+                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.7s ease-out', // Smoother, more luxurious timing
+                marginBottom: isMobile ? '1.5rem' : '2.5rem', // Primary element gets most space
                 willChange: 'transform, opacity' // Performance hint for smooth animations
               }}
             >
@@ -1455,62 +1455,37 @@ export default function WormholeContent() {
             {/* Message Text */}
             <p style={{
               fontFamily: "monospace",
-              fontSize: isMobile ? "clamp(1rem, 4vw, 1.125rem)" : "1.25rem",
+              fontSize: isMobile ? "1.25rem" : "1.5rem", // Larger for better readability
               lineHeight: 1.4,
               letterSpacing: "0.04em",
               color: "rgba(255, 255, 255, 0.9)",
               textAlign: 'center',
               maxWidth: isMobile ? '80vw' : '65vw',
-              marginBottom: isMobile ? '1rem' : '1.5rem',
-              animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out 0.2s backwards'
+              marginBottom: isMobile ? '0.75rem' : '1rem', // Tighter spacing
+              animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out' // Unified timing, no delay
             }}>
               {currentMessage}
             </p>
 
-            {/* Hint with Decorative Lines */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: isMobile ? '0.75rem' : '1rem',
-                width: '100%',
-                maxWidth: isMobile ? '90vw' : '600px',
-                marginBottom: isMobile ? '1rem' : '1.5rem',
-                animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out 0.3s backwards'
-              }}
-            >
-              <div style={{
-                height: "1px",
-                flex: "1 1 0",
-                minWidth: isMobile ? "1rem" : "2rem",
-                maxWidth: isMobile ? "4rem" : "6rem",
-                background: "linear-gradient(to right, transparent, var(--accent))"
-              }}></div>
-              <p style={{
-                fontFamily: "monospace",
-                fontSize: isMobile ? "clamp(0.875rem, 3.5vw, 1rem)" : "1rem",
-                letterSpacing: "0.04em",
-                fontWeight: "600",
-                color: "var(--accent)",
-                textAlign: "center",
-                margin: 0,
-                maxWidth: isMobile ? "50vw" : "350px",
-                lineHeight: 1.3,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: isMobile ? "normal" : "nowrap"
-              } as React.CSSProperties}>
-                {currentHint}
-              </p>
-              <div style={{
-                height: "1px",
-                flex: "1 1 0",
-                minWidth: isMobile ? "1rem" : "2rem",
-                maxWidth: isMobile ? "4rem" : "6rem",
-                background: "linear-gradient(to left, transparent, var(--accent))"
-              }}></div>
-            </div>
+            {/* Hint - Simplified */}
+            <p style={{
+              fontFamily: "monospace",
+              fontSize: isMobile ? "1rem" : "1rem",
+              letterSpacing: "0.04em",
+              fontWeight: "600",
+              color: "var(--accent)",
+              textAlign: "center",
+              margin: 0,
+              maxWidth: isMobile ? "70vw" : "500px", // Tighter for cleaner composition
+              lineHeight: 1.3,
+              marginBottom: isMobile ? '0.5rem' : '0.75rem', // Minimal spacing
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: isMobile ? "normal" : "nowrap",
+              animation: prefersReducedMotion ? 'none' : 'fade-in 0.3s ease-out' // Unified timing, no delay
+            } as React.CSSProperties}>
+              {currentHint}
+            </p>
 
             {/* ESC to abort - show on all devices */}
             {canAbort && (

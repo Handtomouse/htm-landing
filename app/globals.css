@@ -2139,21 +2139,34 @@ body {
   }
 }
 
-/* Countdown bounce - elastic bounce effect */
+/* Emoji pop - simple, clean entrance */
+@keyframes emoji-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Countdown bounce - smooth, luxurious bounce */
 @keyframes countdown-bounce {
   0% {
     opacity: 0;
-    transform: scale(0.3) translateY(-30px);
+    transform: scale(0.5) translateY(-15px);
   }
   50% {
     opacity: 1;
-    transform: scale(1.15) translateY(5px);
+    transform: scale(1.1) translateY(3px);
   }
-  70% {
-    transform: scale(0.95) translateY(-2px);
-  }
-  85% {
-    transform: scale(1.05) translateY(1px);
+  75% {
+    transform: scale(0.98) translateY(-1px);
   }
   100% {
     opacity: 1;
