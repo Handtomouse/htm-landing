@@ -103,6 +103,14 @@
   }
 }
 
+/* Mobile: Reduce footer padding and gaps for button spacing on small screens */
+@media (max-width: 420px) {
+  :root {
+    --page-padding-x: 8px;  /* Reduce from 24px to prevent button overflow */
+    --grid-2x: 8px;         /* Reduce gap from 16px for tighter spacing */
+  }
+}
+
 /* Argent Pixel rendering optimization */
 body, p, span, div, input, button {
   -webkit-font-smoothing: none;
