@@ -79,8 +79,8 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
     <footer
       className="fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{
-        paddingTop: 'var(--grid-2x)',
-        paddingBottom: 'calc(var(--grid-2x) + env(safe-area-inset-bottom))',
+        paddingTop: '20px',
+        paddingBottom: 'calc(24px + env(safe-area-inset-bottom))',
         backgroundColor: 'var(--bg)',
         borderColor: 'var(--grid)',
         backdropFilter: 'blur(8px)'
