@@ -255,13 +255,13 @@ export default function Home() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          minHeight: 'calc(100dvh - var(--footer-height))',
+          height: 'calc(100dvh - var(--footer-height))',
           width: '100%',
           overflow: 'hidden',
           position: 'relative',
           paddingLeft: 'var(--page-padding-x)',
           paddingRight: 'var(--page-padding-x)',
-          paddingTop: 'var(--page-padding-y)'
+          boxSizing: 'border-box'
         }}
       >
         {/* #5: Lazy-loaded decorative effects */}
