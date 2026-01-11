@@ -44,10 +44,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/HTM-LOGO-ICON-WHITE.svg',
-        width: 512,
-        height: 512,
-        alt: 'Hand To Mouse Logo',
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Hand To Mouse - Independent Creative Direction & Cultural Strategy',
       },
     ],
   },
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: 'Hand To Mouse | Independent Creative Direction',
     description: 'Independent creative direction and cultural strategy from Sydney',
     creator: '@handtomouse',
-    images: ['/HTM-LOGO-ICON-WHITE.svg'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,

@@ -88,7 +88,7 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
     >
       <div
         style={{
-          height: '100%',
+          height: 'var(--footer-height)',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
@@ -97,7 +97,7 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
           flexWrap: 'nowrap',
           maxWidth: 'var(--content-max-width)',
           margin: '0 auto',
-          padding: '0 var(--page-padding-x)'
+          padding: 'var(--grid-unit) var(--page-padding-x)'
         }}
       >
         {/* All buttons in centered row */}
