@@ -79,8 +79,8 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
     <footer
       className="fixed bottom-0 left-0 right-0 z-50 border-t"
       style={{
-        height: 'calc(var(--footer-height) + env(safe-area-inset-bottom))',
-        paddingBottom: 'env(safe-area-inset-bottom)',
+        paddingTop: 'var(--grid-2x)',
+        paddingBottom: 'calc(var(--grid-2x) + env(safe-area-inset-bottom))',
         backgroundColor: 'var(--bg)',
         borderColor: 'var(--grid)',
         backdropFilter: 'blur(8px)'
@@ -88,7 +88,6 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
     >
       <div
         style={{
-          height: 'var(--footer-height)',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
@@ -97,7 +96,7 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
           flexWrap: 'nowrap',
           maxWidth: 'var(--content-max-width)',
           margin: '0 auto',
-          padding: 'var(--grid-unit) var(--page-padding-x)'
+          padding: '0 var(--page-padding-x)'
         }}
       >
         {/* All buttons in centered row */}
