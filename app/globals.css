@@ -66,7 +66,7 @@
   --z-skip-link: 9999;  /* Accessibility skip link */
 
   /* Layout Constants */
-  --footer-height: 56px;
+  --footer-height: 92px;  /* 20px top + 48px button + 24px bottom */
   --page-padding-x: var(--grid-3x);
   --page-padding-y: var(--grid-4x);
   --content-max-width: 1200px;
@@ -96,10 +96,10 @@
   --font-mono: "argent-pixel-cf", "VT323", ui-monospace, monospace;
 }
 
-/* Mobile: Increase footer height for better touch targets */
+/* Mobile: Footer height (matches desktop, safe-area handled separately) */
 @media (max-width: 640px) and (max-height: 700px) {
   :root {
-    --footer-height: 64px;
+    --footer-height: 92px;
   }
 }
 
