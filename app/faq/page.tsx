@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'FAQ | Hand To Mouse',
-    description: 'Common questions about web design and development services',
+    description: 'Common questions about creative direction and cultural strategy services',
     url: 'https://handtomouse.org/faq',
     type: 'website',
   },
@@ -117,12 +117,12 @@ export default function FAQ() {
             className="text-xl mb-12 text-gray-300"
             style={{ fontFamily: 'var(--font-body)' }}
           >
-            Common questions about web design, development, and working together.
+            Common questions about creative direction, cultural strategy, and working together.
           </p>
 
           <div className="space-y-8">
             {faqs.map((faq, index) => (
-              <article key={index} className="border-b border-gray-800 pb-8">
+              <article key={index} className="border-b border-[var(--grid)] pb-8">
                 <h2
                   className="text-2xl font-semibold mb-4"
                   style={{ fontFamily: 'var(--font-heading)' }}
@@ -139,7 +139,7 @@ export default function FAQ() {
             ))}
           </div>
 
-          <div className="mt-16 pt-12 border-t border-gray-800">
+          <div className="mt-16 pt-12 border-t border-[var(--grid)]">
             <h2
               className="text-2xl font-semibold mb-6"
               style={{ fontFamily: 'var(--font-heading)' }}

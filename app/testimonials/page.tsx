@@ -141,14 +141,14 @@ export default function Testimonials() {
           </h1>
 
           <p className="text-xl mb-16 text-gray-300 max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
-            What clients say about working with <Link href="/about" className="underline hover:text-gray-400 transition-colors">Nate Don</Link> on creative direction, cultural strategy, and digital experience projects.
+            What clients say about working with <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">Nate Don</Link> on creative direction, cultural strategy, and digital experience projects.
           </p>
 
           <div className="space-y-12">
             {testimonials.map((testimonial, index) => (
               <article
                 key={index}
-                className="border-l-2 border-gray-700 pl-8 pb-12 hover:border-white transition-colors"
+                className="border-l-2 border-[var(--grid)] pl-8 pb-12 hover:border-white transition-colors"
               >
                 {/* Star Rating */}
                 <div className="flex gap-1 mb-4">
@@ -184,7 +184,7 @@ export default function Testimonials() {
             </h2>
 
             <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
-              Interested in working together? Learn more about <Link href="/services" className="underline hover:text-gray-400 transition-colors">services</Link>, view <Link href="/portfolio" className="underline hover:text-gray-400 transition-colors">selected work</Link>, or read the <Link href="/faq" className="underline hover:text-gray-400 transition-colors">FAQ</Link>.
+              Interested in working together? Learn more about <Link href="/services" className="underline hover:text-[var(--muted)] transition-colors">services</Link>, view <Link href="/portfolio" className="underline hover:text-[var(--muted)] transition-colors">selected work</Link>, or read the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
             </p>
 
             <a

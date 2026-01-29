@@ -131,7 +131,7 @@ export default function Portfolio() {
             {portfolioItems.map((item, index) => (
               <article
                 key={index}
-                className="border-l-2 border-gray-700 pl-8 hover:border-white transition-colors"
+                className="border-l-2 border-[var(--grid)] pl-8 hover:border-white transition-colors"
               >
                 <div className="mb-3">
                   <span
@@ -154,7 +154,7 @@ export default function Portfolio() {
                   {item.keywords.map((keyword, i) => (
                     <span
                       key={i}
-                      className="text-sm px-3 py-1 border border-gray-700 rounded-full text-gray-400"
+                      className="text-sm px-3 py-1 border border-[var(--grid)] rounded-none text-gray-400"
                       style={{ fontFamily: 'var(--font-body)' }}
                     >
                       {keyword}
@@ -171,7 +171,7 @@ export default function Portfolio() {
             </h2>
 
             <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
-              Interested in working together on a project? Learn more about <Link href="/services" className="underline hover:text-gray-400 transition-colors">services offered</Link> or <Link href="/about" className="underline hover:text-gray-400 transition-colors">read about my approach</Link>.
+              Interested in working together on a project? Learn more about <Link href="/services" className="underline hover:text-[var(--muted)] transition-colors">services offered</Link> or <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">read about my approach</Link>.
             </p>
 
             <a

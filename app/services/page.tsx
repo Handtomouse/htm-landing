@@ -152,7 +152,7 @@ export default function Services() {
 
         <div className="grid gap-12 md:gap-16">
           {services.map((service, index) => (
-            <article key={index} className="border-l-2 border-gray-700 pl-8 hover:border-white transition-colors">
+            <article key={index} className="border-l-2 border-[var(--grid)] pl-8 hover:border-white transition-colors">
               <h2 className="text-2xl md:text-3xl font-semibold mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
                 {service.title}
               </h2>
@@ -165,7 +165,7 @@ export default function Services() {
                 {service.keywords.map((keyword, i) => (
                   <span
                     key={i}
-                    className="text-sm px-3 py-1 border border-gray-700 rounded-full text-gray-400"
+                    className="text-sm px-3 py-1 border border-[var(--grid)] rounded-none text-gray-400"
                     style={{ fontFamily: 'var(--font-body)' }}
                   >
                     {keyword}
@@ -176,13 +176,13 @@ export default function Services() {
           ))}
         </div>
 
-        <div className="mt-20 pt-12 border-t border-gray-800">
+        <div className="mt-20 pt-12 border-t border-[var(--grid)]">
           <h2 className="text-2xl font-semibold mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
             Ready to start a project?
           </h2>
 
           <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
-            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help. Learn more <Link href="/about" className="underline hover:text-gray-400 transition-colors">about my approach</Link> or check the <Link href="/faq" className="underline hover:text-gray-400 transition-colors">FAQ</Link>.
+            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help. Learn more <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">about my approach</Link> or check the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
           </p>
 
           <a
