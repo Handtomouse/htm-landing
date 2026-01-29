@@ -1,11 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import TerminalTypewriter from '@/components/TerminalTypewriter'
 import BattleSystem from '@/components/BattleSystem'
 import FooterCTAs from '@/components/FooterCTAs'
-import ContactModal from '@/components/ContactModal'
 import Script from 'next/script'
+
+// Lazy load ContactModal (790 lines) - only loaded when needed
+const ContactModal = dynamic(() => import('@/components/ContactModal'), {
+  ssr: false,
+  loading: () => null
+})
 
 export default function Home() {
   // #5: Lazy load decorative effects after initial paint
