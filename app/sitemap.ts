@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const contentLastModified = new Date('2025-12-18')
   const staticLastModified = new Date('2025-12-01')
 
+  // Only include pages that robots.ts allows (/ and /wormhole)
   return [
     {
       url: baseUrl,
@@ -17,51 +18,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [
         `${baseUrl}/HTM-LOGO-ICON-WHITE.svg`,
         `${baseUrl}/HTM-LOGOS-FULLWORDMARK.svg`,
-      ],
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-      images: [
-        `${baseUrl}/HTM-LOGO-ICON-WHITE.svg`,
-      ],
-    },
-    {
-      url: `${baseUrl}/services`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-      images: [
-        `${baseUrl}/HTM-LOGO-ICON-WHITE.svg`,
-      ],
-    },
-    {
-      url: `${baseUrl}/faq`,
-      lastModified: contentLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-      images: [
-        `${baseUrl}/HTM-LOGO-ICON-WHITE.svg`,
-      ],
-    },
-    {
-      url: `${baseUrl}/testimonials`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-      images: [
-        `${baseUrl}/HTM-LOGO-ICON-WHITE.svg`,
-      ],
-    },
-    {
-      url: `${baseUrl}/portfolio`,
-      lastModified: staticLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.9,
-      images: [
-        `${baseUrl}/HTM-LOGO-ICON-WHITE.svg`,
       ],
     },
     {

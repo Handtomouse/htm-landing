@@ -4,8 +4,9 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      allow: '/',
-      disallow: ['/api/', '/private/'],
+      // Only home, wormhole, and portfolio PDF are public for now
+      allow: ['/$', '/wormhole', '/NateDon_Portfolio_2025.pdf'],
+      disallow: ['/about', '/services', '/faq', '/portfolio', '/testimonials', '/api/'],
     },
     sitemap: 'https://handtomouse.org/sitemap.xml',
   }

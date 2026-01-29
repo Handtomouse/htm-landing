@@ -56,7 +56,15 @@ export const metadata: Metadata = {
     title: 'Hand To Mouse | Independent Creative Direction',
     description: 'Independent creative direction and cultural strategy from Sydney',
     creator: '@handtomouse',
-    images: ['/og-image.png'],
+    site: '@handtomouse',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Hand To Mouse - Creative Direction & Cultural Strategy',
+      },
+    ],
   },
   robots: {
     index: true,
@@ -72,14 +80,7 @@ export const metadata: Metadata = {
   verification: {
     google: ['32edcb2607debf2d', 'T1Njy_42-2WkRsw8GooZ189Prrs_B_krrb7gR8XHo1o'],
   },
-  icons: {
-    icon: [
-      { url: '/HTM-LOGO-ICON-WHITE.svg', type: 'image/svg+xml' },
-    ],
-    apple: [
-      { url: '/HTM-LOGO-ICON-WHITE.svg', type: 'image/svg+xml' },
-    ],
-  },
+  // Icons auto-detected from /app directory (favicon.ico, icon.svg, icon.png, apple-icon.png)
 }
 
 export const viewport = {
@@ -98,7 +99,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en-AU">
       <head>
         {/* #3: Font preconnect optimization */}
         <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
@@ -108,11 +109,17 @@ export default function RootLayout({
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
 
+        {/* DNS prefetch for form submissions */}
+        <link rel="dns-prefetch" href="https://api.resend.com" />
+
         {/* Critical asset preloading */}
         <link rel="preload" href="/HTM-LOGO-ICON-WHITE.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/HTM-LOGOS-FULLWORDMARK.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/HTM-PROJECTILE-LINE.svg" as="image" type="image/svg+xml" />
         <link rel="preload" href="/HTM-MUZZLE-FLASH.svg" as="image" type="image/svg+xml" />
+
+        {/* Preload TypeKit for faster font loading */}
+        <link rel="preload" href="https://use.typekit.net/swi6eoo.css" as="style" />
         <link rel="stylesheet" href="https://use.typekit.net/swi6eoo.css" />
       </head>
       <body
@@ -126,6 +133,13 @@ export default function RootLayout({
           flexDirection: 'column'
         }}
       >
+        {/* Skip to content link for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-[var(--bg)] focus:outline-none"
+        >
+          Skip to content
+        </a>
         {children}
         <Analytics />
       </body>
