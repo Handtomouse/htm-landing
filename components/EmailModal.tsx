@@ -181,7 +181,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
               fontSize: 'clamp(10px, 1.8vw, 12px)',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: status === 'success' ? '#4CAF50' : 'var(--ink)',
+              color: status === 'success' ? 'var(--status-success)' : 'var(--ink)',
               background: status === 'success' ? 'rgba(76, 175, 80, 0.1)' : 'var(--accent)',
               border: 'none',
               padding: 'var(--grid-2x) var(--grid-4x)',
@@ -209,7 +209,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
               style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '12px',
-                color: status === 'success' ? '#4CAF50' : '#ff6b6b',
+                color: status === 'success' ? 'var(--status-success)' : 'var(--status-error)',
                 marginTop: 'var(--grid-2x)',
                 textAlign: 'center'
               }}

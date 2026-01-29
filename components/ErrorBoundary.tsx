@@ -58,7 +58,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               textAlign: 'center',
               padding: 'var(--grid-6x)',
               border: '1px solid var(--grid)',
-              borderRadius: '12px',
+              borderRadius: '0',
               backgroundColor: 'var(--panel)'
             }}
           >
@@ -89,13 +89,13 @@ export default class ErrorBoundary extends Component<Props, State> {
                 color: 'var(--ink)',
                 background: 'var(--accent)',
                 border: 'none',
-                borderRadius: '999px',
+                borderRadius: '0',
                 padding: 'var(--grid-unit) var(--grid-3x)',
                 cursor: 'pointer',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
                 minHeight: '44px',
-                transition: 'background 0.3s ease'
+                transition: 'background var(--duration-fast) var(--ease-luxury)'
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = 'var(--accent-hover)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'var(--accent)'}

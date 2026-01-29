@@ -58,12 +58,12 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
     color: disabled ? 'rgba(255, 255, 255, 0.2)' : 'var(--muted)',
     background: disabled ? 'rgba(255, 255, 255, 0.01)' : 'rgba(255, 255, 255, 0.02)',
     border: '1px solid var(--grid)',
-    borderRadius: '999px',
+    borderRadius: '0',
     padding: 'var(--grid-unit) var(--grid-2x)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.3s var(--ease-luxury)',
+    transition: 'all var(--duration-fast) var(--ease-luxury)',
     textTransform: 'uppercase' as const,
     letterSpacing: '0.05em',
     minWidth: 'clamp(72px, 12vw, 120px)', // MOBILE FIX: Reduced to 72px for proper spacing on 320px screens
@@ -87,13 +87,13 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
       }}
     >
       <div
+        className="footer-cta-container"
         style={{
-          display: 'flex',
-          flexDirection: 'row',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, auto)',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 'var(--grid-2x)',
-          flexWrap: 'nowrap',
+          gap: 'var(--grid-unit)',
           maxWidth: 'var(--content-max-width)',
           margin: '0 auto',
           padding: '0 var(--page-padding-x)'

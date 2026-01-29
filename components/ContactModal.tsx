@@ -36,16 +36,6 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const previousFocusRef = useRef<HTMLElement | null>(null)
   const validationTimeoutRef = useRef<NodeJS.Timeout>()
 
-  // XSS sanitization helper
-  const sanitizeInput = (input: string) => {
-    return input
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#x27;')
-      .replace(/\//g, '&#x2F;')
-  }
-
   // Email validation helper
   const validateEmail = (email: string) => {
     if (!email) return ''
@@ -230,10 +220,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: sanitizeInput(name.trim()),
-          email: sanitizeInput(email.trim()),
-          subject: sanitizeInput(subject.trim()),
-          message: sanitizeInput(message.trim()),
+          name: name.trim(),
+          email: email.trim(),
+          subject: subject.trim(),
+          message: message.trim(),
           timestamp: formStartTime,
           consent: consent
         }),
@@ -322,7 +312,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           backgroundColor: 'rgba(11, 11, 11, 0.6)',
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 157, 35, 0.2)',
-          borderRadius: '12px',
+          borderRadius: '0',
           padding: isMobile ? 'var(--grid-2x)' : 'clamp(var(--grid-2x), 2vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
@@ -437,7 +427,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 fontSize: '16px',
                 background: name ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
-                border: errors.name ? '1px solid #ff6b6b' : '1px solid var(--grid)',
+                border: errors.name ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: name && !errors.name ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
                 transition: 'all var(--duration-fast)',
@@ -452,7 +442,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <p id="name-error" style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '11px',
-                color: '#ff6b6b',
+                color: 'var(--status-error)',
                 marginTop: 'var(--grid-unit)'
               }}>
                 {errors.name}
@@ -503,7 +493,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 fontSize: '16px',
                 background: email ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
-                border: errors.email ? '1px solid #ff6b6b' : '1px solid var(--grid)',
+                border: errors.email ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: email && !errors.email ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
                 transition: 'all var(--duration-fast)',
@@ -518,7 +508,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <p id="email-error" style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '11px',
-                color: '#ff6b6b',
+                color: 'var(--status-error)',
                 marginTop: 'var(--grid-unit)'
               }}>
                 {errors.email}
@@ -573,7 +563,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 fontSize: '16px',
                 background: subject ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
-                border: errors.subject ? '1px solid #ff6b6b' : '1px solid var(--grid)',
+                border: errors.subject ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: subject && !errors.subject ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
                 transition: 'all var(--duration-fast)',
@@ -588,7 +578,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <p id="subject-error" style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '11px',
-                color: '#ff6b6b',
+                color: 'var(--status-error)',
                 marginTop: 'var(--grid-unit)'
               }}>
                 {errors.subject}
@@ -638,7 +628,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 fontSize: '16px',
                 background: message ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
-                border: errors.message ? '1px solid #ff6b6b' : '1px solid var(--grid)',
+                border: errors.message ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: message && !errors.message ? '3px solid var(--accent)' : undefined,
                 padding: 'var(--grid-2x)',
                 transition: 'all var(--duration-fast)',
@@ -655,7 +645,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <p id="message-error" style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '11px',
-                color: '#ff6b6b',
+                color: 'var(--status-error)',
                 marginTop: 'var(--grid-unit)'
               }}>
                 {errors.message}
@@ -700,7 +690,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   accentColor: 'var(--accent)'
                 }}
               />
-              <span>I consent to processing my data for contact purposes as per the Privacy Policy *</span>
+              <span>I consent to processing my data for contact purposes as per the <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Privacy Policy</a> *</span>
             </label>
           </div>
 
@@ -716,7 +706,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               fontSize: 'clamp(14px, 3vw, 16px)',
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: status === 'success' ? '#4CAF50' : 'var(--ink)',
+              color: status === 'success' ? 'var(--status-success)' : 'var(--ink)',
               background: status === 'success'
                 ? 'rgba(76, 175, 80, 0.1)'
                 : !isFormValid || status === 'loading'
@@ -765,7 +755,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: 'clamp(14px, 2.5vw, 16px)',
-                  color: status === 'success' ? '#4CAF50' : '#ff6b6b',
+                  color: status === 'success' ? 'var(--status-success)' : 'var(--status-error)',
                   marginTop: 'var(--grid-2x)',
                   textAlign: 'center'
                 }}
