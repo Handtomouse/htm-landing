@@ -36,5 +36,10 @@ export function validateEnv() {
       const status = process.env[envVar] ? '✓' : '✗'
       console.log(`  ${status} ${envVar}`)
     }
+
+    // Specific warnings for missing optional vars
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('⚠️  RESEND_API_KEY not set - email forms will log to console instead of sending')
+    }
   }
 }
