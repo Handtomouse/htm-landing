@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { validateEnv } from '@/lib/env'
+import { isValidEmail, escapeHtml } from '@/lib/validation'
 
 // Validate environment on module load
 validateEnv()
@@ -12,22 +13,6 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 interface SubscribeFormData {
   email: string
   website?: string // Honeypot field
-}
-
-// Simple email validation
-function isValidEmail(email: string): boolean {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return re.test(email)
-}
-
-// HTML escape to prevent XSS in email
-function escapeHtml(unsafe: string): string {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
 }
 
 // Honeypot check (simple spam prevention)

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { validateEnv } from '@/lib/env'
+import { isValidEmail, escapeHtml } from '@/lib/validation'
 
 // Validate environment on module load
 validateEnv()
@@ -22,22 +23,6 @@ interface ContactFormData {
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour
 const RATE_LIMIT_MAX = 3 // 3 submissions per hour
-
-// Simple email validation
-function isValidEmail(email: string): boolean {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return re.test(email)
-}
-
-// HTML escape to prevent XSS in email
-function escapeHtml(unsafe: string): string {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
-}
 
 // Honeypot check (simple spam prevention)
 function checkHoneypot(body: any): boolean {
