@@ -146,7 +146,7 @@ export default function Services() {
           Services
         </h1>
 
-        <p className="text-xl mb-16 text-gray-300 max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
+        <p className="text-xl mb-16 text-[var(--muted)] max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
           I offer strategic creative direction and cultural strategy for startups, agencies, and cultural organizations across Sydney and beyond.
         </p>
 
@@ -157,7 +157,7 @@ export default function Services() {
                 {service.title}
               </h2>
 
-              <p className="text-lg leading-relaxed mb-6 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
+              <p className="text-lg leading-relaxed mb-6 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
                 {service.description}
               </p>
 
@@ -181,7 +181,7 @@ export default function Services() {
             Ready to start a project?
           </h2>
 
-          <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
+          <p className="text-lg mb-8 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
             Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help. Learn more <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">about my approach</Link> or check the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
           </p>
 

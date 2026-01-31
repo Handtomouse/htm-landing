@@ -80,7 +80,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
           backgroundColor: 'var(--bg)',
           border: '2px solid var(--grid)',
           borderRadius: '0',
-          padding: 'clamp(var(--grid-2x), 4vw, var(--grid-6x))',
+          padding: 'max(var(--grid-3x), env(safe-area-inset-top)) max(var(--grid-3x), env(safe-area-inset-right)) max(var(--grid-3x), env(safe-area-inset-bottom)) max(var(--grid-3x), env(safe-area-inset-left))',
           maxWidth: 'min(500px, 100% - 2rem)',
           width: '100%',
           maxHeight: '90dvh',
@@ -102,8 +102,8 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
             fontSize: '24px',
             cursor: 'pointer',
             padding: '10px',
-            minWidth: '44px',
-            minHeight: '44px',
+            minWidth: '48px',
+            minHeight: '48px',
             lineHeight: 1,
             transition: 'color 0.2s'
           }}
@@ -152,7 +152,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
             style={{
               width: '100%',
               fontFamily: 'var(--font-body)',
-              fontSize: '14px',
+              fontSize: '16px',
               background: 'rgba(255, 255, 255, 0.05)',
               color: 'var(--ink)',
               border: '1px solid var(--grid)',
@@ -185,7 +185,7 @@ export default function EmailModal({ isOpen, onClose }: EmailModalProps) {
               background: status === 'success' ? 'rgba(76, 175, 80, 0.1)' : 'var(--accent)',
               border: 'none',
               padding: 'var(--grid-2x) var(--grid-4x)',
-              minHeight: '44px',
+              minHeight: '48px',
               cursor: status === 'loading' || status === 'success' ? 'not-allowed' : 'pointer',
               transition: 'all 0.3s',
               opacity: status === 'loading' || status === 'success' ? 0.6 : 1

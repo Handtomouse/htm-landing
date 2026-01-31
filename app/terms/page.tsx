@@ -67,7 +67,7 @@ export default function Terms() {
             Last updated: January 2025
           </p>
 
-          <div className="space-y-8 text-gray-300 leading-relaxed">
+          <div className="space-y-8 text-[var(--muted)] leading-relaxed">
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                 Agreement to Terms

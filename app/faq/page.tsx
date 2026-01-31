@@ -105,7 +105,7 @@ export default function FAQ() {
       />
 
       <main id="main-content" className="min-h-screen bg-black text-white px-6 py-20">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h1
             className="text-4xl md:text-5xl font-bold mb-6"
             style={{ fontFamily: 'var(--font-heading)' }}
@@ -114,7 +114,7 @@ export default function FAQ() {
           </h1>
 
           <p
-            className="text-xl mb-12 text-gray-300"
+            className="text-xl mb-12 text-[var(--muted)]"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Common questions about creative direction, cultural strategy, and working together.
@@ -122,7 +122,7 @@ export default function FAQ() {
 
           <div className="space-y-8">
             {faqs.map((faq, index) => (
-              <article key={index} className="border-b border-[var(--grid)] pb-8">
+              <article key={index} className="border-l-2 border-[var(--grid)] pl-8 hover:border-white transition-colors">
                 <h2
                   className="text-2xl font-semibold mb-4"
                   style={{ fontFamily: 'var(--font-heading)' }}
@@ -130,7 +130,7 @@ export default function FAQ() {
                   {faq.question}
                 </h2>
                 <p
-                  className="text-lg leading-relaxed text-gray-300"
+                  className="text-lg leading-relaxed text-[var(--muted)]"
                   style={{ fontFamily: 'var(--font-body)' }}
                 >
                   {faq.answer}
@@ -148,7 +148,7 @@ export default function FAQ() {
             </h2>
 
             <p
-              className="text-lg mb-8 text-gray-300"
+              className="text-lg mb-8 text-[var(--muted)]"
               style={{ fontFamily: 'var(--font-body)' }}
             >
               Get in touch to discuss your project and see how I can help bring your vision to life.
@@ -168,7 +168,7 @@ export default function FAQ() {
 
               <Link
                 href="/testimonials"
-                className="inline-block px-8 py-4 border-2 border-gray-700 hover:border-white transition-all text-center"
+                className="inline-block px-8 py-4 border-2 border-[var(--grid)] hover:border-white transition-all text-center"
                 style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
               >
                 View Testimonials

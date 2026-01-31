@@ -140,7 +140,7 @@ export default function Testimonials() {
             Testimonials
           </h1>
 
-          <p className="text-xl mb-16 text-gray-300 max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
+          <p className="text-xl mb-16 text-[var(--muted)] max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
             What clients say about working with <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">Nate Don</Link> on creative direction, cultural strategy, and digital experience projects.
           </p>
 
@@ -148,7 +148,7 @@ export default function Testimonials() {
             {testimonials.map((testimonial, index) => (
               <article
                 key={index}
-                className="border-l-2 border-[var(--grid)] pl-8 pb-12 hover:border-white transition-colors"
+                className="border-l-2 border-[var(--grid)] pl-8 hover:border-white transition-colors"
               >
                 {/* Star Rating */}
                 <div className="flex gap-1 mb-4">
@@ -165,7 +165,7 @@ export default function Testimonials() {
                 </div>
 
                 {/* Review Text */}
-                <blockquote className="text-lg leading-relaxed mb-6 text-gray-300 italic" style={{ fontFamily: 'var(--font-body)' }}>
+                <blockquote className="text-lg leading-relaxed mb-6 text-[var(--muted)] italic" style={{ fontFamily: 'var(--font-body)' }}>
                   "{testimonial.reviewBody}"
                 </blockquote>
 
@@ -183,7 +183,7 @@ export default function Testimonials() {
               Start Your Project
             </h2>
 
-            <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-lg mb-8 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
               Interested in working together? Learn more about <Link href="/services" className="underline hover:text-[var(--muted)] transition-colors">services</Link>, view <Link href="/portfolio" className="underline hover:text-[var(--muted)] transition-colors">selected work</Link>, or read the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
             </p>
 

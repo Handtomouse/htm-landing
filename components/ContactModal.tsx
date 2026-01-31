@@ -316,7 +316,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           padding: isMobile ? 'var(--grid-2x)' : 'clamp(var(--grid-2x), 2vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
-          maxHeight: '85dvh',
+          maxHeight: viewportHeight,
           overflowY: 'auto',
           boxShadow: '0 0 60px rgba(255, 157, 35, 0.15), inset 0 1px 0 rgba(255, 157, 35, 0.1)',
           position: 'relative',
@@ -617,7 +617,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               required
               minLength={10}
               maxLength={1000}
-              rows={5}
+              rows={isMobile ? 3 : 5}
               autoComplete="off"
               disabled={status === 'loading' || status === 'success'}
               aria-invalid={errors.message ? 'true' : 'false'}
@@ -684,8 +684,10 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 disabled={status === 'loading' || status === 'success'}
                 style={{
                   marginTop: '4px',
-                  minWidth: '18px',
-                  minHeight: '18px',
+                  minWidth: '24px',
+                  minHeight: '24px',
+                  width: '24px',
+                  height: '24px',
                   cursor: 'pointer',
                   accentColor: 'var(--accent)'
                 }}

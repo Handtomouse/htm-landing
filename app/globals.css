@@ -103,7 +103,7 @@ button:focus-visible {
 
   /* Layout Constants */
   --footer-height: 92px;  /* 20px top + 48px button + 24px bottom */
-  --page-padding-x: var(--grid-3x);
+  --page-padding-x: clamp(8px, 3vw, 24px);
   --page-padding-y: var(--grid-4x);
   --content-max-width: 1200px;
 
@@ -182,10 +182,9 @@ button:focus-visible {
   }
 }
 
-/* Mobile: Reduce footer padding and gaps for button spacing on small screens */
+/* Mobile: Reduce gaps for button spacing on small screens */
 @media (max-width: 420px) {
   :root {
-    --page-padding-x: 8px;  /* Reduce from 24px to prevent button overflow */
     --grid-2x: 8px;         /* Reduce gap from 16px for tighter spacing */
   }
 }
@@ -222,9 +221,6 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   min-height: 100dvh;
-}
-
-body {
   background: var(--bg);
   color: var(--ink);
 }
@@ -301,7 +297,7 @@ body {
   );
   animation: scanlines 0.0666s linear infinite;
   pointer-events: none;
-  z-index: 20;
+  z-index: var(--z-controls);
 }
 
 /* Vignette Edge Darkening */
@@ -321,7 +317,7 @@ body {
     rgba(0, 0, 0, 0.6) 100%
   );
   pointer-events: none;
-  z-index: 15;
+  z-index: var(--z-controls);
 }
 
 /* Cursor Halo Glow - Pulsing orange glow */
@@ -616,7 +612,7 @@ body {
   mix-blend-mode: screen;
   pointer-events: none;
   animation: light-leak-rotate 60s linear infinite;
-  z-index: 3;
+  z-index: var(--z-base);
 }
 
 /* Film Grain Texture */
@@ -650,7 +646,7 @@ body {
   mix-blend-mode: overlay;
   pointer-events: none;
   animation: grain-shift 8s steps(10) infinite;
-  z-index: 4;
+  z-index: var(--z-base);
 }
 
 /* Bezel Shadow - 3D Recessed Screen */

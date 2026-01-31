@@ -67,7 +67,7 @@ export default function Privacy() {
             Last updated: January 2025
           </p>
 
-          <div className="space-y-8 text-gray-300 leading-relaxed">
+          <div className="space-y-8 text-[var(--muted)] leading-relaxed">
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                 Overview
@@ -176,13 +176,20 @@ export default function Privacy() {
             </section>
           </div>
 
-          <div className="mt-16 pt-8 border-t border-[var(--grid)]">
+          <div className="mt-16 pt-8 border-t border-[var(--grid)] flex flex-col sm:flex-row gap-4">
             <Link
               href="/"
-              className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
+              className="inline-block px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 text-center"
               style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
             >
               ← Back to Home
+            </Link>
+            <Link
+              href="/terms"
+              className="inline-block px-8 py-4 border-2 border-[var(--grid)] hover:border-white transition-all focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 text-center"
+              style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
+            >
+              Terms of Service
             </Link>
           </div>
         </div>

@@ -54,7 +54,7 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
 
   const getButtonStyle = (disabled?: boolean) => ({
     fontFamily: 'var(--font-body)',
-    fontSize: 'clamp(9px, 1.6vw, 12px)',
+    fontSize: 'clamp(11px, 1.6vw, 13px)',
     color: disabled ? 'rgba(255, 255, 255, 0.2)' : 'var(--muted)',
     background: disabled ? 'rgba(255, 255, 255, 0.01)' : 'rgba(255, 255, 255, 0.02)',
     border: '1px solid var(--grid)',
@@ -93,7 +93,7 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
           gridTemplateColumns: 'repeat(4, auto)',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 'var(--grid-unit)',
+          gap: 'var(--grid-2x)',
           maxWidth: 'var(--content-max-width)',
           margin: '0 auto',
           padding: '0 var(--page-padding-x)'

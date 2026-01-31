@@ -28,7 +28,7 @@ export default function NotFound() {
         </h2>
 
         <p
-          className="text-lg mb-8 text-gray-300"
+          className="text-lg mb-8 text-[var(--muted)]"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           This page doesn't exist or has been moved. The site has been redesigned with a fresh new look. If you're looking for portfolio or gallery pages, they've moved to Services.
@@ -38,15 +38,15 @@ export default function NotFound() {
           <Link
             href="/"
             className="px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition-all"
-            style={{ fontFamily: 'var(--font-body)' }}
+            style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
           >
             ← Back to Home
           </Link>
 
           <Link
             href="/services"
-            className="px-8 py-4 border-2 border-gray-700 hover:border-white transition-all"
-            style={{ fontFamily: 'var(--font-body)' }}
+            className="px-8 py-4 border-2 border-[var(--grid)] hover:border-white transition-all"
+            style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
           >
             View Services
           </Link>

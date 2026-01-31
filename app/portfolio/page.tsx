@@ -119,7 +119,7 @@ export default function Portfolio() {
             Portfolio
           </h1>
 
-          <p className="text-xl mb-4 text-gray-300 max-w-3xl" style={{ fontFamily: 'var(--font-body)' }}>
+          <p className="text-xl mb-4 text-[var(--muted)] max-w-3xl" style={{ fontFamily: 'var(--font-body)' }}>
             Selected projects showcasing creative direction, cultural strategy, and digital experience design.
           </p>
 
@@ -146,7 +146,7 @@ export default function Portfolio() {
                   {item.title}
                 </h2>
 
-                <p className="text-lg leading-relaxed mb-6 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
+                <p className="text-lg leading-relaxed mb-6 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
                   {item.description}
                 </p>
 
@@ -170,7 +170,7 @@ export default function Portfolio() {
               Work Together
             </h2>
 
-            <p className="text-lg mb-8 text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>
+            <p className="text-lg mb-8 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
               Interested in working together on a project? Learn more about <Link href="/services" className="underline hover:text-[var(--muted)] transition-colors">services offered</Link> or <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">read about my approach</Link>.
             </p>
 
