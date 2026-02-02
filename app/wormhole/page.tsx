@@ -1,6 +1,8 @@
-import WormholeContent from '@/components/WormholeContent'
+import dynamic from 'next/dynamic'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import Script from 'next/script'
+
+const WormholeContent = dynamic(() => import('@/components/WormholeContent'))
 
 export const metadata = {
   title: 'Wormhole | Hand To Mouse',

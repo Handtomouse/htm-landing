@@ -13,12 +13,50 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 interface SubscribeFormData {
   email: string
   website?: string // Honeypot field
+  timestamp?: number // Bot detection
 }
 
+// Rate limiting: Simple in-memory store (resets on server restart)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour
+const RATE_LIMIT_MAX = 5 // 5 subscriptions per hour
+
 // Honeypot check (simple spam prevention)
-function checkHoneypot(body: any): boolean {
-  // If there's a 'website' field (honeypot), reject
+function checkHoneypot(body: SubscribeFormData): boolean {
   return !body.website
+}
+
+// Timestamp check (reject submissions completed in < 2 seconds)
+function checkTimestamp(body: SubscribeFormData): boolean {
+  if (!body.timestamp) return true
+  const submissionTime = Date.now() - body.timestamp
+  return submissionTime >= 2000
+}
+
+// Rate limiting check
+function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
+  const now = Date.now()
+  const record = rateLimitMap.get(ip)
+
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
+    return { allowed: true }
+  }
+
+  if (record.count >= RATE_LIMIT_MAX) {
+    const retryAfter = Math.ceil((record.resetTime - now) / 1000 / 60)
+    return { allowed: false, retryAfter }
+  }
+
+  record.count++
+  return { allowed: true }
+}
+
+// Get client IP
+function getClientIp(request: NextRequest): string {
+  const forwarded = request.headers.get('x-forwarded-for')
+  const realIp = request.headers.get('x-real-ip')
+  return forwarded?.split(',')[0] || realIp || 'unknown'
 }
 
 export async function POST(request: NextRequest) {
@@ -34,6 +72,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Timestamp check (bot prevention)
+    if (!checkTimestamp(body)) {
+      return NextResponse.json(
+        { error: 'Invalid submission' },
+        { status: 400 }
+      )
+    }
+
+    // Rate limiting
+    const ip = getClientIp(request)
+    const rateLimit = checkRateLimit(ip)
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: `Too many submissions. Please try again in ${rateLimit.retryAfter} minutes.` },
+        { status: 429 }
+      )
+    }
+
     // Validate email
     if (!email || !isValidEmail(email)) {
       return NextResponse.json(
@@ -45,7 +101,6 @@ export async function POST(request: NextRequest) {
     // If Resend API key is configured, add to audience
     if (resend) {
       try {
-        // Option 1: Send to yourself as notification
         await resend.emails.send({
           from: 'HandToMouse Landing <onboarding@resend.dev>',
           to: process.env.NOTIFICATION_EMAIL || 'hello@handtomouse.org',
@@ -54,27 +109,18 @@ export async function POST(request: NextRequest) {
             <h2>New subscriber from HandToMouse landing page</h2>
             <p><strong>Email:</strong> ${escapeHtml(email)}</p>
             <p><strong>Timestamp:</strong> ${new Date().toISOString()}</p>
+            <p><strong>IP:</strong> ${escapeHtml(ip)}</p>
           `,
         })
-
-        // Option 2: Add to Resend Audience (if you have one set up)
-        // Uncomment and configure if you want to use Resend Audiences
-        /*
-        await resend.contacts.create({
-          email,
-          audienceId: process.env.RESEND_AUDIENCE_ID!,
-        })
-        */
 
         return NextResponse.json(
           { success: true, message: 'Subscribed successfully!' },
           { status: 200 }
         )
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (process.env.NODE_ENV === 'development') {
           console.error('Resend error:', error)
         }
-        // Fall through to simple logging if Resend fails
       }
     }
 
@@ -85,12 +131,6 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       })
     }
-
-    // TODO: In production, you might want to:
-    // - Store in Vercel KV/Postgres
-    // - Add to Mailchimp list
-    // - Send to Google Sheets
-    // - etc.
 
     return NextResponse.json(
       { success: true, message: 'Thanks for subscribing!' },

@@ -25,13 +25,13 @@ const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour
 const RATE_LIMIT_MAX = 3 // 3 submissions per hour
 
 // Honeypot check (simple spam prevention)
-function checkHoneypot(body: any): boolean {
+function checkHoneypot(body: ContactFormData): boolean {
   // If there's a 'website' field (honeypot), reject
   return !body.website
 }
 
 // Timestamp check (reject submissions completed in < 2 seconds)
-function checkTimestamp(body: any): boolean {
+function checkTimestamp(body: ContactFormData): boolean {
   if (!body.timestamp) return true // Allow if no timestamp
   const submissionTime = Date.now() - body.timestamp
   return submissionTime >= 2000 // Must take at least 2 seconds
@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
           { success: true, message: 'Thanks for reaching out! We\'ll get back to you soon.' },
           { status: 200 }
         )
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (process.env.NODE_ENV === 'development') {
           console.error('Resend error:', error)
         }

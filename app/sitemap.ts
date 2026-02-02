@@ -4,15 +4,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://handtomouse.org'
   const currentDate = new Date()
 
-  // Set more realistic lastModified dates based on content type
-  const contentLastModified = new Date('2025-12-18')
-  const staticLastModified = new Date('2025-12-01')
-
   // Only include pages that robots.ts allows (/ and /wormhole)
   return [
     {
       url: baseUrl,
-      lastModified: contentLastModified,
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 1,
       images: [
@@ -22,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/wormhole`,
-      lastModified: contentLastModified,
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.6,
       images: [
