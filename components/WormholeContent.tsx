@@ -43,6 +43,37 @@ interface Star {
   layer: number; // 0 = background (slow), 1 = mid (normal), 2 = foreground (fast)
 }
 
+// Category display constants
+const CATEGORY_ICONS: Record<string, string> = {
+  all: '✦', interactive: '⚡', games: '🎮', weirdFun: '🌀', music: '🎵', educational: '📚', retro: '👾'
+};
+const CATEGORY_LABELS: Record<string, string> = {
+  all: 'All', interactive: 'Interactive', games: 'Games', weirdFun: 'Weird', music: 'Music', educational: 'Educational', retro: 'Retro'
+};
+// Pre-compute destination counts per category
+const CATEGORY_COUNTS: Record<string, number> = {
+  all: Object.values(DESTINATIONS).flat().length,
+  interactive: DESTINATIONS.interactive.length,
+  games: DESTINATIONS.games.length,
+  weirdFun: DESTINATIONS.weirdFun.length,
+  music: DESTINATIONS.music.length,
+  educational: DESTINATIONS.educational.length,
+  retro: DESTINATIONS.retro.length,
+};
+
+// Rotating hint messages for controls screen
+const HINT_MESSAGES_DESKTOP = [
+  "PRESS SPACE TO BOOST",
+  "DOUBLE-CLICK FOR HECTIC MODE",
+  "TRY THE KONAMI CODE",
+  "CHOOSE A CATEGORY ABOVE",
+];
+const HINT_MESSAGES_MOBILE = [
+  "TAP TO BOOST",
+  "DOUBLE-TAP FOR HECTIC MODE",
+  "SWIPE CATEGORIES ABOVE",
+];
+
 // Configuration constants
 const WORMHOLE_CONFIG = {
   // Countdown settings
@@ -132,6 +163,10 @@ export default function WormholeContent() {
   const [selectedCategory, setSelectedCategory] = useState<'interactive' | 'games' | 'weirdFun' | 'music' | 'educational' | 'retro' | 'all'>('all');
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [journeyHistory, setJourneyHistory] = useState<Array<{url: string, hint: string, timestamp: number}>>([]);
+  const [currentHintIndex, setCurrentHintIndex] = useState(0);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [modalTilt, setModalTilt] = useState({ x: 0, y: 0 });
 
   // Viewport dimensions for responsive calculations
   const [viewportWidth, setViewportWidth] = useState(480); // Default to BB width
@@ -1054,6 +1089,15 @@ export default function WormholeContent() {
     setIsMobile(viewportWidth < WORMHOLE_CONFIG.MOBILE_BREAKPOINT);
   }, [viewportWidth]);
 
+  // Rotate hint messages every 5 seconds
+  useEffect(() => {
+    if (isWarping || isLoading || showExitWarning) return;
+    const interval = setInterval(() => {
+      setCurrentHintIndex(prev => prev + 1);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isWarping, isLoading, showExitWarning]);
+
   // Detect prefers-reduced-motion for accessibility
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1105,20 +1149,44 @@ export default function WormholeContent() {
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent)", animationDelay: "0.2s" }}></div>
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent)", animationDelay: "0.4s" }}></div>
             </div>
+            {/* Loading progress bar */}
+            <div style={{
+              width: '120px',
+              height: '2px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '1px',
+              marginTop: '1.5rem',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                height: '100%',
+                background: 'var(--accent)',
+                borderRadius: '1px',
+                animation: 'loading-progress 1.5s ease-out forwards',
+                boxShadow: '0 0 8px rgba(255, 157, 35, 0.5)'
+              }} />
+            </div>
           </div>
         </div>
       )}
 
-      {/* Enhanced Nebula background */}
+      {/* Enhanced Nebula background — intensifies during warp */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0"
           style={{
-            background: `
-              radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.15), transparent 45%),
-              radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.18), transparent 50%)
-            `,
-            animation: "nebula-rotate-slow 60s linear infinite",
+            opacity: isHyperhyperspace ? 0.45 : (isWarping ? 0.35 : 0.2),
+            background: isHyperhyperspace
+              ? `radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.25), transparent 45%),
+                 radial-gradient(ellipse at 50% 50%, rgba(138, 43, 226, 0.2), transparent 40%),
+                 radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.3), transparent 50%)`
+              : (isWarping
+                ? `radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.2), transparent 45%),
+                   radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.25), transparent 50%)`
+                : `radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.15), transparent 45%),
+                   radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.18), transparent 50%)`),
+            animation: `nebula-rotate-slow ${isHyperhyperspace ? '15s' : (isWarping ? '30s' : '60s')} linear infinite`,
+            transition: 'opacity 0.5s ease',
           }}
         />
       </div>
@@ -1243,6 +1311,26 @@ export default function WormholeContent() {
             }}
           />
 
+          {/* Hyperspace tunnel rings */}
+          <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'hidden' }}>
+            {[0, 1, 2, 3].map(i => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: isMobile ? '100px' : '160px',
+                  height: isMobile ? '100px' : '160px',
+                  border: `2px solid rgba(255, 157, 35, ${isHyperhyperspace ? 0.15 : 0.08})`,
+                  borderRadius: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  animation: `tunnel-ring-expand ${isHyperhyperspace ? '0.8s' : '1.5s'} ease-out ${i * 0.2}s infinite`,
+                }}
+              />
+            ))}
+          </div>
+
           {/* Horizontal Lens Flare Streaks */}
           <div className="absolute inset-0 pointer-events-none" style={{ overflow: 'hidden' }}>
             <div
@@ -1295,24 +1383,27 @@ export default function WormholeContent() {
         }}
       />
 
-      {/* White Flash - Covers entire viewport including OS UI */}
+      {/* White Flash - Blue bloom to white */}
       {showWhiteFlash && (
         <div
-          className="fixed inset-0 bg-white"
+          className="fixed inset-0"
           style={{
             zIndex: "var(--z-flash)",
-            animation: isMobile ? "white-flash-mobile 0.5s cubic-bezier(0.4, 0, 0.6, 1) forwards" : "white-flash 0.8s cubic-bezier(0.4, 0, 0.6, 1) forwards" // #11: Smoother easing (0.2→0.6 for gentler fade)
+            animation: isMobile ? "blue-to-white-flash-mobile 0.5s cubic-bezier(0.4, 0, 0.6, 1) forwards" : "blue-to-white-flash 0.8s cubic-bezier(0.4, 0, 0.6, 1) forwards"
           }}
           onAnimationEnd={() => setShowWhiteFlash(false)}
         />
       )}
 
-      {/* Abort Feedback */}
+      {/* Abort Feedback — red flash pulse */}
       {showAbortFeedback && (
-        <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center pointer-events-none" style={{ zIndex: "var(--z-loading)" }} role="status" aria-live="polite">
-          <div className="text-center">
-            <p className="font-mono text-4xl text-red-500 mb-2 font-bold">WARP ABORTED</p>
-            <p className="font-mono text-sm text-white">Returning to normal space...</p>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{
+          zIndex: "var(--z-loading)",
+          animation: 'abort-flash 0.5s ease-out forwards'
+        }} role="status" aria-live="polite">
+          <div className="text-center" style={{ animation: 'controls-fade-up 0.3s ease-out' }}>
+            <p style={{ fontFamily: 'var(--font-heading)', fontSize: isMobile ? '1.75rem' : '2.5rem', color: '#ef4444', marginBottom: '0.5rem', fontWeight: 700, textShadow: '0 0 20px rgba(239, 68, 68, 0.5)' }}>WARP ABORTED</p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'white' }}>Returning to normal space...</p>
           </div>
         </div>
       )}
@@ -1437,30 +1528,69 @@ export default function WormholeContent() {
               {countdown === 0 && `Warping to ${currentHint} now`}
             </span>
 
-            {/* Countdown Number */}
+            {/* Countdown Number with depleting ring */}
             <div
               key={countdown}
               style={{
-                fontFamily: "monospace",
-                fontSize: isMobile ? "4.5rem" : "8rem", // MOBILE FIX: 5rem→4.5rem (72px, 22.5% of 320px screen)
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: isMobile ? '1.5rem' : '2.5rem',
+              }}
+            >
+              {/* SVG countdown ring */}
+              {countdown > 0 && !prefersReducedMotion && (
+                <svg
+                  width={isMobile ? "120" : "180"}
+                  height={isMobile ? "120" : "180"}
+                  style={{ position: 'absolute', transform: 'rotate(-90deg)' }}
+                >
+                  <circle
+                    cx={isMobile ? "60" : "90"}
+                    cy={isMobile ? "60" : "90"}
+                    r={isMobile ? "54" : "82"}
+                    fill="none"
+                    stroke="rgba(255, 157, 35, 0.15)"
+                    strokeWidth="3"
+                  />
+                  <circle
+                    cx={isMobile ? "60" : "90"}
+                    cy={isMobile ? "60" : "90"}
+                    r={isMobile ? "54" : "82"}
+                    fill="none"
+                    stroke="var(--accent)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray={isMobile ? "339.29" : "515.22"}
+                    strokeDashoffset="0"
+                    style={{
+                      animation: 'countdown-ring-deplete 1s linear forwards',
+                      filter: 'drop-shadow(0 0 6px rgba(255, 157, 35, 0.5))'
+                    }}
+                  />
+                </svg>
+              )}
+              <div style={{
+                fontFamily: "var(--font-heading)",
+                fontSize: isMobile ? "4.5rem" : "8rem",
                 fontWeight: 700,
                 lineHeight: 1.2,
                 color: "var(--accent)",
                 filter: "drop-shadow(0 0 24px rgba(255, 157, 35, 0.8))",
-                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.6s ease-out', // #9: Snappier timing (0.7s → 0.6s)
-                marginBottom: isMobile ? '1.5rem' : '2.5rem', // Primary element gets most space
-                willChange: 'transform, opacity' // Performance hint for smooth animations
-              }}
-            >
-              {countdown}
+                animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.6s ease-out',
+                willChange: 'transform, opacity'
+              }}>
+                {countdown}
+              </div>
             </div>
 
             {/* Message Text */}
             <p style={{
-              fontFamily: "monospace",
-              fontSize: isMobile ? "1.125rem" : "1.5rem", // MOBILE FIX: 1.25rem→1.125rem (18px, 25% of countdown)
+              fontFamily: "var(--font-body)",
+              fontSize: isMobile ? "1.125rem" : "1.5rem",
               lineHeight: 1.4,
-              letterSpacing: "0.05em", // #6: Standardized (0.04em → 0.05em normal)
+              letterSpacing: "0.05em",
               color: "rgba(255, 255, 255, 0.9)",
               textAlign: 'center',
               maxWidth: isMobile ? '80vw' : '65vw',
@@ -1472,9 +1602,9 @@ export default function WormholeContent() {
 
             {/* Hint - Simplified */}
             <p style={{
-              fontFamily: "monospace",
-              fontSize: isMobile ? "0.9rem" : "1rem", // MOBILE FIX: 1rem→0.9rem (14.4px, 20% of countdown)
-              letterSpacing: "0.05em", // #6: Standardized (0.04em → 0.05em normal)
+              fontFamily: "var(--font-body)",
+              fontSize: isMobile ? "0.9rem" : "1rem",
+              letterSpacing: "0.05em",
               fontWeight: "600",
               color: "var(--accent)",
               textAlign: "center",
@@ -1495,10 +1625,10 @@ export default function WormholeContent() {
             {canAbort && (
               <p
                 style={{
-                  fontFamily: "monospace",
+                  fontFamily: "var(--font-body)",
                   fontSize: isMobile ? "0.75rem" : "0.875rem",
                   color: "rgba(255, 255, 255, 0.6)",
-                  letterSpacing: "0.1em", // #6: Standardized (0.08em → 0.1em wide)
+                  letterSpacing: "0.1em",
                   textAlign: "center",
                   margin: 0,
                   animation: prefersReducedMotion ? 'none' : 'pulse 2s ease-in-out infinite'
@@ -1546,23 +1676,33 @@ export default function WormholeContent() {
           <div
             className="backdrop-blur-xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
+            onMouseMove={(e) => {
+              if (isMobile || prefersReducedMotion) return;
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+              const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+              setModalTilt({ x: y * -3, y: x * 3 });
+            }}
+            onMouseLeave={() => setModalTilt({ x: 0, y: 0 })}
             style={{
               background: `
                 linear-gradient(rgba(11, 11, 11, 0.6), rgba(11, 11, 11, 0.6)),
                 repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px),
                 repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px)
-              `, // Subtle film grain texture
-              border: "1px solid rgba(255, 157, 35, 0.4)", // Increased from 0.2 for better definition
-              boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1)", // #7: Added depth with subtle inner shadow
-              maxWidth: isMobile ? "92vw" : "550px", // MOBILE FIX: 90vw→92vw (294px on 320px, more breathing room)
+              `,
+              border: "1px solid rgba(255, 157, 35, 0.4)",
+              boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1)",
+              maxWidth: isMobile ? "92vw" : "550px",
               borderRadius: "12px",
-              padding: isMobile ? "1.5rem 1.25rem" : "clamp(1.25rem, 4vw, 2rem)", // MOBILE FIX: More vertical padding (24px vs 20px)
+              padding: isMobile ? "1.5rem 1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
               opacity: isWarningAnimating ? 1 : 0,
-              transform: isWarningAnimating ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'opacity 0.3s ease-out, transform 0.3s ease-out',
+              transform: isWarningAnimating
+                ? `translateY(0) perspective(800px) rotateX(${modalTilt.x}deg) rotateY(${modalTilt.y}deg)`
+                : 'translateY(20px)',
+              transition: 'opacity 0.3s ease-out, transform 0.15s ease-out',
               position: 'relative',
-              pointerEvents: 'auto', // Enable pointer events on modal content
-              willChange: 'transform, opacity' // Performance hint for smooth modal entrance
+              pointerEvents: 'auto',
+              willChange: 'transform, opacity'
             }}>
             {/* Close button */}
             <button
@@ -1874,26 +2014,24 @@ export default function WormholeContent() {
             pointerEvents: 'auto' // CRITICAL: Enable pointer events for buttons
           }}
         >
-          {/* Category Selector - Two rows with even distribution */}
+          {/* Category Selector - Single scrollable row */}
           <div style={{
             width: '100%',
-            maxWidth: isMobile ? '100%' : '600px', // MOBILE FIX: Remove 95% constraint
-            display: 'flex',
-            flexDirection: 'column',
-            gap: isMobile ? '12px' : '20px', // MOBILE FIX: Reduce gap for breathing room
-            padding: isMobile ? '0 8px' : '0' // MOBILE FIX: Minimal side padding
+            maxWidth: isMobile ? '100%' : '700px',
+            padding: isMobile ? '0 8px' : '0',
+            animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out both'
           }}>
-            {/* Top row: 4 buttons */}
             <div style={{
               display: 'flex',
-              gap: isMobile ? '8px' : '16px', // MOBILE FIX: Reduce gap 16px→8px (saves 24px on 320px)
+              gap: isMobile ? '8px' : '12px',
               width: '100%',
-              overflowX: 'auto', // MOBILE FIX: Horizontal scroll fallback
-              WebkitOverflowScrolling: 'touch', // MOBILE FIX: Smooth iOS scrolling
-              scrollbarWidth: 'none', // MOBILE FIX: Hide scrollbar
-              msOverflowStyle: 'none' // MOBILE FIX: Hide scrollbar IE/Edge
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              paddingBottom: '4px'
             }}>
-              {(['all', 'interactive', 'games', 'weirdFun'] as const).map((cat) => {
+              {(['all', 'interactive', 'games', 'weirdFun', 'music', 'educational', 'retro'] as const).map((cat) => {
                 const isSelected = selectedCategory === cat;
                 return (
                   <button
@@ -1910,28 +2048,28 @@ export default function WormholeContent() {
                     aria-pressed={isSelected}
                     className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
-                      fontFamily: "monospace",
-                      fontSize: isMobile ? "0.7rem" : "clamp(0.75rem, 1.8vw, 0.8rem)", // MOBILE FIX: 0.75rem→0.7rem (11.2px)
+                      fontFamily: "var(--font-body)",
+                      fontSize: isMobile ? "0.7rem" : "clamp(0.75rem, 1.8vw, 0.8rem)",
                       letterSpacing: "0.05em",
                       textTransform: "capitalize",
                       background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
                       color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
                       border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
-                      borderRadius: "8px", // #2: Standardized border-radius (8px small)
-                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem", // MOBILE FIX: Reduce padding (saves 8px per button)
+                      borderRadius: "8px",
+                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem",
                       minHeight: "44px",
-                      flex: "1 1 auto", // MOBILE FIX: Allow shrinking
-                      minWidth: isMobile ? "68px" : "auto", // MOBILE FIX: Ensure 44px+ tap target
+                      flex: "0 0 auto",
+                      minWidth: isMobile ? "68px" : "auto",
                       boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
                       filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
                       cursor: "pointer",
                       touchAction: "manipulation",
-                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)", // #8: Smooth luxurious transitions
-                      willChange: "transform" // #17: GPU acceleration for smooth hover scaling
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                      willChange: "transform",
+                      whiteSpace: "nowrap"
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
-                        // #3: Enhanced hover with gradient glow
                         e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 157, 35, 0.1), rgba(255, 157, 35, 0.05))";
                         e.currentTarget.style.boxShadow = "0 0 15px rgba(255, 157, 35, 0.2)";
                         e.currentTarget.style.filter = "drop-shadow(0 0 5px rgba(255, 157, 35, 0.3))";
@@ -1945,150 +2083,227 @@ export default function WormholeContent() {
                       }
                     }}
                   >
-                    {cat === 'weirdFun' ? 'Weird' : cat}
-                  </button>
-                );
-              })}
-            </div>
-            {/* Bottom row: 3 buttons */}
-            <div style={{
-              display: 'flex',
-              gap: isMobile ? '8px' : '16px', // MOBILE FIX: Reduce gap 16px→8px
-              width: '100%',
-              overflowX: 'auto', // MOBILE FIX: Horizontal scroll fallback
-              WebkitOverflowScrolling: 'touch', // MOBILE FIX: Smooth iOS scrolling
-              scrollbarWidth: 'none', // MOBILE FIX: Hide scrollbar
-              msOverflowStyle: 'none' // MOBILE FIX: Hide scrollbar IE/Edge
-            }}>
-              {(['music', 'educational', 'retro'] as const).map((cat) => {
-                const isSelected = selectedCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => {
-                      triggerHaptic(10);
-                      setSelectedCategory(cat);
-                      playSound('beep');
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                    }}
-                    aria-label={`Filter by ${cat} category`}
-                    aria-pressed={isSelected}
-                    className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-                    style={{
-                      fontFamily: "monospace",
-                      fontSize: isMobile ? "0.7rem" : "clamp(0.75rem, 1.8vw, 0.8rem)", // MOBILE FIX: 0.75rem→0.7rem (11.2px)
-                      letterSpacing: "0.05em",
-                      textTransform: "capitalize",
-                      background: isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.1)",
-                      color: isSelected ? "#0b0b0b" : "rgba(255, 255, 255, 0.9)",
-                      border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.2)"}`,
-                      borderRadius: "8px", // #2: Standardized border-radius (8px small)
-                      padding: isMobile ? "0.625rem 0.75rem" : "0.625rem 0.875rem", // MOBILE FIX: Reduce padding (saves 8px per button)
-                      minHeight: "44px",
-                      flex: "1 1 auto", // MOBILE FIX: Allow shrinking
-                      minWidth: isMobile ? "68px" : "auto", // MOBILE FIX: Ensure 44px+ tap target
-                      boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
-                      filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
-                      cursor: "pointer",
-                      touchAction: "manipulation",
-                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)", // #8: Smooth luxurious transitions
-                      willChange: "transform" // #17: GPU acceleration for smooth hover scaling
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isSelected) {
-                        // #3: Enhanced hover with gradient glow
-                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 157, 35, 0.1), rgba(255, 157, 35, 0.05))";
-                        e.currentTarget.style.boxShadow = "0 0 15px rgba(255, 157, 35, 0.2)";
-                        e.currentTarget.style.filter = "drop-shadow(0 0 5px rgba(255, 157, 35, 0.3))";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
-                        e.currentTarget.style.boxShadow = "none";
-                        e.currentTarget.style.filter = "none";
-                      }
-                    }}
-                  >
-                    {cat}
+                    <span aria-hidden="true">{CATEGORY_ICONS[cat]}</span> {CATEGORY_LABELS[cat]} <span style={{ fontSize: '0.65em', color: isSelected ? '#0b0b0b' : 'var(--accent)', opacity: 0.8 }}>{CATEGORY_COUNTS[cat]}</span>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Fixed spacer - matches category row gap */}
+          {/* Fixed spacer */}
           <div style={{ height: isMobile ? '16px' : '20px' }} />
 
           {/* Warp Button Section */}
-          <div className={`flex flex-col items-center`} style={{ width: '100%', maxWidth: isMobile ? '95%' : '600px', gap: isMobile ? '32px' : '40px' }}>
+          <div className={`flex flex-col items-center`} style={{
+            width: '100%',
+            maxWidth: isMobile ? '95%' : '600px',
+            gap: isMobile ? '32px' : '40px',
+            animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.15s both'
+          }}>
             <button
               onClick={handleWarpButtonClick}
               aria-label={`Initiate warp to ${selectedCategory === 'all' ? 'random' : selectedCategory} destination`}
               aria-describedby="warp-hint"
-              className="hover:scale-105 hover:shadow-[0_0_60px_rgba(255,157,35,0.7)] active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="hover:scale-105 hover:shadow-[0_0_60px_rgba(255,157,35,0.7)] active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white warp-button-shine"
               style={{
-                fontFamily: "monospace",
-                fontSize: isMobile ? "1.25rem" : "clamp(1.25rem, 2.5vw, 1.375rem)", // MOBILE FIX: 1.125rem→1.25rem (20px, commanding CTA)
+                fontFamily: "var(--font-heading)",
+                fontSize: isMobile ? "1.25rem" : "clamp(1.25rem, 2.5vw, 1.375rem)",
                 letterSpacing: "0.1em",
                 fontWeight: "700",
-                background: "linear-gradient(135deg, var(--accent) 0%, #FFA84D 50%, var(--accent-hover) 100%)", // Enhanced gradient
+                background: "linear-gradient(135deg, var(--accent) 0%, #FFA84D 50%, var(--accent-hover) 100%)",
+                backgroundSize: "200% 100%",
                 color: "#0b0b0b",
                 boxShadow: "0 0 40px rgba(255, 157, 35, 0.5)",
-                borderRadius: "16px", // Increased from 12px for softer, premium feel
+                borderRadius: "16px",
                 padding: "1rem 1.5rem",
                 minHeight: "56px",
                 width: "100%",
                 border: "2px solid var(--accent)",
                 animation: "button-pulse 2s ease-in-out infinite",
                 cursor: "pointer",
-                touchAction: "manipulation"
+                touchAction: "manipulation",
+                position: "relative",
+                overflow: "hidden"
               }}
             >
               INITIATE WARP
             </button>
 
+            {/* Rotating hint text */}
             <p id="warp-hint" style={{
-              fontFamily: "monospace",
-              fontSize: isMobile ? "0.8125rem" : "0.75rem", // MOBILE FIX: 0.875rem→0.8125rem (13px)
-              color: "rgba(255, 255, 255, 0.6)", // MOBILE FIX: 0.5→0.6 opacity (more visible)
+              fontFamily: "var(--font-body)",
+              fontSize: isMobile ? "0.8125rem" : "0.75rem",
+              color: "rgba(255, 255, 255, 0.6)",
               letterSpacing: "0.05em",
               textAlign: "center",
               width: "100%",
               margin: 0,
-              marginTop: isMobile ? "24px" : "32px"
+              marginTop: isMobile ? "24px" : "32px",
+              transition: "opacity 0.3s ease",
+              animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.3s both'
             }}>
-              {isMobile ? "TAP TO BOOST" : "PRESS SPACE TO BOOST"}
+              {isMobile ? HINT_MESSAGES_MOBILE[currentHintIndex % HINT_MESSAGES_MOBILE.length] : HINT_MESSAGES_DESKTOP[currentHintIndex % HINT_MESSAGES_DESKTOP.length]}
             </p>
+
+            {/* Journey history preview */}
+            {journeyCount > 0 && journeyHistory.length > 0 && (
+              <div style={{
+                textAlign: 'center',
+                animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.35s both'
+              }}>
+                <button
+                  onClick={() => setShowHistory(!showHistory)}
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.7rem",
+                    color: "rgba(255, 255, 255, 0.4)",
+                    letterSpacing: "0.05em",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "4px 8px",
+                    transition: "color 0.2s"
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255, 255, 255, 0.4)"; }}
+                >
+                  {showHistory ? '▾ Hide history' : `▸ ${journeyCount} journey${journeyCount === 1 ? '' : 's'} — Last: ${journeyHistory[0]?.hint || 'Unknown'}`}
+                </button>
+                {showHistory && (
+                  <div style={{
+                    marginTop: '8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    maxHeight: '120px',
+                    overflowY: 'auto',
+                    scrollbarWidth: 'none'
+                  }}>
+                    {journeyHistory.slice(0, 5).map((entry, i) => (
+                      <p key={entry.timestamp} style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: "0.65rem",
+                        color: `rgba(255, 255, 255, ${0.5 - i * 0.08})`,
+                        margin: 0,
+                        letterSpacing: "0.03em"
+                      }}>
+                        {entry.hint}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+        </div>
+      )}
 
-          {/* Fixed spacer - 32px gap between warp button and sound toggle */}
-          <div style={{ height: isMobile ? '32px' : '40px' }} />
+      {/* Floating Sound Toggle Pill */}
+      {!isLoading && hasSeenWarning && !showExitWarning && (
+        <button
+          onClick={toggleSound}
+          aria-label={soundEnabled ? "Turn sound off" : "Turn sound on"}
+          aria-pressed={soundEnabled}
+          className="transition-all hover:scale-110 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+          style={{
+            position: 'fixed',
+            bottom: 'max(1.25rem, env(safe-area-inset-bottom))',
+            right: 'max(1.25rem, env(safe-area-inset-right))',
+            zIndex: "var(--z-controls)",
+            fontFamily: "var(--font-body)",
+            fontSize: "0.875rem",
+            color: "rgba(255, 255, 255, 0.85)",
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            borderRadius: "9999px",
+            padding: "0.5rem 0.75rem",
+            minHeight: "40px",
+            background: "rgba(11, 11, 11, 0.7)",
+            backdropFilter: "blur(8px)",
+            cursor: "pointer",
+            touchAction: "manipulation",
+            animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.45s both'
+          }}
+        >
+          <span aria-hidden="true">{soundEnabled ? "🔊" : "🔇"}</span>
+        </button>
+      )}
 
-          {/* Sound Toggle */}
+      {/* Keyboard Shortcuts Hint Button */}
+      {!isLoading && hasSeenWarning && !showExitWarning && !isMobile && (
+        <div style={{
+          position: 'fixed',
+          bottom: 'max(1.25rem, env(safe-area-inset-bottom))',
+          left: 'max(1.25rem, env(safe-area-inset-left))',
+          zIndex: "var(--z-controls)",
+          animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.5s both'
+        }}>
           <button
-            onClick={toggleSound}
-            aria-label={soundEnabled ? "Turn sound off" : "Turn sound on"}
-            aria-pressed={soundEnabled}
-            className="transition-all hover:scale-105 active:scale-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            onClick={() => setShowShortcuts(!showShortcuts)}
+            aria-label="Toggle keyboard shortcuts"
+            className="transition-all hover:scale-110 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
             style={{
-              fontFamily: "monospace",
-              fontSize: "clamp(0.75rem, 1.8vw, 0.8rem)",
-              color: "rgba(255, 255, 255, 0.85)", // #14: Improved contrast for WCAG AA compliance
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              borderRadius: "6px",
-              padding: "0.75rem 1rem",
-              minHeight: "44px",
-              minWidth: isMobile ? "120px" : "140px",
-              background: "rgba(255, 255, 255, 0.05)",
-              cursor: "pointer",
-              touchAction: "manipulation"
+              fontFamily: "var(--font-body)",
+              fontSize: "0.875rem",
+              color: "rgba(255, 255, 255, 0.5)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "9999px",
+              padding: "0.5rem 0.75rem",
+              minHeight: "40px",
+              minWidth: "40px",
+              background: "rgba(11, 11, 11, 0.7)",
+              backdropFilter: "blur(8px)",
+              cursor: "pointer"
             }}
           >
-            <span aria-hidden="true">{soundEnabled ? "🔊" : "🔇"}</span> Sound {soundEnabled ? "ON" : "OFF"}
+            ?
           </button>
+          {showShortcuts && (
+            <div style={{
+              position: 'absolute',
+              bottom: '48px',
+              left: 0,
+              background: "rgba(11, 11, 11, 0.9)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "8px",
+              padding: "0.75rem 1rem",
+              whiteSpace: "nowrap",
+              animation: 'controls-fade-up 0.2s ease-out'
+            }}>
+              {[
+                ['Space', 'Boost stars'],
+                ['Esc', 'Abort warp'],
+                ['Double-click', 'Hectic mode'],
+                ['↑↑↓↓←→←→BA', 'Cosmic mode'],
+              ].map(([key, desc]) => (
+                <div key={key} style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '4px' }}>
+                  <span style={{ fontFamily: 'monospace', fontSize: '0.7rem', color: 'var(--accent)', minWidth: '80px' }}>{key}</span>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)' }}>{desc}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Persistent Streak Counter */}
+      {!isLoading && hasSeenWarning && !showExitWarning && streak > 0 && (
+        <div style={{
+          position: 'fixed',
+          top: 'max(1rem, env(safe-area-inset-top))',
+          right: 'max(1rem, env(safe-area-inset-right))',
+          zIndex: "var(--z-controls)",
+          fontFamily: "var(--font-body)",
+          fontSize: "0.75rem",
+          color: "rgba(255, 255, 255, 0.6)",
+          background: "rgba(11, 11, 11, 0.5)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(255, 157, 35, 0.2)",
+          borderRadius: "9999px",
+          padding: "0.375rem 0.75rem",
+          animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.5s both'
+        }}>
+          🔥 {streak}
         </div>
       )}
 
@@ -2189,17 +2404,19 @@ export default function WormholeContent() {
           90% { transform: translate(-4px, 4px); }
           100% { transform: translate(0, 0); }
         }
-        @keyframes white-flash {
-          0% { opacity: 0; }
-          20% { opacity: 1; }
-          60% { opacity: 1; }
-          100% { opacity: 0; }
+        @keyframes blue-to-white-flash {
+          0% { opacity: 0; background: rgb(100, 150, 255); }
+          15% { opacity: 1; background: rgb(150, 200, 255); }
+          40% { opacity: 1; background: white; }
+          60% { opacity: 1; background: white; }
+          100% { opacity: 0; background: white; }
         }
-        @keyframes white-flash-mobile {
-          0% { opacity: 0; }
-          25% { opacity: 1; }
-          70% { opacity: 1; }
-          100% { opacity: 0; }
+        @keyframes blue-to-white-flash-mobile {
+          0% { opacity: 0; background: rgb(100, 150, 255); }
+          20% { opacity: 1; background: rgb(150, 200, 255); }
+          45% { opacity: 1; background: white; }
+          70% { opacity: 1; background: white; }
+          100% { opacity: 0; background: white; }
         }
         @keyframes hectic-speed-entrance {
           0% {
@@ -2239,6 +2456,43 @@ export default function WormholeContent() {
         @keyframes hyperspace-pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }
+        }
+        /* New animations for 20 UX improvements */
+        @keyframes controls-fade-up {
+          0% { opacity: 0; transform: translateY(12px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes loading-progress {
+          0% { width: 0%; }
+          60% { width: 80%; }
+          100% { width: 100%; }
+        }
+        @keyframes countdown-ring-deplete {
+          0% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: 515.22; }
+        }
+        @keyframes tunnel-ring-expand {
+          0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+        }
+        @keyframes abort-flash {
+          0% { background: rgba(239, 68, 68, 0.4); }
+          30% { background: rgba(239, 68, 68, 0.2); }
+          100% { background: rgba(239, 68, 68, 0.05); }
+        }
+        .warp-button-shine:hover::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 60%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+          animation: warp-shine-sweep 0.6s ease-out forwards;
+        }
+        @keyframes warp-shine-sweep {
+          0% { left: -100%; }
+          100% { left: 150%; }
         }
       `}</style>
     </div>
