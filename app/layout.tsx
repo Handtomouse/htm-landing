@@ -109,10 +109,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
 
-        {/* Plausible Analytics (parallel/redundant source to Vercel Web Analytics) */}
-        <link rel="preconnect" href="https://plausible.io" />
-        <script defer data-domain="handtomouse.org" src="https://plausible.io/js/script.js"></script>
-
         {/* DNS prefetch for form submissions */}
         <link rel="dns-prefetch" href="https://api.resend.com" />
 
