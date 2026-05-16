@@ -109,6 +109,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
 
+        {/* GoatCounter Analytics (free parallel source to Vercel Web Analytics) */}
+        <script async data-goatcounter="https://handtomouse.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+
         {/* DNS prefetch for form submissions */}
         <link rel="dns-prefetch" href="https://api.resend.com" />
 
