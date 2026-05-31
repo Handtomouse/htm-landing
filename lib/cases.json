@@ -626,24 +626,6 @@
         ]
       },
       {
-        "src": "/work/sbts/03.jpg",
-        "cap": "Past work · related installation",
-        "desc": "Related installation from past public-art work. Included in the submission to evidence the site-management capability behind the WLT proposal.",
-        "tags": [
-          "INSTALLATION",
-          "PORTFOLIO"
-        ]
-      },
-      {
-        "src": "/work/sbts/04.jpg",
-        "cap": "Past work · documentation",
-        "desc": "Documentation from earlier installation work. Same project-management-with-feelings posture: cones, council, weather, all of it.",
-        "tags": [
-          "DOCUMENTATION",
-          "PORTFOLIO"
-        ]
-      },
-      {
         "src": "/work/sbts/deck_1.jpg",
         "cap": "WLT 2024 · cover",
         "desc": "Cover page of the WLT submission deck. The artist's first-time invitation, the biggest piece in show history, opened with a single white line on black.",
@@ -1397,15 +1379,6 @@
         ]
       },
       {
-        "src": "/work/bankwest/03.jpg",
-        "cap": "#ScrimpOrSplurge motion graphic still",
-        "desc": "Still from the ScrimpOrSplurge motion graphic loop. Friendly geometric sans, sunset orange flash, and the campaign hashtag locked to the lower third.",
-        "tags": [
-          "SOCIAL",
-          "MOTION"
-        ]
-      },
-      {
         "src": "/work/bankwest/05.jpg",
         "cap": "Streaming-revenue swipers",
         "desc": "Streaming-revenue swiper series. Education-led carousel teaching small finance topics through the Brilliant Broking character set.",
@@ -1995,16 +1968,6 @@
         ]
       },
       {
-        "src": "/work/pureairo/10.webp",
-        "cap": "Remediation in progress · operative on site",
-        "desc": "Operative on a residential remediation job, full PPE, mid-extraction. Pureairo lead with the human element on the services page, not stock-image cleaning crews.",
-        "tags": [
-          "SERVICE",
-          "SITE",
-          "PEOPLE"
-        ]
-      },
-      {
         "src": "/work/pureairo/03.jpg",
         "cap": "Remediation process · in-field shot",
         "desc": "In-field documentation shot from a Sydney remediation job. Used through the services-page photo rail to evidence the human and technical mix.",
@@ -2496,10 +2459,6 @@
       {
         "src": "/work/hills/08.png",
         "cap": "Cat feeding quiz · story sequence"
-      },
-      {
-        "src": "/work/hills/09.png",
-        "cap": "@hillspetau and @hillspetnz · profile grids"
       }
     ]
   },
@@ -3136,10 +3095,6 @@
       {
         "src": "/work/aura/02.png",
         "cap": "CBD100 oil bottle · single render"
-      },
-      {
-        "src": "/work/aura/03.png",
-        "cap": "CBD200 oil bottle · single render"
       },
       {
         "src": "/work/aura/04.png",
