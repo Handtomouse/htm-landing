@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next'
+import { cases } from '@/lib/cases'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://handtomouse.org'
   const currentDate = new Date()
 
-  // Only include pages that robots.ts allows (/ and /wormhole)
-  return [
+  // Existing entries preserved (META-03: additive extension only)
+  const existing: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: currentDate,
@@ -30,4 +31,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ],
     },
   ]
+
+  // /work gallery entry (META-03)
+  const workGallery: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/work`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+  ]
+
+  // 19 case detail entries (META-03)
+  const workCases: MetadataRoute.Sitemap = cases.map((c) => ({
+    url: `${baseUrl}/work/${c.k}`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...existing, ...workGallery, ...workCases]
 }
