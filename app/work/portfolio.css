@@ -1066,13 +1066,14 @@
 }
 .htm-portfolio .gallery-cta .cta:hover { background: var(--amber); color: #000; }
 .htm-portfolio .gallery-cta .cta:hover .hand-pixel { background-image: url('/work/htm/hand-right.svg'); filter: invert(1); }
-.htm-portfolio:not(.gallery-mode) .gallery-cta { display: none; }
-
-/* Case-view mode toggle -- when in gallery mode, hide case section */
-.htm-portfolio.gallery-mode .case-section { display: none }
-.htm-portfolio:not(.gallery-mode) .gallery { display: none }
-.htm-portfolio.gallery-mode .foot { display: none }
-.htm-portfolio.gallery-mode .led { display: none }
+/*
+ * SPA view-mode gating removed for the routed app. The canonical mockup was a
+ * single-file SPA that toggled body.gallery-mode to switch between the gallery
+ * and case views inside ONE document. In this Next app each view is its own
+ * route (/work renders only .gallery + .gallery-cta; /work/[slug] renders only
+ * .case-section), so a wrapper without .gallery-mode hid the gallery on every
+ * load. Each section now shows whenever its own route renders it.
+ */
 
 /* "All work" home link in TTY header (when in case view) */
 .htm-portfolio .home-link {
