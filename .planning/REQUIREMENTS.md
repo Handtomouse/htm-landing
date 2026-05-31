@@ -9,8 +9,8 @@
 
 - [ ] **POLISH-01**: Testimonial blocks render at correct scale with serif glyph (round-2 SPIN item #10)
 - [ ] **POLISH-02**: Deliverables index entries show hover thumbnail and link to the relevant case (round-2 SPIN item #11)
-- [ ] **POLISH-03**: End-of-book / start-of-book dead card is hidden (round-2 SPIN item #15)
-- [ ] **POLISH-04**: Gallery counter reads "19 cases" (currently drifted at "17") — fix the static `<span id="caseref">` at line ~1159 of canonical
+- [x] **POLISH-03**: End-of-book / start-of-book dead card is hidden (round-2 SPIN item #15)
+- [x] **POLISH-04**: Gallery counter reads "19 cases" (currently drifted at "17") — fix the static `<span id="caseref">` at line ~1159 of canonical
 
 ### Data extraction
 
@@ -20,10 +20,10 @@
 
 ### Render (Next.js port)
 
-- [ ] **RENDER-01**: Gallery page at `/work` lists all 19 cases with tile imagery, title, year, category
-- [ ] **RENDER-02**: Per-case routes at `/work/{slug}` resolve and render full case detail (hero, imagery, deliverables, testimonial if present)
-- [ ] **RENDER-03**: Gallery → case → back navigation works on mobile and desktop
-- [ ] **RENDER-04**: Visual fidelity matches canonical mockup (palette, type, spacing, card layout)
+- [x] **RENDER-01**: Gallery page at `/work` lists all 19 cases with tile imagery, title, year, category
+- [x] **RENDER-02**: Per-case routes at `/work/{slug}` resolve and render full case detail (hero, imagery, deliverables, testimonial if present)
+- [x] **RENDER-03**: Gallery → case → back navigation works on mobile and desktop
+- [x] **RENDER-04**: Visual fidelity matches canonical mockup (palette, type, spacing, card layout)
 
 ### Deploy
 
@@ -77,15 +77,15 @@
 |---|---|---|
 | POLISH-01 | Phase 1 | Pending |
 | POLISH-02 | Phase 1 | Pending |
-| POLISH-03 | Phase 1 | Pending |
-| POLISH-04 | Phase 1 | Pending |
+| POLISH-03 | Phase 1 | Complete |
+| POLISH-04 | Phase 1 | Complete |
 | DATA-01 | Phase 1 | Pending |
 | DATA-02 | Phase 1 | Pending |
 | DATA-03 | Phase 1 | Pending |
-| RENDER-01 | Phase 1 | Pending |
-| RENDER-02 | Phase 1 | Pending |
-| RENDER-03 | Phase 1 | Pending |
-| RENDER-04 | Phase 1 | Pending |
+| RENDER-01 | Phase 1 | Complete |
+| RENDER-02 | Phase 1 | Complete |
+| RENDER-03 | Phase 1 | Complete |
+| RENDER-04 | Phase 1 | Complete |
 | DEPLOY-01 | Phase 1 | Pending |
 | DEPLOY-02 | Phase 1 | Pending |
 | DEPLOY-03 | Phase 1 | Pending |
