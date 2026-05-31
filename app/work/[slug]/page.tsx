@@ -1,6 +1,7 @@
 // app/work/[slug]/page.tsx
 // Per-case route. Statically pre-rendered at build time for all 19 slugs.
 // Pitfall 7: params is Promise<> in Next 15 -- must await before destructuring.
+import type { Metadata } from 'next';
 import { cases, getCaseBySlug, getPrevCase, getNextCase } from '@/lib/cases';
 import { notFound } from 'next/navigation';
 import CaseDetail from '../components/CaseDetail';
@@ -8,8 +9,47 @@ import CaseDetail from '../components/CaseDetail';
 // 404 for any slug not in cases.json
 export const dynamicParams = false;
 
+const BASE_URL = 'https://handtomouse.org';
+
+// Em-dash safety strip (META-01 + PROJECT.md constraint):
+// OG metadata is user-facing (renders in iMessage / LinkedIn / Twitter previews).
+// Uses unicode escapes so no literal em/en dash character appears in source.
+const sanitize = (s: string) => s.replace(/[\u2014\u2013]/g, ' ');
+
 export async function generateStaticParams() {
   return cases.map((c) => ({ slug: c.k }));
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const c = getCaseBySlug(slug);
+  if (!c) return {};
+  const title = `${c.t} | HandToMouse Portfolio`;
+  const description = sanitize(c.o || `${c.t}: selected studio work from HandToMouse.`).slice(0, 200);
+  const heroPath = c.heroImg.startsWith('/') ? c.heroImg : `/${c.heroImg}`;
+  const ogImage = `${BASE_URL}${heroPath}`;
+  const canonical = `${BASE_URL}/work/${c.k}`;
+  return {
+    title,
+    description,
+    openGraph: {
+      title: c.t,
+      description,
+      images: [ogImage],
+      type: 'article',
+      url: canonical,
+      siteName: 'HandToMouse',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: c.t,
+      description,
+      images: [ogImage],
+    },
+    alternates: { canonical },
+  };
 }
 
 export default async function CasePage(
