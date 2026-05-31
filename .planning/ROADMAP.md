@@ -29,7 +29,7 @@ Plans:
 - [x] 01-03-PLAN.md — Wave 1: CSS isolation (app/work/portfolio.css scoped under .htm-portfolio) + next/font setup (RENDER-04 foundation)
 - [x] 01-04-PLAN.md — Wave 2: Gallery + case-detail routes with generateStaticParams + 5 components (RENDER-01..04, POLISH-03, POLISH-04)
 - [x] 01-05-PLAN.md — Wave 3: Testimonial (POLISH-01 + DATA-03 graceful absence) + DeliverablesIndex (POLISH-02)
-- [ ] 01-06-PLAN.md — Wave 4: Per-route OG metadata + sitemap + robots extension (META-01, META-02, META-03)
+- [x] 01-06-PLAN.md — Wave 4: Per-route OG metadata + sitemap + robots extension (META-01, META-02, META-03)
 - [ ] 01-07-PLAN.md — Wave 5: Deploy to Vercel + QA sweep (DEPLOY-01..03, QA-01..05) + VALIDATION.md populated
 
 ### Phase 2: v1.1 Expansion
