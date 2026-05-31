@@ -84,7 +84,7 @@
 .htm-portfolio .tty .sep { color: var(--border-strong); margin: 0 var(--space-xs) }
 .htm-portfolio .tty .wordmark {
   width: 88px; height: 14px;
-  background: url('assets/htm/htm-wordmark.svg') left center/contain no-repeat;
+  background: url('/work/htm/htm-wordmark.svg') left center/contain no-repeat;
   opacity: 0.8; display: inline-block; vertical-align: middle;
 }
 .htm-portfolio .tty .led { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: pulse 1.6s ease-in-out infinite; margin-left: var(--space-xs); vertical-align: middle; }
@@ -93,11 +93,11 @@
 /* Hand pointer base */
 .htm-portfolio .hand-pixel {
   width: 24px; height: 24px;
-  background: url('assets/htm/hand-right.svg') center/contain no-repeat;
+  background: url('/work/htm/hand-right.svg') center/contain no-repeat;
   flex-shrink: 0; display: inline-block;
   transition: background-image var(--anim-fast), transform var(--anim-fast);
 }
-.htm-portfolio .hand-pixel.left { background-image: url('assets/htm/hand-left.svg') }
+.htm-portfolio .hand-pixel.left { background-image: url('/work/htm/hand-left.svg') }
 .htm-portfolio .hand-pixel.down { transform: rotate(90deg) }
 .htm-portfolio .hand-pixel.up { transform: rotate(-90deg) }
 
@@ -181,8 +181,8 @@
 .htm-portfolio .hand-zone:focus-visible {
   background: var(--amber-bg); border-color: var(--amber); outline: none;
 }
-.htm-portfolio .hand-zone:hover .hand-pixel { background-image: url('assets/htm/hand-right-amber.svg'); transform: translateX(3px) }
-.htm-portfolio .hand-zone.left:hover .hand-pixel { background-image: url('assets/htm/hand-left-amber.svg'); transform: translateX(-3px) }
+.htm-portfolio .hand-zone:hover .hand-pixel { background-image: url('/work/htm/hand-right-amber.svg'); transform: translateX(3px) }
+.htm-portfolio .hand-zone.left:hover .hand-pixel { background-image: url('/work/htm/hand-left-amber.svg'); transform: translateX(-3px) }
 .htm-portfolio .hand-zone:active { transform: translateY(-50%) scale(0.97) }
 .htm-portfolio .hand-zone.left { left: 18px }
 .htm-portfolio .hand-zone.right { right: 18px }
@@ -251,8 +251,8 @@
 }
 .htm-portfolio .open-case:hover,
 .htm-portfolio .open-case:focus-visible { color: var(--amber); border-color: var(--amber); background: var(--amber-bg); outline: none; padding-right: 22px }
-.htm-portfolio .open-case .hand-pixel { width: 22px; height: 22px; transform: rotate(90deg); background-image: url('assets/htm/hand-right.svg') }
-.htm-portfolio .open-case:hover .hand-pixel { background-image: url('assets/htm/hand-right-amber.svg'); transform: translateY(3px) rotate(90deg) }
+.htm-portfolio .open-case .hand-pixel { width: 22px; height: 22px; transform: rotate(90deg); background-image: url('/work/htm/hand-right.svg') }
+.htm-portfolio .open-case:hover .hand-pixel { background-image: url('/work/htm/hand-right-amber.svg'); transform: translateY(3px) rotate(90deg) }
 
 .htm-portfolio .scroll-cue {
   position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
@@ -306,12 +306,12 @@
   max-height: 160px;
 }
 /* Each section's icon -- mask-image set per id */
-.htm-portfolio .section#challenge .spine-icon    { -webkit-mask-image: url('assets/htm/icons/alert.svg'); mask-image: url('assets/htm/icons/alert.svg'); }
-.htm-portfolio .section#imagery   .spine-icon    { -webkit-mask-image: url('assets/htm/icons/grid.svg'); mask-image: url('assets/htm/icons/grid.svg'); }
-.htm-portfolio .section#solutions .spine-icon    { -webkit-mask-image: url('assets/htm/icons/animation.svg'); mask-image: url('assets/htm/icons/animation.svg'); }
-.htm-portfolio .section#palette   .spine-icon    { -webkit-mask-image: url('assets/htm/icons/art-text.svg'); mask-image: url('assets/htm/icons/art-text.svg'); }
-.htm-portfolio .section#deliverables .spine-icon { -webkit-mask-image: url('assets/htm/icons/list.svg'); mask-image: url('assets/htm/icons/list.svg'); }
-.htm-portfolio .section#whatsnext .spine-icon    { -webkit-mask-image: url('assets/htm/icons/arrow-right.svg'); mask-image: url('assets/htm/icons/arrow-right.svg'); }
+.htm-portfolio .section#challenge .spine-icon    { -webkit-mask-image: url('/work/htm/icons/alert.svg'); mask-image: url('/work/htm/icons/alert.svg'); }
+.htm-portfolio .section#imagery   .spine-icon    { -webkit-mask-image: url('/work/htm/icons/grid.svg'); mask-image: url('/work/htm/icons/grid.svg'); }
+.htm-portfolio .section#solutions .spine-icon    { -webkit-mask-image: url('/work/htm/icons/animation.svg'); mask-image: url('/work/htm/icons/animation.svg'); }
+.htm-portfolio .section#palette   .spine-icon    { -webkit-mask-image: url('/work/htm/icons/art-text.svg'); mask-image: url('/work/htm/icons/art-text.svg'); }
+.htm-portfolio .section#deliverables .spine-icon { -webkit-mask-image: url('/work/htm/icons/list.svg'); mask-image: url('/work/htm/icons/list.svg'); }
+.htm-portfolio .section#whatsnext .spine-icon    { -webkit-mask-image: url('/work/htm/icons/arrow-right.svg'); mask-image: url('/work/htm/icons/arrow-right.svg'); }
 @media (max-width: 700px) {
   .htm-portfolio .section { padding-left: 0; }
   .htm-portfolio .section .spine {
@@ -381,13 +381,13 @@
   mask-position: center; mask-size: contain; mask-repeat: no-repeat;
   -webkit-mask-position: center; -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat;
 }
-.htm-portfolio .chap-tab[data-section="challenge"] .chap-icon    { -webkit-mask-image: url('assets/htm/icons/alert.svg'); mask-image: url('assets/htm/icons/alert.svg'); }
-.htm-portfolio .chap-tab[data-section="imagery"] .chap-icon      { -webkit-mask-image: url('assets/htm/icons/grid.svg'); mask-image: url('assets/htm/icons/grid.svg'); }
-.htm-portfolio .chap-tab[data-section="solutions"] .chap-icon    { -webkit-mask-image: url('assets/htm/icons/animation.svg'); mask-image: url('assets/htm/icons/animation.svg'); }
-.htm-portfolio .chap-tab[data-section="palette"] .chap-icon      { -webkit-mask-image: url('assets/htm/icons/art-text.svg'); mask-image: url('assets/htm/icons/art-text.svg'); }
-.htm-portfolio .chap-tab[data-section="testimonial"] .chap-icon  { -webkit-mask-image: url('assets/htm/icons/contact.svg'); mask-image: url('assets/htm/icons/contact.svg'); }
-.htm-portfolio .chap-tab[data-section="deliverables"] .chap-icon { -webkit-mask-image: url('assets/htm/icons/list.svg'); mask-image: url('assets/htm/icons/list.svg'); }
-.htm-portfolio .chap-tab[data-section="whatsnext"] .chap-icon    { -webkit-mask-image: url('assets/htm/icons/arrow-right.svg'); mask-image: url('assets/htm/icons/arrow-right.svg'); }
+.htm-portfolio .chap-tab[data-section="challenge"] .chap-icon    { -webkit-mask-image: url('/work/htm/icons/alert.svg'); mask-image: url('/work/htm/icons/alert.svg'); }
+.htm-portfolio .chap-tab[data-section="imagery"] .chap-icon      { -webkit-mask-image: url('/work/htm/icons/grid.svg'); mask-image: url('/work/htm/icons/grid.svg'); }
+.htm-portfolio .chap-tab[data-section="solutions"] .chap-icon    { -webkit-mask-image: url('/work/htm/icons/animation.svg'); mask-image: url('/work/htm/icons/animation.svg'); }
+.htm-portfolio .chap-tab[data-section="palette"] .chap-icon      { -webkit-mask-image: url('/work/htm/icons/art-text.svg'); mask-image: url('/work/htm/icons/art-text.svg'); }
+.htm-portfolio .chap-tab[data-section="testimonial"] .chap-icon  { -webkit-mask-image: url('/work/htm/icons/contact.svg'); mask-image: url('/work/htm/icons/contact.svg'); }
+.htm-portfolio .chap-tab[data-section="deliverables"] .chap-icon { -webkit-mask-image: url('/work/htm/icons/list.svg'); mask-image: url('/work/htm/icons/list.svg'); }
+.htm-portfolio .chap-tab[data-section="whatsnext"] .chap-icon    { -webkit-mask-image: url('/work/htm/icons/arrow-right.svg'); mask-image: url('/work/htm/icons/arrow-right.svg'); }
 .htm-portfolio .chap-tab .chap-num { font-family: var(--font-display); font-size: 13px; color: var(--amber); letter-spacing: 0; }
 @media (max-width: 1180px) {
   .htm-portfolio .chap-tab .chap-lbl { display: none }
@@ -716,20 +716,20 @@
   font-size: 14px; line-height: 1.3; color: var(--ink); letter-spacing: -0.1px;
 }
 /* Icon-type masks (data-icon attribute) */
-.htm-portfolio .deliv-icon[data-icon="animation"]      { -webkit-mask-image: url('assets/htm/icons/animation.svg'); mask-image: url('assets/htm/icons/animation.svg'); }
-.htm-portfolio .deliv-icon[data-icon="layout-header"]  { -webkit-mask-image: url('assets/htm/icons/layout-header.svg'); mask-image: url('assets/htm/icons/layout-header.svg'); }
-.htm-portfolio .deliv-icon[data-icon="camera-add"]     { -webkit-mask-image: url('assets/htm/icons/camera-add.svg'); mask-image: url('assets/htm/icons/camera-add.svg'); }
-.htm-portfolio .deliv-icon[data-icon="archive"]        { -webkit-mask-image: url('assets/htm/icons/archive.svg'); mask-image: url('assets/htm/icons/archive.svg'); }
-.htm-portfolio .deliv-icon[data-icon="frame-add"]      { -webkit-mask-image: url('assets/htm/icons/frame-add.svg'); mask-image: url('assets/htm/icons/frame-add.svg'); }
-.htm-portfolio .deliv-icon[data-icon="contact"]        { -webkit-mask-image: url('assets/htm/icons/contact.svg'); mask-image: url('assets/htm/icons/contact.svg'); }
-.htm-portfolio .deliv-icon[data-icon="analytics"]      { -webkit-mask-image: url('assets/htm/icons/analytics.svg'); mask-image: url('assets/htm/icons/analytics.svg'); }
-.htm-portfolio .deliv-icon[data-icon="art-text"]       { -webkit-mask-image: url('assets/htm/icons/art-text.svg'); mask-image: url('assets/htm/icons/art-text.svg'); }
-.htm-portfolio .deliv-icon[data-icon="article-multiple"] { -webkit-mask-image: url('assets/htm/icons/article-multiple.svg'); mask-image: url('assets/htm/icons/article-multiple.svg'); }
-.htm-portfolio .deliv-icon[data-icon="grid"]           { -webkit-mask-image: url('assets/htm/icons/grid.svg'); mask-image: url('assets/htm/icons/grid.svg'); }
-.htm-portfolio .deliv-icon[data-icon="list"]           { -webkit-mask-image: url('assets/htm/icons/list.svg'); mask-image: url('assets/htm/icons/list.svg'); }
-.htm-portfolio .deliv-icon[data-icon="notes"]          { -webkit-mask-image: url('assets/htm/icons/notes.svg'); mask-image: url('assets/htm/icons/notes.svg'); }
-.htm-portfolio .deliv-icon[data-icon="chart"]          { -webkit-mask-image: url('assets/htm/icons/chart.svg'); mask-image: url('assets/htm/icons/chart.svg'); }
-.htm-portfolio .deliv-icon[data-icon="section"]        { -webkit-mask-image: url('assets/htm/icons/section.svg'); mask-image: url('assets/htm/icons/section.svg'); }
+.htm-portfolio .deliv-icon[data-icon="animation"]      { -webkit-mask-image: url('/work/htm/icons/animation.svg'); mask-image: url('/work/htm/icons/animation.svg'); }
+.htm-portfolio .deliv-icon[data-icon="layout-header"]  { -webkit-mask-image: url('/work/htm/icons/layout-header.svg'); mask-image: url('/work/htm/icons/layout-header.svg'); }
+.htm-portfolio .deliv-icon[data-icon="camera-add"]     { -webkit-mask-image: url('/work/htm/icons/camera-add.svg'); mask-image: url('/work/htm/icons/camera-add.svg'); }
+.htm-portfolio .deliv-icon[data-icon="archive"]        { -webkit-mask-image: url('/work/htm/icons/archive.svg'); mask-image: url('/work/htm/icons/archive.svg'); }
+.htm-portfolio .deliv-icon[data-icon="frame-add"]      { -webkit-mask-image: url('/work/htm/icons/frame-add.svg'); mask-image: url('/work/htm/icons/frame-add.svg'); }
+.htm-portfolio .deliv-icon[data-icon="contact"]        { -webkit-mask-image: url('/work/htm/icons/contact.svg'); mask-image: url('/work/htm/icons/contact.svg'); }
+.htm-portfolio .deliv-icon[data-icon="analytics"]      { -webkit-mask-image: url('/work/htm/icons/analytics.svg'); mask-image: url('/work/htm/icons/analytics.svg'); }
+.htm-portfolio .deliv-icon[data-icon="art-text"]       { -webkit-mask-image: url('/work/htm/icons/art-text.svg'); mask-image: url('/work/htm/icons/art-text.svg'); }
+.htm-portfolio .deliv-icon[data-icon="article-multiple"] { -webkit-mask-image: url('/work/htm/icons/article-multiple.svg'); mask-image: url('/work/htm/icons/article-multiple.svg'); }
+.htm-portfolio .deliv-icon[data-icon="grid"]           { -webkit-mask-image: url('/work/htm/icons/grid.svg'); mask-image: url('/work/htm/icons/grid.svg'); }
+.htm-portfolio .deliv-icon[data-icon="list"]           { -webkit-mask-image: url('/work/htm/icons/list.svg'); mask-image: url('/work/htm/icons/list.svg'); }
+.htm-portfolio .deliv-icon[data-icon="notes"]          { -webkit-mask-image: url('/work/htm/icons/notes.svg'); mask-image: url('/work/htm/icons/notes.svg'); }
+.htm-portfolio .deliv-icon[data-icon="chart"]          { -webkit-mask-image: url('/work/htm/icons/chart.svg'); mask-image: url('/work/htm/icons/chart.svg'); }
+.htm-portfolio .deliv-icon[data-icon="section"]        { -webkit-mask-image: url('/work/htm/icons/section.svg'); mask-image: url('/work/htm/icons/section.svg'); }
 
 /* What's Next -- engagement section at end of every case */
 .htm-portfolio .next-grid {
@@ -812,7 +812,7 @@
   outline: none; padding-right: 22px;
 }
 .htm-portfolio .cta .hand-pixel { width: 18px; height: 18px; }
-.htm-portfolio .cta:hover .hand-pixel { background-image: url('assets/htm/hand-right-amber.svg') }
+.htm-portfolio .cta:hover .hand-pixel { background-image: url('/work/htm/hand-right-amber.svg') }
 .htm-portfolio .cta-primary { border-color: var(--amber); color: var(--amber); background: var(--amber-bg); }
 .htm-portfolio .cta-primary:hover { background: rgba(247,168,53,0.16) }
 @media (max-width: 700px) {
@@ -855,10 +855,10 @@
   cursor: pointer; padding: 0;
 }
 .htm-portfolio .lb-nav .hand-pixel { width: 40px; height: 40px; }
-.htm-portfolio .lb-nav:hover .hand-pixel { background-image: url('assets/htm/hand-right-amber.svg'); transform: scale(1.06) }
+.htm-portfolio .lb-nav:hover .hand-pixel { background-image: url('/work/htm/hand-right-amber.svg'); transform: scale(1.06) }
 .htm-portfolio .lb-nav.prev { left: var(--space-md) }
-.htm-portfolio .lb-nav.prev .hand-pixel { background-image: url('assets/htm/hand-left.svg') }
-.htm-portfolio .lb-nav.prev:hover .hand-pixel { background-image: url('assets/htm/hand-left-amber.svg') }
+.htm-portfolio .lb-nav.prev .hand-pixel { background-image: url('/work/htm/hand-left.svg') }
+.htm-portfolio .lb-nav.prev:hover .hand-pixel { background-image: url('/work/htm/hand-left-amber.svg') }
 .htm-portfolio .lb-nav.next { right: var(--space-md) }
 .htm-portfolio .lb-nav[disabled] { opacity: 0.2; cursor: not-allowed }
 .htm-portfolio .lb-nav:focus-visible { outline: 1px solid var(--amber); outline-offset: 4px; }
@@ -1065,7 +1065,7 @@
   transition: background var(--anim-fast), color var(--anim-fast);
 }
 .htm-portfolio .gallery-cta .cta:hover { background: var(--amber); color: #000; }
-.htm-portfolio .gallery-cta .cta:hover .hand-pixel { background-image: url('assets/htm/hand-right.svg'); filter: invert(1); }
+.htm-portfolio .gallery-cta .cta:hover .hand-pixel { background-image: url('/work/htm/hand-right.svg'); filter: invert(1); }
 .htm-portfolio:not(.gallery-mode) .gallery-cta { display: none; }
 
 /* Case-view mode toggle -- when in gallery mode, hide case section */
@@ -1085,7 +1085,7 @@
 .htm-portfolio .home-link:hover,
 .htm-portfolio .home-link:focus-visible { color: var(--amber); border-color: var(--border); outline: none }
 .htm-portfolio .home-link .hand-pixel { width: 16px; height: 16px; transform: rotate(180deg) }
-.htm-portfolio .home-link:hover .hand-pixel { background-image: url('assets/htm/hand-right-amber.svg') }
+.htm-portfolio .home-link:hover .hand-pixel { background-image: url('/work/htm/hand-right-amber.svg') }
 
 /* STATS -- contained stat cards with amber top-rule */
 .htm-portfolio .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md); margin-top: var(--space-md); }
