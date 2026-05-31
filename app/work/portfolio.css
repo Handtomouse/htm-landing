@@ -1171,3 +1171,28 @@
   .htm-portfolio .case-title { font-size: clamp(44px, 9vw, 72px) }
   .htm-portfolio .gallery-head h2 { font-size: clamp(36px, 9vw, 56px) }
 }
+
+/* ============================================================
+   SECTOR FILTER VISIBILITY RULES
+   Generated from cases.json m[].find(Sector) taxonomy (Plan 04 Task 2).
+   .gallery-grid-wrap[data-sector-active] wraps .gallery-tile[data-sector].
+   Both use lowercase sector keys for matching.
+   Re-run the pre-step node command if new sectors are added to cases.json.
+   ============================================================ */
+
+/* Default-hide all tiles when a specific sector is active */
+.htm-portfolio .gallery-grid-wrap[data-sector-active]:not([data-sector-active="all"]) .gallery-tile { display: none; }
+
+/* Show matching tiles for each sector key (12 sectors from cases.json) */
+.htm-portfolio .gallery-grid-wrap[data-sector-active="action sports"] .gallery-tile[data-sector="action sports"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="automotive"] .gallery-tile[data-sector="automotive"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="b2b / saas"] .gallery-tile[data-sector="b2b / saas"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="e-commerce"] .gallery-tile[data-sector="e-commerce"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="fmcg"] .gallery-tile[data-sector="fmcg"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="finance"] .gallery-tile[data-sector="finance"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="hospitality"] .gallery-tile[data-sector="hospitality"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="lifestyle"] .gallery-tile[data-sector="lifestyle"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="mould remediation"] .gallery-tile[data-sector="mould remediation"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="pet nutrition"] .gallery-tile[data-sector="pet nutrition"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="public art"] .gallery-tile[data-sector="public art"] { display: flex; }
+.htm-portfolio .gallery-grid-wrap[data-sector-active="wellness"] .gallery-tile[data-sector="wellness"] { display: flex; }
