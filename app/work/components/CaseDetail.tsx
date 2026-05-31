@@ -39,6 +39,21 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
   const role = getRole(c.m as unknown[]);
   const year = getYear(c.m as unknown[]);
 
+  // Chapter numbering is sequential over the sections actually present for THIS
+  // case, so it never shows gaps like 01, 02, 06, 07. The canonical used a fixed
+  // 7-chapter scheme (solutions/palette/testimonial sat at 03-05) that this build
+  // does not all render; numbering off render order keeps it 01, 02, 03, 04.
+  const hasImages = Array.isArray(c.images) && c.images.length > 0;
+  const hasDeliverables = Array.isArray(c.deliverables) && c.deliverables.length > 0;
+  const chapters = [
+    c.challenge ? { id: 'challenge', href: '#challenge', label: 'Challenge' } : null,
+    hasImages ? { id: 'imagery', href: '#imagery', label: 'Artboards' } : null,
+    hasDeliverables ? { id: 'deliverables', href: '#deliverables', label: 'Index' } : null,
+    { id: 'whatsnext', href: '#whatsnext', label: 'Next' },
+  ].filter((x): x is { id: string; href: string; label: string } => x !== null);
+  const chapNum = (id: string) =>
+    String(chapters.findIndex((ch) => ch.id === id) + 1).padStart(2, '0');
+
   return (
     <main id="top" className="case-section">
       {/* COVER: hero image + readout panel */}
@@ -84,40 +99,21 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
       <section className="detail">
         {/* Chapter strip navigation */}
         <nav className="chapter-strip" aria-label="Case sections">
-          {c.challenge && (
-            <a className="chap-tab" href="#challenge" data-section="challenge">
+          {chapters.map((ch) => (
+            <a key={ch.id} className="chap-tab" href={ch.href} data-section={ch.id}>
               <span className="chap-icon" aria-hidden="true"></span>
-              <span className="chap-num">01</span>
-              <span className="chap-lbl">Challenge</span>
+              <span className="chap-num">{chapNum(ch.id)}</span>
+              <span className="chap-lbl">{ch.label}</span>
             </a>
-          )}
-          {Array.isArray(c.images) && c.images.length > 0 && (
-            <a className="chap-tab" href="#imagery" data-section="imagery">
-              <span className="chap-icon" aria-hidden="true"></span>
-              <span className="chap-num">02</span>
-              <span className="chap-lbl">Artboards</span>
-            </a>
-          )}
-          {Array.isArray(c.deliverables) && c.deliverables.length > 0 && (
-            <a className="chap-tab" href="#deliverables" data-section="deliverables">
-              <span className="chap-icon" aria-hidden="true"></span>
-              <span className="chap-num">06</span>
-              <span className="chap-lbl">Index</span>
-            </a>
-          )}
-          <a className="chap-tab" href="#whatsnext" data-section="whatsnext">
-            <span className="chap-icon" aria-hidden="true"></span>
-            <span className="chap-num">07</span>
-            <span className="chap-lbl">Next</span>
-          </a>
+          ))}
         </nav>
 
         {/* Challenge section */}
         {c.challenge && (
-          <div className="section" id="challenge" data-section="Challenge" data-num="01">
+          <div className="section" id="challenge" data-section="Challenge" data-num={chapNum('challenge')}>
             <span className="spine" aria-hidden="true">
               <span className="spine-icon"></span>
-              <em className="spine-num">01</em>
+              <em className="spine-num">{chapNum('challenge')}</em>
               <span className="spine-lbl">Challenge</span>
             </span>
             <h2>Challenge</h2>
@@ -129,10 +125,10 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
 
         {/* Imagery / artboards player */}
         {Array.isArray(c.images) && c.images.length > 0 && (
-          <div className="section" id="imagery" data-section="Artboards">
+          <div className="section" id="imagery" data-section="Artboards" data-num={chapNum('imagery')}>
             <span className="spine" aria-hidden="true">
               <span className="spine-icon"></span>
-              <em className="spine-num">02</em>
+              <em className="spine-num">{chapNum('imagery')}</em>
               <span className="spine-lbl">Artboards</span>
             </span>
             <h2>Artboards &middot; selected work</h2>
@@ -144,10 +140,10 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
 
         {/* Deliverables index (Plan 05 stub until overwritten) */}
         {Array.isArray(c.deliverables) && c.deliverables.length > 0 && (
-          <div className="section" id="deliverables" data-section="Deliverables" data-num="06">
+          <div className="section" id="deliverables" data-section="Deliverables" data-num={chapNum('deliverables')}>
             <span className="spine" aria-hidden="true">
               <span className="spine-icon"></span>
-              <em className="spine-num">06</em>
+              <em className="spine-num">{chapNum('deliverables')}</em>
               <span className="spine-lbl">Index</span>
             </span>
             <h2>Deliverables &middot; index</h2>
@@ -165,10 +161,10 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
         <Testimonial testimonial={c.testimonial} />
 
         {/* What's next */}
-        <div className="section" id="whatsnext" data-section="Next" data-num="07">
+        <div className="section" id="whatsnext" data-section="Next" data-num={chapNum('whatsnext')}>
           <span className="spine" aria-hidden="true">
             <span className="spine-icon"></span>
-            <em className="spine-num">07</em>
+            <em className="spine-num">{chapNum('whatsnext')}</em>
             <span className="spine-lbl">Next</span>
           </span>
           <h2>What&apos;s next</h2>
