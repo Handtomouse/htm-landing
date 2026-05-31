@@ -1197,3 +1197,114 @@
 .htm-portfolio .gallery-grid-wrap[data-sector-active="pet nutrition"] .gallery-tile[data-sector="pet nutrition"] { display: flex; }
 .htm-portfolio .gallery-grid-wrap[data-sector-active="public art"] .gallery-tile[data-sector="public art"] { display: flex; }
 .htm-portfolio .gallery-grid-wrap[data-sector-active="wellness"] .gallery-tile[data-sector="wellness"] { display: flex; }
+
+/* POLISH-01: testimonial scale + serif glyph + amber rule
+   Overrides canonical .testimonial defaults with more-specific class. */
+.htm-portfolio .testimonial-polished {
+  position: relative;
+  max-width: 28ch;
+  margin: 4rem auto;
+  padding: 2rem 1.5rem 1.5rem;
+}
+.htm-portfolio .testimonial-polished .testimonial-glyph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 120px;
+  line-height: 1;
+  color: var(--amber, #f7a835);
+  opacity: 0.15;
+  pointer-events: none;
+  user-select: none;
+}
+.htm-portfolio .testimonial-polished .testimonial-quote {
+  font-size: clamp(28px, 3vw, 32px);
+  line-height: 1.3;
+  font-style: italic;
+  margin: 0 0 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+.htm-portfolio .testimonial-polished .testimonial-rule {
+  border: 0;
+  border-top: 1px solid var(--amber, #f7a835);
+  margin: 1rem 0 0.5rem 0;
+  width: 4rem;
+}
+.htm-portfolio .testimonial-polished .testimonial-author {
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* POLISH-02: deliverables hover thumb + click-to-section */
+.htm-portfolio .ddeliverables-polished {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+}
+.htm-portfolio .deliverable-row {
+  border-top: 1px solid rgba(238, 234, 226, 0.12);
+}
+.htm-portfolio .deliverable-row:last-child {
+  border-bottom: 1px solid rgba(238, 234, 226, 0.12);
+}
+.htm-portfolio .deliverable-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  transition: background 0.15s ease;
+}
+.htm-portfolio .deliverable-link:hover,
+.htm-portfolio .deliverable-link:focus {
+  background: rgba(247, 168, 53, 0.04);
+}
+.htm-portfolio .deliverable-num {
+  font-family: var(--font-vt323), monospace;
+  font-size: 1.25rem;
+  opacity: 0.6;
+  min-width: 2.5rem;
+}
+.htm-portfolio .deliverable-name {
+  flex: 1;
+  font-size: 1rem;
+}
+.htm-portfolio .deliverable-arrow {
+  font-size: 1rem;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.htm-portfolio .deliverable-link:hover .deliverable-arrow,
+.htm-portfolio .deliverable-link:focus .deliverable-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+.htm-portfolio .deliverable-thumb {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  transform: translateY(-50%) translateX(120%);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  pointer-events: none;
+  border: 1px solid rgba(247, 168, 53, 0.4);
+  z-index: 2;
+}
+/* Pointer-fine only -- touch devices skip the hover-thumb */
+@media (hover: hover) and (pointer: fine) {
+  .htm-portfolio .deliverable-link:hover .deliverable-thumb,
+  .htm-portfolio .deliverable-link:focus .deliverable-thumb {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+  }
+}
