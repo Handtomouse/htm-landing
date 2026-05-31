@@ -6,17 +6,20 @@
 import './portfolio.css';
 import { inter, vt323, geistMono } from './fonts';
 
-// TODO(adobe-fonts-kit): insert Argent Pixel CF web kit before Wave 5 deploy:
-//     <link rel="stylesheet" href="https://use.typekit.net/KITID.css" />
-//     Confirm the Adobe-assigned CSS font-family name matches the value used in portfolio.css.
-// When the kit ID is available, add it to app/work/layout.tsx in the <head> via
-// a Next.js <Head> wrapper or by placing a <link> in the returned JSX above the wrapper div.
+// Argent Pixel CF (italic display lockups) loads via the Adobe Fonts web project
+// "HTM Portfolio" under Creative Cloud. CSS family is "argent-pixel-cf" (matches
+// --font-display in portfolio.css, VT323 fallback). React hoists this stylesheet
+// link to <head> and dedupes it via the precedence prop.
+const ADOBE_FONTS_KIT = 'https://use.typekit.net/isk4jau.css';
 
 export default function WorkLayout({ children }: { children: React.ReactNode }) {
   const fontVars = `${inter.variable} ${vt323.variable} ${geistMono.variable}`;
   return (
-    <div className={`htm-portfolio ${fontVars}`}>
-      {children}
-    </div>
+    <>
+      <link rel="stylesheet" href={ADOBE_FONTS_KIT} precedence="default" />
+      <div className={`htm-portfolio ${fontVars}`}>
+        {children}
+      </div>
+    </>
   );
 }
