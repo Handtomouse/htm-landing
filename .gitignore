@@ -35,3 +35,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scratch (parked deliberately 2026-07-04: redesign staging + drive-upload candidates)
+.claude/
+_drive_candidates/
+work_*.html
+*.bak.*
