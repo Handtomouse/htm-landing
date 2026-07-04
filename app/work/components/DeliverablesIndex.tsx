@@ -10,7 +10,8 @@ export default function DeliverablesIndex({ deliverables, heroImg, caseSlug }: D
 
   return (
     <section className="deliverables-section" aria-labelledby={`deliverables-${caseSlug}`}>
-      <h2 id={`deliverables-${caseSlug}`} className="deliverables-heading">Deliverables</h2>
+      {/* p, not h2: CaseDetail already renders the section h2, avoid duplicate headings */}
+      <p id={`deliverables-${caseSlug}`} className="deliverables-heading">Deliverables</p>
       <ol className="ddeliverables ddeliverables-polished">
         {deliverables.map((d, i) => (
           <li key={`${caseSlug}-${i}`} className="deliverable-row">
