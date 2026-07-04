@@ -421,6 +421,12 @@ const BattleSystem = memo(function BattleSystem({ children }: Props) {
 
   // Main game loop
   useEffect(() => {
+    // Respect prefers-reduced-motion: render the static scene, skip the
+    // 60fps auto-battle entirely
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return
+    }
+
     let lastTime = Date.now()
 
     const gameLoop = () => {

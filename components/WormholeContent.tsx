@@ -481,6 +481,12 @@ export default function WormholeContent() {
 
   // Animate stars using requestAnimationFrame
   useEffect(() => {
+    // Reduced-motion users get a static starfield (particles + CSS animations
+    // are already gated; this closes the same gap for the JS star loop)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     let animationFrameId: number;
 
     const calculateBaseSpeed = () => {

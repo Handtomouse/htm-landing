@@ -150,7 +150,7 @@ export default function About() {
           </p>
 
           <p>
-            I specialize in <Link href="/services" className="underline hover:text-[var(--muted)] transition-colors">cultural strategy, narrative development, and experience design</Link>. Whether you're
+            I specialize in <Link href="/services" className="underline hover:text-[var(--accent)] transition-colors">cultural strategy, narrative development, and experience design</Link>. Whether you're
             a museum launching a digital initiative, a startup defining your brand positioning, or an agency
             needing creative direction for a client project—I work collaboratively to create work that matters.
           </p>
@@ -172,7 +172,7 @@ export default function About() {
           </p>
 
           <p>
-            View <Link href="/portfolio" className="underline hover:text-[var(--muted)] transition-colors">selected work</Link>, read <Link href="/testimonials" className="underline hover:text-[var(--muted)] transition-colors">client testimonials</Link>, or check out the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
+            View <Link href="/work" className="underline hover:text-[var(--accent)] transition-colors">selected work</Link>, read <Link href="/testimonials" className="underline hover:text-[var(--accent)] transition-colors">client testimonials</Link>, or check out the <Link href="/faq" className="underline hover:text-[var(--accent)] transition-colors">FAQ</Link>.
           </p>
 
           <div className="mt-12 pt-8 border-t border-[var(--grid)]">

@@ -182,7 +182,7 @@ export default function Services() {
           </h2>
 
           <p className="text-lg mb-8 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
-            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help. Learn more <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">about my approach</Link> or check the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
+            Whether you need creative direction for a new project, cultural strategy for your organization, or end-to-end experience design, let's talk about how I can help. Learn more <Link href="/about" className="underline hover:text-[var(--accent)] transition-colors">about my approach</Link> or check the <Link href="/faq" className="underline hover:text-[var(--accent)] transition-colors">FAQ</Link>.
           </p>
 
           <a
