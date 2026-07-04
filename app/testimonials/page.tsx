@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import Link from 'next/link'
+import { cases } from '@/lib/cases'
 
 export const metadata: Metadata = {
-  title: 'Testimonials | Client Reviews | Hand To Mouse',
+  title: 'Testimonials | Client Quotes | Hand To Mouse',
   description: 'What clients say about working with Nate Don on creative direction, cultural strategy, and digital experience projects.',
   keywords: ['nate don reviews', 'hand to mouse testimonials', 'creative director sydney reviews', 'client feedback'],
   alternates: {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Testimonials | Hand To Mouse',
-    description: 'Client reviews and testimonials',
+    description: 'Client quotes from real projects',
     url: 'https://handtomouse.org/testimonials',
     type: 'website',
   },
@@ -21,32 +22,16 @@ export const metadata: Metadata = {
   },
 }
 
-const testimonials = [
-  {
-    author: 'Cultural Institution Client',
-    role: 'Director',
-    organization: 'Sydney Cultural Organization',
-    rating: 5,
-    reviewBody: 'Nate brought strategic clarity and creative vision to our digital initiative. His understanding of cultural context and ability to translate our mission into compelling digital experiences was exceptional. The project exceeded our expectations.',
-    datePublished: '2024-10-15',
-  },
-  {
-    author: 'Startup Founder',
-    role: 'CEO',
-    organization: 'Tech Startup',
-    rating: 5,
-    reviewBody: 'Working with Nate was transformative for our brand positioning. He helped us articulate our story in a way that resonated with our target audience. His strategic thinking combined with hands-on execution meant we got both the vision and the reality.',
-    datePublished: '2024-09-20',
-  },
-  {
-    author: 'Creative Agency',
-    role: 'Creative Director',
-    organization: 'Sydney Design Agency',
-    rating: 5,
-    reviewBody: 'Nate\'s cultural strategy expertise elevated our client work significantly. His collaborative approach and deep understanding of narrative development brought a level of sophistication to the project that our client loved. Highly recommend.',
-    datePublished: '2024-11-05',
-  },
-]
+// Real, attributed quotes only - sourced from the case archive (lib/cases.json).
+// Cases without an attributed quote are excluded by design.
+const quotes = cases
+  .filter((c) => c.testimonial && c.testimonial.a)
+  .map((c) => ({
+    slug: c.k,
+    project: c.t,
+    q: c.testimonial!.q,
+    a: c.testimonial!.a,
+  }))
 
 export default function Testimonials() {
   const breadcrumbSchema = {
@@ -68,45 +53,6 @@ export default function Testimonials() {
     ]
   }
 
-  // Review schema for testimonials
-  const reviewsSchema = testimonials.map(testimonial => ({
-    "@context": "https://schema.org",
-    "@type": "Review",
-    "itemReviewed": {
-      "@type": "ProfessionalService",
-      "name": "Hand To Mouse",
-      "provider": {
-        "@type": "Person",
-        "name": "Nate Don",
-        "alternateName": "Nathan Don"
-      }
-    },
-    "author": {
-      "@type": "Person",
-      "name": testimonial.author
-    },
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": testimonial.rating,
-      "bestRating": 5
-    },
-    "reviewBody": testimonial.reviewBody,
-    "datePublished": testimonial.datePublished
-  }))
-
-  // AggregateRating schema
-  const aggregateRatingSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Hand To Mouse",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5.0",
-      "reviewCount": testimonials.length,
-      "bestRating": "5"
-    }
-  }
-
   return (
     <>
       <Script
@@ -114,23 +60,6 @@ export default function Testimonials() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
-        }}
-      />
-      {reviewsSchema.map((schema, index) => (
-        <Script
-          key={index}
-          id={`review-schema-${index}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schema),
-          }}
-        />
-      ))}
-      <Script
-        id="aggregate-rating-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(aggregateRatingSchema),
         }}
       />
 
@@ -141,38 +70,26 @@ export default function Testimonials() {
           </h1>
 
           <p className="text-xl mb-16 text-[var(--muted)] max-w-2xl" style={{ fontFamily: 'var(--font-body)' }}>
-            What clients say about working with <Link href="/about" className="underline hover:text-[var(--muted)] transition-colors">Nate Don</Link> on creative direction, cultural strategy, and digital experience projects.
+            What clients say about working with <Link href="/about" className="underline hover:text-[var(--accent)] transition-colors">Nate Don</Link> on creative direction, cultural strategy, and digital experience projects. Every quote below is attributed and drawn from a real project in <Link href="/work" className="underline hover:text-[var(--accent)] transition-colors">the archive</Link>.
           </p>
 
           <div className="space-y-12">
-            {testimonials.map((testimonial, index) => (
+            {quotes.map((quote) => (
               <article
-                key={index}
-                className="border-l-2 border-[var(--grid)] pl-8 hover:border-white transition-colors"
+                key={quote.slug}
+                className="border-l-2 border-[var(--grid)] pl-8 hover:border-[var(--accent)] transition-colors"
               >
-                {/* Star Rating */}
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-5 h-5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Review Text */}
                 <blockquote className="text-lg leading-relaxed mb-6 text-[var(--muted)] italic" style={{ fontFamily: 'var(--font-body)' }}>
-                  "{testimonial.reviewBody}"
+                  "{quote.q}"
                 </blockquote>
 
-                {/* Author Info */}
                 <div className="text-gray-400" style={{ fontFamily: 'var(--font-body)' }}>
-                  <p className="font-semibold text-white">{testimonial.author}</p>
-                  <p className="text-sm">{testimonial.role} · {testimonial.organization}</p>
+                  <p className="font-semibold text-white">{quote.a}</p>
+                  <p className="text-sm">
+                    <Link href={`/work/${quote.slug}`} className="underline hover:text-[var(--accent)] transition-colors">
+                      View the {quote.project} case
+                    </Link>
+                  </p>
                 </div>
               </article>
             ))}
@@ -184,7 +101,7 @@ export default function Testimonials() {
             </h2>
 
             <p className="text-lg mb-8 text-[var(--muted)]" style={{ fontFamily: 'var(--font-body)' }}>
-              Interested in working together? Learn more about <Link href="/services" className="underline hover:text-[var(--muted)] transition-colors">services</Link>, view <Link href="/portfolio" className="underline hover:text-[var(--muted)] transition-colors">selected work</Link>, or read the <Link href="/faq" className="underline hover:text-[var(--muted)] transition-colors">FAQ</Link>.
+              Interested in working together? Learn more about <Link href="/services" className="underline hover:text-[var(--accent)] transition-colors">services</Link>, view <Link href="/work" className="underline hover:text-[var(--accent)] transition-colors">selected work</Link>, or read the <Link href="/faq" className="underline hover:text-[var(--accent)] transition-colors">FAQ</Link>.
             </p>
 
             <a

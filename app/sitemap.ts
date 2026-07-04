@@ -32,6 +32,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
+  // Content pages, now indexable alongside /work
+  const contentPages: MetadataRoute.Sitemap = ['/about', '/services', '/faq', '/testimonials', '/privacy', '/terms'].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly' as const,
+    priority: path === '/privacy' || path === '/terms' ? 0.3 : 0.8,
+  }))
+
   // /work gallery entry (META-03)
   const workGallery: MetadataRoute.Sitemap = [
     {
@@ -50,5 +58,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...existing, ...workGallery, ...workCases]
+  return [...existing, ...contentPages, ...workGallery, ...workCases]
 }
