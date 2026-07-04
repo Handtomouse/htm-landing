@@ -24,20 +24,6 @@ export default function Home() {
     return () => clearTimeout(timer)
   }, [])
 
-  const handleEmailSubmit = async (email: string) => {
-    try {
-      await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      })
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Subscription error:', error)
-      }
-    }
-  }
-
   return (
     <>
       {/* SEO Structured Data - WebSite with Sitelinks Searchbox */}
@@ -281,7 +267,7 @@ export default function Home() {
         {/* Screen Curve Inner Container with Bezel Shadow */}
         <div className="screen-curve-inner bezel-shadow" style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <BattleSystem>
-            <TerminalTypewriter onEmailSubmit={handleEmailSubmit} />
+            <TerminalTypewriter />
           </BattleSystem>
         </div>
       </main>

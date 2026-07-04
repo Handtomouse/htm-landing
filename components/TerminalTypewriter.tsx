@@ -2,19 +2,16 @@
 
 import { useState, useEffect, useMemo, useRef, memo } from 'react'
 
-const MAIN_MESSAGE = `We are currently
-undergoing a
-scheduled total
-systems upgrade
+const MAIN_MESSAGE = `Hand To Mouse is
+open for new work
 
-Thanking you for
-your patience &
-patronage during
-this time...`
+Recent cases now
+live in the archive
+
+Say hello or see
+the work below...`
 const TAGLINE_LINE1 = `Independent creative direction`
 const TAGLINE_LINE2 = `and cultural strategy from Sydney`
-const EMAIL_PROMPT = "> Enter your email: "
-const BUTTON_PROMPT = "> "
 const SCRAMBLE_CHARS = 'abcdefghijklmnopqrstuvwxyz_-./\\[]{}!<>=+*?#'
 
 // Seeded random for stable character variations
@@ -23,7 +20,7 @@ const seededRandom = (seed: number, min: number, max: number) => {
   return min + (x - Math.floor(x)) * (max - min)
 }
 
-const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: { onEmailSubmit?: (email: string) => void }) {
+const TerminalTypewriter = memo(function TerminalTypewriter() {
   // Loading stage state: controls the intro animation sequence
   const [loadingStage, setLoadingStage] = useState<'fade-in' | 'center-hold' | 'slide-up' | 'complete'>('fade-in')
 
@@ -74,9 +71,8 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showCursor, setShowCursor] = useState(true)
-  const [phase, setPhase] = useState<'typing' | 'pause' | 'clearing' | 'email'>('typing')
+  const [phase, setPhase] = useState<'typing' | 'pause'>('typing')
   const [showTagline, setShowTagline] = useState(false)
-  const [email, setEmail] = useState('')
   const [scrambleChar, setScrambleChar] = useState('')
   const [scrambleCount, setScrambleCount] = useState(0)
   const [justRevealed, setJustRevealed] = useState<number | null>(null)
@@ -360,13 +356,6 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
     }
   }, [phase, currentIndex, scrambleCount, messageChars, turboMode, readyToType])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email && onEmailSubmit) {
-      onEmailSubmit(email)
-    }
-  }
-
   const handleCharClick = (index: number) => {
     // Only allow clicking revealed characters when not actively typing
     if (index < currentIndex && phase !== 'typing') {
@@ -376,9 +365,6 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
       }
     }
   }
-
-  // Email validation
-  const isValidEmail = email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
   return (
     <>
@@ -403,7 +389,7 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
         >
           <img
             src="/HTM-LOGOS-WORDMARK.svg"
-            alt="Hand To Mouse - Sydney Creative Director and Web Developer"
+            alt="Hand To Mouse - independent creative direction and cultural strategy, Sydney"
             className="wordmark-glow"
             style={{
               width: 'clamp(200px, 50.49vw, 336.6px)', // MOBILE FIX: min→clamp with 200px minimum (readable on 320px screens)
@@ -463,7 +449,6 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
           }}
         >
         {/* Center Content */}
-        {phase !== 'email' ? (
           <div
             style={{
               display: 'flex',
@@ -473,12 +458,12 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
               maxWidth: 'min(600px, 90vw)'
             }}
           >
+            {/* Static message for assistive tech; animated version below is decorative */}
+            <p className="sr-only">{MAIN_MESSAGE}</p>
             <p
               ref={messageRef}
               className="leading-relaxed"
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
+              aria-hidden="true"
               style={{
                 fontFamily: 'var(--font-body)',
                 color: '#EDECEC',
@@ -563,64 +548,6 @@ const TerminalTypewriter = memo(function TerminalTypewriter({ onEmailSubmit }: {
             })}
           </p>
         </div>
-        ) : (
-        // Email form
-        <div
-          className="flex flex-col items-center gap-4"
-          style={{
-            fontFamily: 'var(--font-body)',
-            color: '#EDECEC',
-            maxWidth: '600px'
-          }}
-        >
-          <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">{EMAIL_PROMPT}</span>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@email.com"
-                required
-                className="bg-transparent px-2 py-1 text-lg focus:outline-none transition-all"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  color: '#EDECEC',
-                  borderBottom: `2px solid ${
-                    email.length === 0
-                      ? '#EDECEC'
-                      : isValidEmail
-                        ? 'var(--accent)'
-                        : '#ff4444'
-                  }`,
-                  boxShadow: email.length > 0
-                    ? isValidEmail
-                      ? '0 2px 8px rgba(255,157,35,0.5)'
-                      : '0 2px 8px rgba(255,68,68,0.5)'
-                    : 'none'
-                }}
-                autoComplete="email"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">{BUTTON_PROMPT}</span>
-              <button
-                type="submit"
-                disabled={!isValidEmail}
-                className="px-4 py-2 border-2 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  color: '#EDECEC',
-                  borderColor: isValidEmail ? 'var(--accent)' : '#EDECEC',
-                  boxShadow: isValidEmail ? '0 0 12px rgba(255,157,35,0.5)' : 'none'
-                }}
-              >
-                [NOTIFY ME]
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
         </div>
         {/* End Center Content Wrapper */}
       </div>
