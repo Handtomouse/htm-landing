@@ -311,14 +311,14 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         style={{
           backgroundColor: 'rgba(11, 11, 11, 0.6)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 157, 35, 0.2)',
+          border: '1px solid rgba(247, 168, 53, 0.2)',
           borderRadius: '0',
           padding: isMobile ? 'var(--grid-2x)' : 'clamp(var(--grid-2x), 2vh, var(--grid-3x))',
           maxWidth: 'min(600px, calc(100vw - var(--grid-4x)))',
           width: '100%',
           maxHeight: viewportHeight,
           overflowY: 'auto',
-          boxShadow: '0 0 60px rgba(255, 157, 35, 0.15), inset 0 1px 0 rgba(255, 157, 35, 0.1)',
+          boxShadow: '0 0 60px rgba(247, 168, 53, 0.15), inset 0 1px 0 rgba(247, 168, 53, 0.1)',
           position: 'relative',
           opacity: isAnimating ? 1 : 0,
           transform: isAnimating ? 'translateY(0)' : 'translateY(20px)',
@@ -425,7 +425,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 width: '100%',
                 fontFamily: 'var(--font-body)',
                 fontSize: '16px',
-                background: name ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                background: name ? 'rgba(247, 168, 53, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: errors.name ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: name && !errors.name ? '3px solid var(--accent)' : undefined,
@@ -435,7 +435,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'var(--accent)'
-                e.target.style.boxShadow = '0 0 8px rgba(255, 157, 35, 0.3)'
+                e.target.style.boxShadow = '0 0 8px rgba(247, 168, 53, 0.3)'
               }}
             />
             {errors.name && (
@@ -491,7 +491,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 width: '100%',
                 fontFamily: 'var(--font-body)',
                 fontSize: '16px',
-                background: email ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                background: email ? 'rgba(247, 168, 53, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: errors.email ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: email && !errors.email ? '3px solid var(--accent)' : undefined,
@@ -501,7 +501,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'var(--accent)'
-                e.target.style.boxShadow = '0 0 8px rgba(255, 157, 35, 0.3)'
+                e.target.style.boxShadow = '0 0 8px rgba(247, 168, 53, 0.3)'
               }}
             />
             {errors.email && (
@@ -561,7 +561,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 width: '100%',
                 fontFamily: 'var(--font-body)',
                 fontSize: '16px',
-                background: subject ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                background: subject ? 'rgba(247, 168, 53, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: errors.subject ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: subject && !errors.subject ? '3px solid var(--accent)' : undefined,
@@ -571,7 +571,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'var(--accent)'
-                e.target.style.boxShadow = '0 0 8px rgba(255, 157, 35, 0.3)'
+                e.target.style.boxShadow = '0 0 8px rgba(247, 168, 53, 0.3)'
               }}
             />
             {errors.subject && (
@@ -626,7 +626,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 width: '100%',
                 fontFamily: 'var(--font-body)',
                 fontSize: '16px',
-                background: message ? 'rgba(255, 157, 35, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+                background: message ? 'rgba(247, 168, 53, 0.05)' : 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--ink)',
                 border: errors.message ? '1px solid var(--status-error)' : '1px solid var(--grid)',
                 borderLeft: message && !errors.message ? '3px solid var(--accent)' : undefined,
@@ -638,7 +638,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'var(--accent)'
-                e.target.style.boxShadow = '0 0 8px rgba(255, 157, 35, 0.3)'
+                e.target.style.boxShadow = '0 0 8px rgba(247, 168, 53, 0.3)'
               }}
             />
             {errors.message && (
@@ -712,7 +712,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               background: status === 'success'
                 ? 'rgba(76, 175, 80, 0.1)'
                 : !isFormValid || status === 'loading'
-                ? 'rgba(255, 157, 35, 0.3)'
+                ? 'rgba(247, 168, 53, 0.3)'
                 : 'var(--accent)',
               border: 'none',
               padding: 'clamp(var(--grid-2x), 2.5vh, var(--grid-3x)) var(--grid-4x)',
@@ -727,7 +727,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             }}
             onMouseEnter={(e) => {
               if (isFormValid && (status === 'idle' || status === 'error')) {
-                e.currentTarget.style.background = 'rgba(255, 157, 35, 0.8)'
+                e.currentTarget.style.background = 'rgba(247, 168, 53, 0.8)'
               }
             }}
             onMouseLeave={(e) => {

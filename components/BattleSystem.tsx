@@ -581,7 +581,7 @@ const BattleSystem = memo(function BattleSystem({ children }: Props) {
               position: 'absolute',
               width: '40px',
               height: '40px',
-              border: '3px solid #FF9D23',
+              border: '3px solid #F7A835',
               borderRadius: '50%',
               left: `${i.x}px`,
               top: `${i.y}px`,

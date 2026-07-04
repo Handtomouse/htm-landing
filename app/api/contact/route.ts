@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
             <p><strong>Email:</strong> ${escapeHtml(email)}</p>
             <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
             <p><strong>Message:</strong></p>
-            <p style="white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-left: 4px solid #FF9D23;">${escapeHtml(message)}</p>
+            <p style="white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-left: 4px solid #F7A835;">${escapeHtml(message)}</p>
             <hr />
             <p style="color: #666; font-size: 12px;">
               <strong>Timestamp:</strong> ${new Date().toISOString()}<br />

@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'bb-orange': '#FF9D23',
+        'bb-orange': '#F7A835',
       },
       fontFamily: {
         'vt323': ['VT323', 'monospace'],

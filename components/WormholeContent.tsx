@@ -785,7 +785,7 @@ export default function WormholeContent() {
         for (let i = 0; i < particleCount; i++) {
           const angle = (Math.PI * 2 * i) / particleCount;
           const speed = 2 + Math.random() * 3 + (3 - countdown); // Faster as countdown decreases
-          const color = 'rgba(255, 157, 35, 0.8)'; // Accent color for countdown sync
+          const color = 'rgba(247, 168, 53, 0.8)'; // Accent color for countdown sync
 
           newParticles.push({
             id: baseId + i,
@@ -1130,7 +1130,7 @@ export default function WormholeContent() {
             <div style={{
               fontSize: "3rem",
               color: "var(--accent)",
-              textShadow: "0 0 40px rgba(255, 157, 35, 0.6)",
+              textShadow: "0 0 40px rgba(247, 168, 53, 0.6)",
               animation: "pulse 2s ease-in-out infinite"
             }}>
               ✦
@@ -1163,7 +1163,7 @@ export default function WormholeContent() {
                 background: 'var(--accent)',
                 borderRadius: '1px',
                 animation: 'loading-progress 1.5s ease-out forwards',
-                boxShadow: '0 0 8px rgba(255, 157, 35, 0.5)'
+                boxShadow: '0 0 8px rgba(247, 168, 53, 0.5)'
               }} />
             </div>
           </div>
@@ -1177,13 +1177,13 @@ export default function WormholeContent() {
           style={{
             opacity: isHyperhyperspace ? 0.45 : (isWarping ? 0.35 : 0.2),
             background: isHyperhyperspace
-              ? `radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.25), transparent 45%),
+              ? `radial-gradient(ellipse at 15% 25%, rgba(247, 168, 53, 0.25), transparent 45%),
                  radial-gradient(ellipse at 50% 50%, rgba(138, 43, 226, 0.2), transparent 40%),
                  radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.3), transparent 50%)`
               : (isWarping
-                ? `radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.2), transparent 45%),
+                ? `radial-gradient(ellipse at 15% 25%, rgba(247, 168, 53, 0.2), transparent 45%),
                    radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.25), transparent 50%)`
-                : `radial-gradient(ellipse at 15% 25%, rgba(255, 157, 35, 0.15), transparent 45%),
+                : `radial-gradient(ellipse at 15% 25%, rgba(247, 168, 53, 0.15), transparent 45%),
                    radial-gradient(ellipse at 85% 75%, rgba(100, 149, 237, 0.18), transparent 50%)`),
             animation: `nebula-rotate-slow ${isHyperhyperspace ? '15s' : (isWarping ? '30s' : '60s')} linear infinite`,
             transition: 'opacity 0.5s ease',
@@ -1322,7 +1322,7 @@ export default function WormholeContent() {
                   left: '50%',
                   width: isMobile ? '100px' : '160px',
                   height: isMobile ? '100px' : '160px',
-                  border: `2px solid rgba(255, 157, 35, ${isHyperhyperspace ? 0.15 : 0.08})`,
+                  border: `2px solid rgba(247, 168, 53, ${isHyperhyperspace ? 0.15 : 0.08})`,
                   borderRadius: '50%',
                   transform: 'translate(-50%, -50%)',
                   animation: `tunnel-ring-expand ${isHyperhyperspace ? '0.8s' : '1.5s'} ease-out ${i * 0.2}s infinite`,
@@ -1505,7 +1505,7 @@ export default function WormholeContent() {
                 style={{
                   fontSize: isMobile ? "3.5rem" : "6rem", // MOBILE FIX: 4rem→3.5rem (56px, maintains 70% ratio to countdown)
                   lineHeight: 1,
-                  filter: "drop-shadow(0 0 16px rgba(255, 157, 35, 0.6))",
+                  filter: "drop-shadow(0 0 16px rgba(247, 168, 53, 0.6))",
                   animation: prefersReducedMotion ? 'none' : "emoji-pop 0.6s ease-out",
                   marginBottom: isMobile ? '1rem' : '1.5rem' // Tighter hierarchy
                 }}
@@ -1551,7 +1551,7 @@ export default function WormholeContent() {
                     cy={isMobile ? "60" : "90"}
                     r={isMobile ? "54" : "82"}
                     fill="none"
-                    stroke="rgba(255, 157, 35, 0.15)"
+                    stroke="rgba(247, 168, 53, 0.15)"
                     strokeWidth="3"
                   />
                   <circle
@@ -1566,7 +1566,7 @@ export default function WormholeContent() {
                     strokeDashoffset="0"
                     style={{
                       animation: 'countdown-ring-deplete 1s linear forwards',
-                      filter: 'drop-shadow(0 0 6px rgba(255, 157, 35, 0.5))'
+                      filter: 'drop-shadow(0 0 6px rgba(247, 168, 53, 0.5))'
                     }}
                   />
                 </svg>
@@ -1577,7 +1577,7 @@ export default function WormholeContent() {
                 fontWeight: 700,
                 lineHeight: 1.2,
                 color: "var(--accent)",
-                filter: "drop-shadow(0 0 24px rgba(255, 157, 35, 0.8))",
+                filter: "drop-shadow(0 0 24px rgba(247, 168, 53, 0.8))",
                 animation: prefersReducedMotion ? 'none' : 'countdown-bounce 0.6s ease-out',
                 willChange: 'transform, opacity'
               }}>
@@ -1690,8 +1690,8 @@ export default function WormholeContent() {
                 repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px),
                 repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.02) 2px, rgba(255, 255, 255, 0.02) 4px)
               `,
-              border: "1px solid rgba(255, 157, 35, 0.4)",
-              boxShadow: "0 0 60px rgba(255, 157, 35, 0.15), inset 0 2px 0 rgba(255, 157, 35, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1)",
+              border: "1px solid rgba(247, 168, 53, 0.4)",
+              boxShadow: "0 0 60px rgba(247, 168, 53, 0.15), inset 0 2px 0 rgba(247, 168, 53, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1)",
               maxWidth: isMobile ? "92vw" : "550px",
               borderRadius: "12px",
               padding: isMobile ? "1.5rem 1.25rem" : "clamp(1.25rem, 4vw, 2rem)",
@@ -1734,7 +1734,7 @@ export default function WormholeContent() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = 'var(--accent)';
-                if (isMobile) e.currentTarget.style.background = 'rgba(255, 157, 35, 0.1)';
+                if (isMobile) e.currentTarget.style.background = 'rgba(247, 168, 53, 0.1)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = 'var(--muted)';
@@ -1756,7 +1756,7 @@ export default function WormholeContent() {
                   fontSize: isMobile ? "1.5rem" : "2rem",
                   marginBottom: isMobile ? "1rem" : "1rem",
                   color: "var(--accent)",
-                  textShadow: "0 0 20px rgba(255, 157, 35, 0.3)"
+                  textShadow: "0 0 20px rgba(247, 168, 53, 0.3)"
                 }}
                 aria-hidden="true"
               >✦</div>
@@ -1794,8 +1794,8 @@ export default function WormholeContent() {
               </p>
 
               <div style={{
-                background: "rgba(255, 157, 35, 0.05)",
-                border: "1px solid rgba(255, 157, 35, 0.1)",
+                background: "rgba(247, 168, 53, 0.05)",
+                border: "1px solid rgba(247, 168, 53, 0.1)",
                 borderRadius: "8px",
                 padding: isMobile ? "0.75rem" : "1rem",
                 marginBottom: isMobile ? "1rem" : "1rem"
@@ -1876,8 +1876,8 @@ export default function WormholeContent() {
                     minHeight: isMobile ? "28px" : "24px", // MOBILE FIX: 32px→28px
                     border: `2px solid ${acceptedRisk ? 'var(--accent)' : 'rgba(255, 255, 255, 0.3)'}`,
                     borderRadius: '4px',
-                    background: acceptedRisk ? 'rgba(255, 157, 35, 0.1)' : 'transparent',
-                    boxShadow: acceptedRisk ? '0 0 12px rgba(255, 157, 35, 0.3)' : 'none',
+                    background: acceptedRisk ? 'rgba(247, 168, 53, 0.1)' : 'transparent',
+                    boxShadow: acceptedRisk ? '0 0 12px rgba(247, 168, 53, 0.3)' : 'none',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     display: 'flex',
                     alignItems: 'center',
@@ -1969,7 +1969,7 @@ export default function WormholeContent() {
                     : "rgba(255, 255, 255, 0.1)",
                   color: acceptedRisk ? "#0b0b0b" : "rgba(255, 255, 255, 0.3)",
                   cursor: acceptedRisk ? "pointer" : "not-allowed",
-                  boxShadow: acceptedRisk ? "0 0 30px rgba(255, 157, 35, 0.3)" : "none",
+                  boxShadow: acceptedRisk ? "0 0 30px rgba(247, 168, 53, 0.3)" : "none",
                   borderRadius: "16px", // #2: Standardized border-radius (16px large buttons)
                   padding: isMobile ? "0.625rem 0.875rem" : "0.75rem 1rem",
                   minHeight: "48px",
@@ -2060,8 +2060,8 @@ export default function WormholeContent() {
                       minHeight: "44px",
                       flex: "0 0 auto",
                       minWidth: isMobile ? "68px" : "auto",
-                      boxShadow: isSelected ? "0 0 20px rgba(255, 157, 35, 0.3)" : "none",
-                      filter: isSelected ? "drop-shadow(0 0 10px rgba(255, 157, 35, 0.5))" : "none",
+                      boxShadow: isSelected ? "0 0 20px rgba(247, 168, 53, 0.3)" : "none",
+                      filter: isSelected ? "drop-shadow(0 0 10px rgba(247, 168, 53, 0.5))" : "none",
                       cursor: "pointer",
                       touchAction: "manipulation",
                       transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -2070,9 +2070,9 @@ export default function WormholeContent() {
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
-                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(255, 157, 35, 0.1), rgba(255, 157, 35, 0.05))";
-                        e.currentTarget.style.boxShadow = "0 0 15px rgba(255, 157, 35, 0.2)";
-                        e.currentTarget.style.filter = "drop-shadow(0 0 5px rgba(255, 157, 35, 0.3))";
+                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(247, 168, 53, 0.1), rgba(247, 168, 53, 0.05))";
+                        e.currentTarget.style.boxShadow = "0 0 15px rgba(247, 168, 53, 0.2)";
+                        e.currentTarget.style.filter = "drop-shadow(0 0 5px rgba(247, 168, 53, 0.3))";
                       }
                     }}
                     onMouseLeave={(e) => {
@@ -2104,7 +2104,7 @@ export default function WormholeContent() {
               onClick={handleWarpButtonClick}
               aria-label={`Initiate warp to ${selectedCategory === 'all' ? 'random' : selectedCategory} destination`}
               aria-describedby="warp-hint"
-              className="hover:scale-105 hover:shadow-[0_0_60px_rgba(255,157,35,0.7)] active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white warp-button-shine"
+              className="hover:scale-105 hover:shadow-[0_0_60px_rgba(247, 168, 53,0.7)] active:scale-100 transition-all group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white warp-button-shine"
               style={{
                 fontFamily: "var(--font-heading)",
                 fontSize: isMobile ? "1.25rem" : "clamp(1.25rem, 2.5vw, 1.375rem)",
@@ -2113,7 +2113,7 @@ export default function WormholeContent() {
                 background: "linear-gradient(135deg, var(--accent) 0%, #FFA84D 50%, var(--accent-hover) 100%)",
                 backgroundSize: "200% 100%",
                 color: "#0b0b0b",
-                boxShadow: "0 0 40px rgba(255, 157, 35, 0.5)",
+                boxShadow: "0 0 40px rgba(247, 168, 53, 0.5)",
                 borderRadius: "16px",
                 padding: "1rem 1.5rem",
                 minHeight: "56px",
@@ -2298,7 +2298,7 @@ export default function WormholeContent() {
           color: "rgba(255, 255, 255, 0.6)",
           background: "rgba(11, 11, 11, 0.5)",
           backdropFilter: "blur(8px)",
-          border: "1px solid rgba(255, 157, 35, 0.2)",
+          border: "1px solid rgba(247, 168, 53, 0.2)",
           borderRadius: "9999px",
           padding: "0.375rem 0.75rem",
           animation: prefersReducedMotion ? 'none' : 'controls-fade-up 0.4s ease-out 0.5s both'
@@ -2439,10 +2439,10 @@ export default function WormholeContent() {
         }
         @keyframes button-pulse {
           0%, 100% {
-            box-shadow: 0 0 40px rgba(255, 157, 35, 0.5);
+            box-shadow: 0 0 40px rgba(247, 168, 53, 0.5);
           }
           50% {
-            box-shadow: 0 0 60px rgba(255, 157, 35, 0.7);
+            box-shadow: 0 0 60px rgba(247, 168, 53, 0.7);
           }
         }
         @keyframes emoji-rotate {
