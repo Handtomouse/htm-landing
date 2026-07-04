@@ -22,7 +22,7 @@ export default function NotFound() {
           className="text-lg mb-8 text-[var(--muted)]"
           style={{ fontFamily: 'var(--font-body)' }}
         >
-          This page doesn't exist or has been moved. The site has been redesigned with a fresh new look. If you're looking for portfolio or gallery pages, they've moved to Services.
+          This page doesn't exist or has been moved. If you're looking for portfolio or gallery pages, the work now lives in the archive at /work.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -35,11 +35,11 @@ export default function NotFound() {
           </Link>
 
           <Link
-            href="/services"
+            href="/work"
             className="px-8 py-4 border-2 border-[var(--grid)] hover:border-white transition-all"
             style={{ fontFamily: 'var(--font-body)', minHeight: '48px', minWidth: '120px' }}
           >
-            View Services
+            View the Work
           </Link>
         </div>
 

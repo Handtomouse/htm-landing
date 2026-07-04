@@ -17,7 +17,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' use.typekit.net vitals.vercel-insights.com va.vercel-scripts.com; style-src 'self' 'unsafe-inline' use.typekit.net; font-src 'self' use.typekit.net data:; img-src 'self' data: blob:; connect-src 'self' vitals.vercel-insights.com; frame-ancestors 'self';"
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' use.typekit.net vitals.vercel-insights.com va.vercel-scripts.com gc.zgo.at; style-src 'self' 'unsafe-inline' use.typekit.net; font-src 'self' use.typekit.net data:; img-src 'self' data: blob: handtomouse.goatcounter.com; connect-src 'self' vitals.vercel-insights.com handtomouse.goatcounter.com; frame-ancestors 'self';"
           },
           {
             key: 'X-DNS-Prefetch-Control',
@@ -53,12 +53,18 @@ const nextConfig = {
       // Old Squarespace pages redirect to new site
       {
         source: '/portfolio-1',
-        destination: '/services',
+        destination: '/work',
         permanent: true, // 301 redirect (tells Google page moved permanently)
       },
       {
         source: '/gallery-3',
-        destination: '/services',
+        destination: '/work',
+        permanent: true,
+      },
+      // Legacy placeholder portfolio superseded by the real /work archive
+      {
+        source: '/portfolio',
+        destination: '/work',
         permanent: true,
       },
     ]
