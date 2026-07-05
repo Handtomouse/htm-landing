@@ -27,12 +27,12 @@ export default function GalleryGrid({ cases }: GalleryGridProps) {
             data-sector={sectorLower}
             aria-label={`Open case ${c.n}, ${c.t}`}
           >
-            {/* .thumb uses background-image per canonical tile builder */}
-            <div
-              className="thumb"
-              style={{ backgroundImage: c.heroImg ? `url('${c.heroImg}')` : undefined }}
-              aria-hidden="true"
-            />
+            {/* Real img instead of background-image so below-fold heroes lazy-load */}
+            <div className="thumb" aria-hidden="true">
+              {c.heroImg && (
+                <img src={c.heroImg} alt="" loading="lazy" decoding="async" width={800} height={800} />
+              )}
+            </div>
             <div className="meta">
               <span className="tile-num">/CASE-STUDY/{c.n}</span>
               <span className="tile-title">{c.t}</span>

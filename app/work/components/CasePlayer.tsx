@@ -48,10 +48,14 @@ export default function CasePlayer({ images, alt }: CasePlayerProps) {
         >
           &#8249;
         </button>
+        {/* 16:10 intrinsic ratio reserves stage space (CLS); CSS still sizes it */}
         <img
           src={current.src}
           alt={current.cap || alt}
           className="stage-img"
+          width={1600}
+          height={1000}
+          decoding="async"
         />
         <button
           className="p-arrow next"

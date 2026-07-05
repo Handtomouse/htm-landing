@@ -63,7 +63,8 @@ export default function Home() {
             },
             "sameAs": [
               "https://www.linkedin.com/in/nate-don",
-              "https://github.com/handtomouse"
+              "https://github.com/handtomouse",
+              "https://www.instagram.com/handtomouse.studio"
             ],
             "address": {
               "@type": "PostalAddress",
@@ -97,7 +98,6 @@ export default function Home() {
             "sameAs": [
               "https://www.linkedin.com/in/nate-don",
               "https://github.com/handtomouse",
-              "https://twitter.com/handtomouse",
               "https://www.instagram.com/handtomouse.studio"
             ],
             "worksFor": {

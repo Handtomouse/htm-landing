@@ -953,13 +953,15 @@
 .htm-portfolio .gallery-tile .thumb {
   aspect-ratio: 1/1;
   background-color: var(--bg);
-  background-size: contain; background-position: center; background-repeat: no-repeat;
-  background-origin: content-box;
-  background-clip: content-box;
   padding: 24px;
-  transition: background-size var(--anim-fast);
+  overflow: hidden;
 }
-.htm-portfolio .gallery-tile:hover .thumb { background-size: 110% }
+.htm-portfolio .gallery-tile .thumb img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  transition: transform var(--anim-fast);
+}
+.htm-portfolio .gallery-tile:hover .thumb img { transform: scale(1.1) }
 .htm-portfolio .gallery-tile .meta {
   padding: var(--space-sm) var(--space-md) var(--space-md);
   display: flex; flex-direction: column; gap: var(--space-2xs);
