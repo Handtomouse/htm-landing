@@ -48,8 +48,36 @@ export const metadata: Metadata = {
 };
 
 export default function WorkPage() {
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'HandToMouse Selected Work',
+    numberOfItems: cases.length,
+    itemListElement: cases.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.t,
+      url: `${BASE_URL}/work/${c.k}`,
+    })),
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Work', item: `${BASE_URL}/work` },
+    ],
+  };
   return (
     <section className="gallery" id="gallery">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <header className="gallery-head">
         <span className="eyebrow">HTM · Selected Work · 2020 to present</span>
         {/* Countless wording: the canonical said Seventeen, the port said Nineteen;

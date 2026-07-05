@@ -94,6 +94,7 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
           <h1 className="case-title">{c.t}</h1>
           <div className="hr"></div>
           {c.o && <p className="case-outcome">{c.o}</p>}
+          {c.l && <p className="case-lesson">{c.l}</p>}
           <div className="hr"></div>
           <div className="case-meta">
             {year && <><span className="k">Year</span><span className="v">{year}</span></>}

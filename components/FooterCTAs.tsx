@@ -101,23 +101,44 @@ const FooterCTAs = memo(function FooterCTAs({ onContactClick }: FooterCTAsProps)
           padding: '0 var(--page-padding-x)'
         }}
       >
-        {/* All buttons in centered row */}
-        {[...LEFT_BUTTONS, ...RIGHT_BUTTONS].map((button) => (
-          <button
-            key={button.label}
-            onClick={() => handleClick(button)}
-            className="footer-cta-button"
-            aria-label={button.ariaLabel}
-            disabled={button.disabled}
-            title={button.tooltip}
-            style={{
-              ...getButtonStyle(button.disabled),
-              flexShrink: 0
-            }}
-          >
-            {button.label}
-          </button>
-        ))}
+        {/* All CTAs in centered row. Links render as real anchors so crawlers
+            can follow them; only the contact-modal trigger stays a button. */}
+        {[...LEFT_BUTTONS, ...RIGHT_BUTTONS].map((button) =>
+          button.href && !button.disabled ? (
+            <a
+              key={button.label}
+              href={button.href}
+              className="footer-cta-button"
+              aria-label={button.ariaLabel}
+              title={button.tooltip}
+              {...(button.href.startsWith('/') && !button.href.endsWith('.pdf')
+                ? {}
+                : { target: '_blank', rel: 'noopener noreferrer' })}
+              style={{
+                ...getButtonStyle(button.disabled),
+                flexShrink: 0,
+                textDecoration: 'none'
+              }}
+            >
+              {button.label}
+            </a>
+          ) : (
+            <button
+              key={button.label}
+              onClick={() => handleClick(button)}
+              className="footer-cta-button"
+              aria-label={button.ariaLabel}
+              disabled={button.disabled}
+              title={button.tooltip}
+              style={{
+                ...getButtonStyle(button.disabled),
+                flexShrink: 0
+              }}
+            >
+              {button.label}
+            </button>
+          )
+        )}
       </div>
     </footer>
   )

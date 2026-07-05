@@ -61,13 +61,48 @@ export default async function CasePage(
   if (!c) notFound();
   const prevCase = getPrevCase(slug);
   const nextCase = getNextCase(slug);
+
+  // Structured data: case pages are the site's richest indexable content
+  const creativeWorkSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: c.t,
+    description: sanitize(c.o || ''),
+    url: `${BASE_URL}/work/${c.k}`,
+    image: `${BASE_URL}/work/${c.k}/og.jpg`,
+    creator: {
+      '@type': 'Organization',
+      name: 'Hand To Mouse',
+      url: BASE_URL,
+    },
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Work', item: `${BASE_URL}/work` },
+      { '@type': 'ListItem', position: 3, name: c.t, item: `${BASE_URL}/work/${c.k}` },
+    ],
+  };
+
   // Pass cases.length as total so the case-num header renders "03 / 19" (not "03 / 03" tautology).
   return (
-    <CaseDetail
-      case={c}
-      total={cases.length}
-      prevCase={prevCase}
-      nextCase={nextCase}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <CaseDetail
+        case={c}
+        total={cases.length}
+        prevCase={prevCase}
+        nextCase={nextCase}
+      />
+    </>
   );
 }
