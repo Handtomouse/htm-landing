@@ -52,7 +52,9 @@ export default function WorkPage() {
     <section className="gallery" id="gallery">
       <header className="gallery-head">
         <span className="eyebrow">HTM · Selected Work · 2020 to present</span>
-        <h2>Nineteen <em>brands</em>. Built end-to-end.</h2>
+        {/* Countless wording: the canonical said Seventeen, the port said Nineteen;
+            the caseref line below already carries the live count via cases.length */}
+        <h2>Real <em>brands</em>. Built end-to-end.</h2>
         <p>Each one starts on the shelf, in the page, or on the street. Click any tile to step into the full case file.</p>
         <p className="caseref">
           {/* POLISH-04: source of truth is cases.length, never a string literal */}

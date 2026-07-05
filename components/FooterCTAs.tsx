@@ -16,7 +16,9 @@ interface FooterCTAsProps {
 }
 
 const LEFT_BUTTONS: CTAButton[] = [
-  { label: 'Work', href: '/work', ariaLabel: 'View the work archive' },
+  // PDF stays the primary portfolio artifact until /work absorbs the PDF's
+  // content properly (Nate, 2026-07-05). /work stays live via content-page links.
+  { label: 'Portfolio', href: '/NateDon_Portfolio_2025.pdf', ariaLabel: 'Download portfolio PDF' },
   { label: 'Instagram', href: 'https://www.instagram.com/handtomouse.studio/', ariaLabel: 'Visit our Instagram profile' }
 ]
 
