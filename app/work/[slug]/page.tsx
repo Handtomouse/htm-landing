@@ -28,8 +28,9 @@ export async function generateMetadata(
   if (!c) return {};
   const title = `${c.t} | HandToMouse Portfolio`;
   const description = sanitize(c.o || `${c.t}: selected studio work from HandToMouse.`).slice(0, 200);
-  const heroPath = c.heroImg.startsWith('/') ? c.heroImg : `/${c.heroImg}`;
-  const ogImage = `${BASE_URL}${heroPath}`;
+  // OG stays JPEG (og.jpg emitted per case): social crawlers are unreliable
+  // with WebP, which is what heroImg now points at
+  const ogImage = `${BASE_URL}/work/${c.k}/og.jpg`;
   const canonical = `${BASE_URL}/work/${c.k}`;
   return {
     title,
