@@ -140,6 +140,11 @@ const TerminalTypewriter = memo(function TerminalTypewriter() {
 
   // Shake-to-Glitch Detection
   useEffect(() => {
+    // Glitch effect is pure motion decoration; skip listeners entirely
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       const dx = e.clientX - lastMousePos.current.x
       const dy = e.clientY - lastMousePos.current.y
