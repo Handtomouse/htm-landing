@@ -45,9 +45,23 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
   // does not all render; numbering off render order keeps it 01, 02, 03, 04.
   const hasImages = Array.isArray(c.images) && c.images.length > 0;
   const hasDeliverables = Array.isArray(c.deliverables) && c.deliverables.length > 0;
+  // Solutions + stats + palette come from the canonical's fixed 7-chapter
+  // scheme; the data has been in cases.json all along, now rendered.
+  const solutions = (Array.isArray(c.solutions) ? c.solutions : []).filter(
+    (s): s is string => typeof s === 'string' && s.length > 0
+  );
+  type Stat = { v: string | number; s?: string; l: string };
+  const stats = (Array.isArray(c.stats) ? c.stats : []).filter(
+    (s): s is Stat => !!s && typeof s === 'object' && 'v' in (s as object) && 'l' in (s as object)
+  );
+  const palette = (Array.isArray(c.palette) ? c.palette : []).filter(
+    (p) => Array.isArray(p) && p.length === 2
+  );
   const chapters = [
     c.challenge ? { id: 'challenge', href: '#challenge', label: 'Challenge' } : null,
     hasImages ? { id: 'imagery', href: '#imagery', label: 'Artboards' } : null,
+    solutions.length > 0 ? { id: 'solutions', href: '#solutions', label: 'Solutions' } : null,
+    palette.length > 0 ? { id: 'palette', href: '#palette', label: 'System' } : null,
     hasDeliverables ? { id: 'deliverables', href: '#deliverables', label: 'Index' } : null,
     { id: 'whatsnext', href: '#whatsnext', label: 'Next' },
   ].filter((x): x is { id: string; href: string; label: string } => x !== null);
@@ -134,6 +148,74 @@ export default function CaseDetail({ case: c, total, prevCase, nextCase }: CaseD
             <h2>Artboards &middot; selected work</h2>
             <div className="section-body">
               <CasePlayer images={c.images} alt={c.t} />
+            </div>
+          </div>
+        )}
+
+        {/* Solutions + results in numbers (canonical chapter 03) */}
+        {solutions.length > 0 && (
+          <div className="section" id="solutions" data-section="Solutions" data-num={chapNum('solutions')}>
+            <span className="spine" aria-hidden="true">
+              <span className="spine-icon"></span>
+              <em className="spine-num">{chapNum('solutions')}</em>
+              <span className="spine-lbl">Solutions</span>
+            </span>
+            <h2>Solutions</h2>
+            <div className={stats.length > 0 ? 'section-body two-col' : 'section-body'}>
+              <div>
+                <ul>
+                  {solutions.map((s, i) => (
+                    <li key={i}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+              {stats.length > 0 && (
+                <div>
+                  <h3 style={{ marginTop: 0 }}>Results &middot; in numbers</h3>
+                  <div className="stats">
+                    {stats.map((s, i) => (
+                      <div className="stat" key={i}>
+                        <div className="num">
+                          <em>{s.v}</em>
+                          {s.s && <span className="suf">{s.s}</span>}
+                        </div>
+                        <div className="label">{s.l}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Brand system palette (canonical chapter 04) */}
+        {palette.length > 0 && (
+          <div className="section" id="palette" data-section="Palette" data-num={chapNum('palette')}>
+            <span className="spine" aria-hidden="true">
+              <span className="spine-icon"></span>
+              <em className="spine-num">{chapNum('palette')}</em>
+              <span className="spine-lbl">System</span>
+            </span>
+            <h2>Brand system</h2>
+            <div className="section-body">
+              <div className="subhead">Palette</div>
+              <div className="palette-grid">
+                {palette.map(([name, hex], idx) => (
+                  <div
+                    className="swatch-card"
+                    key={idx}
+                    title={`${name} · ${String(hex).toUpperCase()}`}
+                  >
+                    <div className="chip" style={{ background: hex }}>
+                      <span className="chip-num">/{String(idx + 1).padStart(2, '0')}</span>
+                    </div>
+                    <div className="meta">
+                      <span className="name">{name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
