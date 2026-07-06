@@ -121,6 +121,25 @@ export default function About() {
 
           <h2 className="text-2xl font-semibold mt-12 mb-4">About Nate Don</h2>
 
+          <img
+            src="/nate-don.webp"
+            alt="Nate Don, independent creative director and cultural strategist based in Sydney"
+            width={600}
+            height={600}
+            loading="lazy"
+            style={{
+              width: 'clamp(150px, 24vw, 232px)',
+              height: 'clamp(150px, 24vw, 232px)',
+              objectFit: 'cover',
+              borderRadius: '16px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              float: 'right',
+              marginLeft: '2rem',
+              marginBottom: '1rem',
+              shapeOutside: 'inset(0 round 16px)',
+            }}
+          />
+
           <p>
             I'm Nate Don, an independent creative director and cultural strategist based in Sydney.
             I help startups, agencies, and cultural organizations create digital experiences that are
